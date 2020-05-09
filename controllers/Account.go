@@ -18,6 +18,41 @@ func (c *AccountController) sendJSON(mp map[string]interface{}){
 	c.ServeJSON()
 }
 
+//验证手机号和密码
+func (c *AccountController) VerifyUser() {
+	var data models.Employee;
+	resp := make(map[string]interface{})
+	defer c.sendJSON(resp)
+
+	//获取前端数据
+	if err:=json.Unmarshal(c.Ctx.Input.RequestBody,&data);err != nil{
+		resp["errno"] = models.RECODE_NODATA
+		resp["errmsg"] = models.RecodeText(models.RECODE_NODATA)
+		return
+	}
+
+	logs.Debug("GetData = ",data)
+	employee := models.Employee{EmpPhonenumber: data.EmpPhonenumber}
+	//从数据库中取出验证,条件查询
+	if err := models.SelectEmployeeByPhone(&employee);err != nil {
+		resp["errno"]	= models.RECODE_DBERR
+		resp["errmsg"]	= models.RecodeText(models.RECODE_DBERR)
+		return
+	}
+	logs.Debug("GetData from database= ",data)
+
+	//判断密码
+	if data.EmpPassword == employee.EmpPassword {
+		resp["errno"] = models.RECODE_OK
+		resp["errmsg"] = models.RecodeText(models.RECODE_OK)
+		//设置session
+		c.SetSession("emp_id",employee.EmpId)
+	} else {
+		resp["errno"] = models.RECODE_PWDERR
+		resp["errmsg"] = models.RecodeText(models.RECODE_PWDERR)
+	}
+}
+
 //注册时候上传用户信息,插入信息到数据库，设置session。
 func (c *AccountController) PostUserData() {
 	//data := make(map[string]interface{})
