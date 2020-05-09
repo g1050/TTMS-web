@@ -9,3 +9,9 @@ func InsertEmployee(employee Employee)(error,int64) {
 	id,err := o.Insert(&employee)
 	return err,id
 }
+
+func SelectEmployeeById(employee *Employee)error {
+	o := orm.NewOrm()
+	err := o.Read(employee)
+	return err
+}

@@ -58,21 +58,34 @@ func (c *AccountController) GetUserSession(){
 	resp := make(map[string]interface{})
 	defer c.sendJSON(resp)
 
+	//调试
+	c.SetSession("emp_id",8)
+
 	//获取emp_id
 	emp_id := c.GetSession("emp_id")
 	if emp_id == nil{
-		fmt.Println("账户未登录")
+		//不能存在就发送错误码
+		resp["errno"] = models.RECODE_ROLEERR
+		resp["errmsg"] = models.RecodeText(models.RECODE_ROLEERR)
 	}else {
-		resp["errno"] = models.RECODE_OK
-		resp["errmsg"] = "账户已经登录"
-		//resp["errmsg"] = models.RecodeText(models.RECODE_OK)
+
+		//存在就取得Name,发送到客户端
 		//后期可以做缓存优化
-		resp["emp_name"] = "从数据库中取出数据"
+		employee := models.Employee{EmpId: emp_id.(int)}
+		err := models.SelectEmployeeById(&employee)
+		if err != nil{
+			resp["errno"] = models.RECODE_DBERR
+			resp["errmsg"] = models.RecodeText(models.RECODE_DBERR)
+		}else {
+			fmt.Println(employee)
+			resp["emp_name"] = employee.EmpName
+			resp["errno"] = models.RECODE_OK
+			resp["errmsg"] = models.RecodeText(models.RECODE_OK)
+		}
+
 	}
 
 
-	//存在就取得Name,发送到客户端
 
-	//不能存在就发送错误码
 
 }
