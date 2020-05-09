@@ -93,11 +93,14 @@ func (c *AccountController) GetUserSession(){
 	resp := make(map[string]interface{})
 	defer c.sendJSON(resp)
 
+	/*
 	//调试
 	c.SetSession("emp_id",8)
+	 */
 
 	//获取emp_id
 	emp_id := c.GetSession("emp_id")
+	logs.Debug("emp_id = ",emp_id)
 	if emp_id == nil{
 		//不能存在就发送错误码
 		resp["errno"] = models.RECODE_ROLEERR
@@ -106,7 +109,7 @@ func (c *AccountController) GetUserSession(){
 
 		//存在就取得Name,发送到客户端
 		//后期可以做缓存优化
-		employee := models.Employee{EmpId: emp_id.(int)}
+		employee := models.Employee{EmpId: emp_id.(int64)}
 		err := models.SelectEmployeeById(&employee)
 		if err != nil{
 			resp["errno"] = models.RECODE_DBERR

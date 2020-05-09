@@ -9,7 +9,7 @@ import (
 定义数据结构、连接数据库、建表、建库。
  */
 type Employee struct {
-	EmpId 			int 	`orm:"pk;auto" json:"emp_id"`//员工ID
+	EmpId 			int64 	`orm:"pk;auto" json:"emp_id"`//员工ID
 	//Emp_LoginName 	string 	`orm:"size(30)" json:"emp_login_name"`//员工姓名
 	EmpPassword 	string 	`orm:"size(32)" json:"emp_password"`//密码
 	EmpName 		string 	`orm:"size(30)" json:"emp_name"`//名字
