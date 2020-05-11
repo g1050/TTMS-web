@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/gob"
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
@@ -23,12 +24,16 @@ func main() {
 
 	//解决跨域问题
 	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{
-		AllowAllOrigins:  true,
+		//222.169.52.15
+		//AllowAllOrigins:  true,
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Authorization", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
 		ExposeHeaders:    []string{"Content-Length", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
 		AllowCredentials: true,
+		AllowOrigins: []string{"http://*.*.*.*:*","http://localhost:*","http://127.0.0.1:*"},
 	}))
+
+	gob.Register(models.Employee{})
 	beego.Run()
 }
 

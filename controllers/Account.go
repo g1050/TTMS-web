@@ -3,13 +3,11 @@ package controllers
 import (
 	"astaxie/beego/logs"
 	"encoding/json"
-	"fmt"
-	"github.com/astaxie/beego"
 	"ttms/models"
 )
 
 type AccountController struct {
-	beego.Controller
+	BaseController
 }
 
 
@@ -35,21 +33,19 @@ func (c *AccountController) VerifyUser() {
 	employee := models.Employee{EmpPhonenumber: data.EmpPhonenumber}
 	//从数据库中取出验证,条件查询
 	if err := models.SelectEmployeeByPhone(&employee);err != nil {
-		resp["errno"]	= models.RECODE_DBERR
-		resp["errmsg"]	= models.RecodeText(models.RECODE_DBERR)
+		c.PackRecode(resp,models.RECODE_DBERR) //数据库错误
 		return
 	}
-	logs.Debug("GetData from database= ",data)
+	logs.Debug("验证密码时候从数据库中取出的数据为 ",data)
 
 	//判断密码
 	if data.EmpPassword == employee.EmpPassword {
-		resp["errno"] = models.RECODE_OK
-		resp["errmsg"] = models.RecodeText(models.RECODE_OK)
+		c.PackRecode(resp,models.RECODE_OK) //验证密码成功
 		//设置session
-		c.SetSession("emp_id",employee.EmpId)
+		c.SetSession(EMP_KEY,employee)
+		c.Ctx.SetCookie("debug","debug when verifying")
 	} else {
-		resp["errno"] = models.RECODE_PWDERR
-		resp["errmsg"] = models.RecodeText(models.RECODE_PWDERR)
+		c.PackRecode(resp,models.RECODE_PWDERR) //密码错误
 	}
 }
 
@@ -62,29 +58,28 @@ func (c *AccountController) PostUserData() {
 
 	//获取前端数据
 	if err:=json.Unmarshal(c.Ctx.Input.RequestBody,&data);err != nil{
-		resp["errno"] = models.RECODE_NODATA
-		resp["errmsg"] = models.RecodeText(models.RECODE_NODATA)
+		c.PackRecode(resp,models.RECODE_NODATA)
 		return
 	}
 
-	fmt.Println("获取的data = ",data)
+	logs.Debug("获取前段的数据",data)
 
 	//判断账号是否已经注册
 
 	//发送个M层插入数据
-	err,id := models.InsertEmployee(data)
+	err,id := models.InsertEmployee(&data)
 	if err != nil {
 		logs.Error(err,id)
-		resp["errno"] = models.RECODE_DATAEXIST
-		resp["errmsg"] = models.RecodeText(models.RECODE_DATAEXIST)
+		c.PackRecode(resp,models.RECODE_DATAEXIST)
 		return
 	}
+	logs.Debug("注册时插入数据库中的数据是",data)
 
 	//设置session
-	c.SetSession("emp_id",id)
+	c.SetSession(EMP_KEY,data)
+	c.Ctx.SetCookie("debug","Just to debug cookie when registing,useless")
 	//返回数据
-	resp["errno"] = models.RECODE_OK
-	resp["errmsg"] = models.RecodeText(models.RECODE_OK)
+	c.PackRecode(resp,models.RECODE_OK)
 
 }
 
@@ -93,37 +88,14 @@ func (c *AccountController) GetUserSession(){
 	resp := make(map[string]interface{})
 	defer c.sendJSON(resp)
 
-	/*
-	//调试
-	c.SetSession("emp_id",8)
-	 */
+	c.MyPrepare()
+	//已经登录
+	if c.IsLogin {
+		resp["emp_name"] = c.Employee.EmpName
 
-	//获取emp_id
-	emp_id := c.GetSession("emp_id")
-	logs.Debug("emp_id = ",emp_id)
-	if emp_id == nil{
-		//不能存在就发送错误码
-		resp["errno"] = models.RECODE_ROLEERR
-		resp["errmsg"] = models.RecodeText(models.RECODE_ROLEERR)
+		c.PackRecode(resp,models.RECODE_OK)
 	}else {
-
-		//存在就取得Name,发送到客户端
-		//后期可以做缓存优化
-		employee := models.Employee{EmpId: emp_id.(int64)}
-		err := models.SelectEmployeeById(&employee)
-		if err != nil{
-			resp["errno"] = models.RECODE_DBERR
-			resp["errmsg"] = models.RecodeText(models.RECODE_DBERR)
-		}else {
-			fmt.Println(employee)
-			resp["emp_name"] = employee.EmpName
-			resp["errno"] = models.RECODE_OK
-			resp["errmsg"] = models.RecodeText(models.RECODE_OK)
-		}
-
+		c.PackRecode(resp,models.RECODE_SESSIONERR)
 	}
-
-
-
 
 }
