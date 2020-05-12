@@ -58,7 +58,7 @@ func (c *AccountController) PostUserData() {
 
 	//获取前端数据
 	if err:=json.Unmarshal(c.Ctx.Input.RequestBody,&data);err != nil{
-		c.PackRecode(resp,models.RECODE_NODATA)
+		c.PackRecode(resp,models.RECODE_NODATA) //前段没有发送数据
 		return
 	}
 
@@ -93,7 +93,7 @@ func (c *AccountController) GetUserSession(){
 	if c.IsLogin {
 		resp["emp_name"] = c.Employee.EmpName
 
-		c.PackRecode(resp,models.RECODE_OK)
+		c.PackRecode(resp,models.RECODE_OK) //已经登录
 	}else {
 		c.PackRecode(resp,models.RECODE_SESSIONERR)
 	}
