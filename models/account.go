@@ -20,13 +20,15 @@ func GetDataByNumAndOffset(tablename string,slice interface{},rowslimit,offset i
 	}
 	logs.Debug(tablename,"查询到",ret1,"条数据")
 	//根据switchcase断言
+	var p *[]Employee
 	switch tablename{
 	case EMPPLYEE:
+		p = slice.(*[]Employee)
 	}
 
 	//查询
 	//select * from student limit 5 ;
-	ret2, err := qs.Limit(rowslimit,offset) .All(slice.(*[]Employee))
+	ret2, err := qs.Limit(rowslimit,offset) .All(p)
 
 	if err == nil && ret2 > 0 {
 		logs.Debug("查询成功",ret2)
