@@ -1,6 +1,7 @@
 package models
 
 import (
+	"astaxie/beego/logs"
 	"astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -26,4 +27,7 @@ func init() {
 	//创建表,第二个参数表示如果存在该表是否覆盖
 	orm.RunSyncdb("default",false,true)
 
+	logs.Debug("init database .....")
+	o := orm.NewOrm()
+	logs.Debug(o)
 }

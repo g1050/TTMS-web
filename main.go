@@ -1,25 +1,25 @@
 package main
 
 import (
-	"encoding/gob"
-	"encoding/json"
-	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
-	"ttms/models"
-	_"ttms/models"
-	_ "ttms/routers"
+	//"ttms/models"
+	//_ "ttms/models"
+	_"ttms/routers"
 )
 
 func main() {
 
+	/*
 	employee := models.Employee{}
 	employee.EmpId = 1
 	employee.EmpName = "Jack"
 	employee.EmpPhonenumber = "15533052683"
 
 	res,_:= json.Marshal(employee)
-	fmt.Printf("%s\n",string(res))
+	logs.Debug("%s\n",string(res))
+
+	 */
 
 
 	//解决跨域问题
@@ -33,7 +33,7 @@ func main() {
 		AllowOrigins: []string{"http://*.*.*.*:*","http://localhost:*","http://127.0.0.1:*"},
 	}))
 
-	gob.Register(models.Employee{})
+	//gob.Register(models.Employee{})
 	beego.Run()
 }
 
