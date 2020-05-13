@@ -3,6 +3,7 @@ package controllers
 import (
 	"astaxie/beego/logs"
 	"strconv"
+	"ttms/models"
 )
 
 type UserController struct {
@@ -10,12 +11,15 @@ type UserController struct {
 }
 
 func (c *UserController)GetUserData() {
+	resp := make(map[string]interface{})
+	c.sendJSON(resp)
+
 	pageStr := c.Ctx.Input.Param(":page")
 	page,_ := strconv.Atoi(pageStr)
 	logs.Debug("获取员工信息第",page,"页")
 
-	//如果是1从数据库中获取一共有多少数据,并且返回
-
-	//其他情况返回相应数据
-
+	slice := []models.Employee{}
+	//返回情况返回相应数据
+	models.GetDataByNumAndOffset("employee",&slice,10,(page-1)*10)
+	logs.Debug("获得数据",slice)
 }

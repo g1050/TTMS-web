@@ -11,10 +11,7 @@ type AccountController struct {
 }
 
 
-func (c *AccountController) sendJSON(mp map[string]interface{}){
-	c.Data["json"]=mp
-	c.ServeJSON()
-}
+
 
 //验证手机号和密码
 func (c *AccountController) VerifyUser() {

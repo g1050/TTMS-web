@@ -7,11 +7,15 @@ import (
 )
 
 const EMP_KEY = "EMP_KEY"
-
 type BaseController struct {
 	beego.Controller
 	Employee models.Employee
 	IsLogin bool
+}
+
+func (c *BaseController) sendJSON(mp map[string]interface{}){
+	c.Data["json"]=mp
+	c.ServeJSON()
 }
 
 func (c *BaseController)MyPrepare()  {
