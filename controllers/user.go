@@ -11,6 +11,10 @@ import (
 //写进配置文件
 const ROWTOSHOW = 10
 
+type DataEmp struct {
+	Employee []models.Employee`json:"employee"`
+}
+
 type UserController struct {
 	BaseController
 }
@@ -42,10 +46,32 @@ func (c *UserController)GetUserData() {
 }
 
 func (c *UserController)InsertUserData() {
+	resp := make(map[string]interface{})
+	defer c.sendJSON(resp)
+
+	data := DataEmp{}
+	json.Unmarshal(c.Ctx.Input.RequestBody,&data)
+	logs.Debug(data)
+	/*
 	logs.Debug("添加员工")
+	//data := make(map[string]interface{})
 	data := []models.Employee{}
-	err := json.Unmarshal(c.Ctx.Input.RequestBody,&data)
+	emp1 := models.Employee{EmpId: 1}
+	emp2 := models.Employee{EmpId: 2}
+	data = append(data, emp1)
+	data = append(data, emp2)
+
+	str,_ := json.Marshal(data)
+	logs.Debug(string(str))
+	/*
+	body := c.Ctx.Input.RequestBody
+	logs.Debug("%s",body)
+	err := json.Unmarshal(body,&data)
 	if err != nil {
-		logs.Debug("前段获取的数据为:",err)
+		logs.Debug("获取数据错误:",err)
 	}
+	arr := []models.Employee{}
+	json.Unmarshal(str,&arr)
+	logs.Debug("获取的数据",arr)
+	*/
 }
