@@ -19,6 +19,7 @@ type UserController struct {
 	BaseController
 }
 
+//批量获取,排序,分页显示
 func (c *UserController)GetUserData() {
 	resp := make(map[string]interface{})
 	defer c.sendJSON(resp)
@@ -30,7 +31,7 @@ func (c *UserController)GetUserData() {
 	slice := []models.Employee{}
 	//返回情况返回相应数据
 	//models.T()
-	err,sum,ret2 := models.GetDataByNumAndOffset("employee",&slice,10,(page-1)*10)
+	err,sum,ret2 := models.GetDataByNumAndOffset("employee",&slice,10,(page-1)*10,"emp_privilege")
 	if err != nil || ret2 == 0{
 		logs.Error("查询n条数据出错")
 		resp["sum"] = 0
@@ -45,33 +46,22 @@ func (c *UserController)GetUserData() {
 	logs.Debug(resp)
 }
 
+//批量插入
 func (c *UserController)InsertUserData() {
 	resp := make(map[string]interface{})
 	defer c.sendJSON(resp)
 
+	//data的成员是Employee数组
 	data := DataEmp{}
 	json.Unmarshal(c.Ctx.Input.RequestBody,&data)
-	logs.Debug(data)
-	/*
-	logs.Debug("添加员工")
-	//data := make(map[string]interface{})
-	data := []models.Employee{}
-	emp1 := models.Employee{EmpId: 1}
-	emp2 := models.Employee{EmpId: 2}
-	data = append(data, emp1)
-	data = append(data, emp2)
+	logs.Debug("从前段获取的数组是",data)
 
-	str,_ := json.Marshal(data)
-	logs.Debug(string(str))
-	/*
-	body := c.Ctx.Input.RequestBody
-	logs.Debug("%s",body)
-	err := json.Unmarshal(body,&data)
-	if err != nil {
-		logs.Debug("获取数据错误:",err)
+	//发给models批量插入
+	err,sucessNum := models.InsertMul(models.EMPPLYEE,&(data.Employee))
+	if err != nil || sucessNum == 0{
+		c.PackRecode(resp,models.RECODE_DBERR)
+		return
 	}
-	arr := []models.Employee{}
-	json.Unmarshal(str,&arr)
-	logs.Debug("获取的数据",arr)
-	*/
+	c.PackRecode(resp,models.RECODE_OK)
+
 }
