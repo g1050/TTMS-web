@@ -59,9 +59,25 @@ func (c *UserController)InsertUserData() {
 	//发给models批量插入
 	err,sucessNum := models.InsertMul(models.EMPPLYEE,&(data.Employee))
 	if err != nil || sucessNum == 0{
+		resp["num"] = sucessNum
 		c.PackRecode(resp,models.RECODE_DBERR)
 		return
 	}
-	c.PackRecode(resp,models.RECODE_OK)
+	resp["num"] = sucessNum
+	c.PackRecode(resp,models.RECODE_OK) //请检查手机号是否已经注册
 
+}
+
+func (c *UserController)UpdataUserData() {
+	//获取用户数据
+	resp := make(map[string]interface{})
+	defer c.sendJSON(resp)
+
+	data := DataEmp{}
+	json.Unmarshal(c.Ctx.Input.RequestBody,&data)
+	logs.Debug("从前段获取的数组是",data)
+
+	//批量修改
+
+	//返回结果
 }
