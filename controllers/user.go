@@ -1,11 +1,11 @@
 package controllers
 
 import (
-	"encoding/json"
-	_"ttms/models"
 	"astaxie/beego/logs"
+	"encoding/json"
 	"strconv"
 	"ttms/models"
+	_ "ttms/models"
 )
 
 //写进配置文件
@@ -46,8 +46,29 @@ func (c *UserController)GetUserData() {
 	logs.Debug(resp)
 }
 
-//批量插入
+/*
+单个插入
+ */
 func (c *UserController)InsertUserData() {
+	resp := make(map[string]interface{})
+	defer c.sendJSON(resp)
+	//获取前段的数据
+	data := models.Employee{}
+	json.Unmarshal(c.Ctx.Input.RequestBody,&data)
+	logs.Debug("前端口获得的数据是",data)
+
+	//发给M层插入,返送指针类型
+	err := models.InsertByTableName(models.EMPPLYEE,&data)
+	if err != nil {
+		c.PackRecode(resp,models.RECODE_DATAEXIST) //4003已经注册
+		return
+	}
+	//返回结果
+	c.PackRecode(resp,models.RECODE_OK) //成功
+}
+
+//批量插入,弃用
+func (c *UserController)InsertUserDataMul() {
 	resp := make(map[string]interface{})
 	defer c.sendJSON(resp)
 
@@ -68,16 +89,31 @@ func (c *UserController)InsertUserData() {
 
 }
 
-func (c *UserController)UpdataUserData() {
+func (c *UserController)UpdateUserData() {
 	//获取用户数据
 	resp := make(map[string]interface{})
 	defer c.sendJSON(resp)
 
-	data := DataEmp{}
+	data := models.Employee{}
 	json.Unmarshal(c.Ctx.Input.RequestBody,&data)
 	logs.Debug("从前段获取的数组是",data)
 
-	//批量修改
+	//检查数据是否存在
+	if ok := models.CheckExist(models.EMPPLYEE,"emp_phonenumber",data.EmpPhonenumber);!ok {
+		//不存在该条数据
+		c.PackRecode(resp,models.RECODE_USERERR) //4104 数据不存在
+		return
+	}
 
+	//获取id
+	data.EmpId = models.GetId(models.EMPPLYEE,"emp_phonenumber",data.EmpPhonenumber)
+	//修改
+	err := models.UpdateByTablename(models.EMPPLYEE,&data)
 	//返回结果
+	if err != nil {
+		c.PackRecode(resp,models.RECODE_DBERR) //4001　插入失败
+		return
+	}
+	c.PackRecode(resp,models.RECODE_OK)
+
 }

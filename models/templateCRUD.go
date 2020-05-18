@@ -67,3 +67,74 @@ func InsertMul(tablename string,p interface{})  (error,int64){
 
 	return err,successNums
 }
+
+/*
+单个插入
+tablename 要插入的表的名字
+p 是一个结构体指针根据tablename转换
+ */
+func InsertByTableName(tablename string,p interface{})error {
+	o := orm.NewOrm()
+
+	var err error
+	switch tablename {
+	case EMPPLYEE:
+		_,err = o.Insert(p.(*Employee))
+	}
+
+	//logs.Debug(id,err)
+	return err
+}
+
+
+
+func CheckExist(tablename , key , value string)bool {
+	o := orm.NewOrm()
+	var res bool
+
+	logs.Debug("func:CheckExist Tablename ",tablename)
+	switch tablename {
+	case EMPPLYEE:
+		res = o.QueryTable(tablename).Filter(key, value).Exist()
+	}
+
+	return res
+}
+
+func GetId(tablename ,key ,value string)int64  {
+	logs.Debug("func: GetId tablename: ",tablename)
+
+	o := orm.NewOrm()
+	qs := o.QueryTable(tablename)
+	var ret int64
+	switch tablename {
+	case tablename:
+		e := Employee{}
+		qs.Filter(key,value).One(&e)
+		ret = e.EmpId
+	}
+
+	return ret
+}
+
+/*
+单个修改数据
+tablename 表名字
+p　要修改的数据的结构体指针
+*/
+func UpdateByTablename(tablename string, p interface{}) error {
+	logs.Debug("func UpdateByTablename tablename:",tablename)
+
+	o := orm.NewOrm()
+	var err error
+	switch tablename {
+	case EMPPLYEE:
+		_,err = o.Update(p.(*Employee))
+
+	}
+	if err != nil{
+		logs.Error(err)
+	}
+
+	return err
+}
