@@ -89,6 +89,9 @@ func (c *UserController)InsertUserDataMul() {
 
 }
 
+/*
+更新用户数据
+ */
 func (c *UserController)UpdateUserData() {
 	//获取用户数据
 	resp := make(map[string]interface{})
@@ -109,6 +112,39 @@ func (c *UserController)UpdateUserData() {
 	data.EmpId = models.GetId(models.EMPPLYEE,"emp_phonenumber",data.EmpPhonenumber)
 	//修改
 	err := models.UpdateByTablename(models.EMPPLYEE,&data)
+	//返回结果
+	if err != nil {
+		c.PackRecode(resp,models.RECODE_DBERR) //4001　插入失败
+		return
+	}
+	c.PackRecode(resp,models.RECODE_OK)
+
+}
+
+/*
+删除用户数据
+ */
+func (c *UserController)DeleteUserData() {
+	//获取用户数据
+	resp := make(map[string]interface{})
+	defer c.sendJSON(resp)
+
+	data := models.Employee{}
+	data.EmpPhonenumber = c.GetString("emp_phonenumber")
+	json.Unmarshal(c.Ctx.Input.RequestBody,&data)
+	logs.Debug("从前段获取的数组是",data)
+
+	//检查数据是否存在
+	if ok := models.CheckExist(models.EMPPLYEE,"emp_phonenumber",data.EmpPhonenumber);!ok {
+		//不存在该条数据
+		c.PackRecode(resp,models.RECODE_USERERR) //4104 数据不存在
+		return
+	}
+
+	//获取id
+	data.EmpId = models.GetId(models.EMPPLYEE,"emp_phonenumber",data.EmpPhonenumber)
+	//删除
+	err := models.DeleteByTablename(models.EMPPLYEE,&data)
 	//返回结果
 	if err != nil {
 		c.PackRecode(resp,models.RECODE_DBERR) //4001　插入失败

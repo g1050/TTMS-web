@@ -19,9 +19,7 @@ func init() {
 	beego.Router("/user/retrieve/:page", &controllers.UserController{},"Get:GetUserData")
 	beego.Router("/user/create", &controllers.UserController{},"Post:InsertUserData")
 	beego.Router("/user/updata", &controllers.UserController{},"Post:UpdateUserData")
-	/*
-	beego.Router("/user/update", &controllers.UserController{},"Post:InsertUserData")
-	 */
+	beego.Router("/user/delete", &controllers.UserController{},"Get:DeleteUserData")
 
 
 }

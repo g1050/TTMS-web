@@ -138,3 +138,25 @@ func UpdateByTablename(tablename string, p interface{}) error {
 
 	return err
 }
+
+/*
+单个删除数据
+tablename 表名字
+p　要修改的数据的结构体指针
+*/
+func DeleteByTablename(tablename string, p interface{}) error {
+	logs.Debug("func DeleteByTablename tablename:",tablename)
+
+	o := orm.NewOrm()
+	var err error
+	switch tablename {
+	case EMPPLYEE:
+		_,err = o.Delete(p.(*Employee))
+
+	}
+	if err != nil{
+		logs.Error(err)
+	}
+
+	return err
+}
