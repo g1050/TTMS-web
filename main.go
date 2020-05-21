@@ -30,7 +30,8 @@ func main() {
 		AllowHeaders:     []string{"Origin", "Authorization", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
 		ExposeHeaders:    []string{"Content-Length", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
 		AllowCredentials: true,
-		AllowOrigins: []string{"http://*.*.*.*:*","http://localhost:*","http://127.0.0.1:*"},
+		//AllowOrigins: []string{"http://*.*.*.*:*","http://localhost:*","http://127.0.0.1:*","http://110.248.*.*:*"},
+		AllowOrigins: []string{"*"},
 	}))
 
 	//gob.Register(models.Employee{})
