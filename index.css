@@ -1,0 +1,34 @@
+*{
+    margin: 0;
+    padding: 0;
+   
+    list-style: none;
+    text-decoration: none;
+
+}
+body{
+    height: 100vh;
+}
+
+.container{
+    width: 30%;
+    height: 70%;
+    border: 1px solid black;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    
+}
+
+.login,.register{
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+    margin: 20px 0;
+   
+}
+
+.registerContent{
+    display: none;
+}
