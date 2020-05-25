@@ -21,7 +21,7 @@ type Employee struct {
 
 type Studio struct {
 	StuId int64	 	`orm:"pk;auto" json:"stu_id"`  	//演出厅ID
-	StuName string 	`orm:size(30) json:"stu_name"` 	//演出厅名字
+	StuName string 	`orm:"size(30)" json:"stu_name"` 	//演出厅名字
 	StuType int64   `json:"stu_type"`
 	StuRows int64  	`json:"stu_rows"`
 	StuCols int64 	`json:"stu_cols"`

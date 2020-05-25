@@ -6,6 +6,7 @@ import (
 )
 const (
 	EMPPLYEE = "employee"
+	STUDIO = "studio"
 )
 
 /*数据库查询所有数据,分页展示
@@ -80,6 +81,9 @@ func InsertByTableName(tablename string,p interface{})error {
 	switch tablename {
 	case EMPPLYEE:
 		_,err = o.Insert(p.(*Employee))
+	case STUDIO:
+		_,err = o.Insert(p.(*Studio))
+
 	}
 
 	//logs.Debug(id,err)

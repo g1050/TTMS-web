@@ -21,6 +21,8 @@ func init() {
 	beego.Router("/user/updata", &controllers.UserController{},"Post:UpdateUserData")
 	beego.Router("/user/delete", &controllers.UserController{},"Get:DeleteUserData")
 
-	//
+	//演出厅管理
+	beego.Router("/studio/create", &controllers.StudioController{},"Post:InsertStudio")
+
 
 }
