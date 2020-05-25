@@ -19,15 +19,21 @@ type Employee struct {
 	EmpPrivilege 	int 	`json:"emp_privilege"`//权限
 }
 
+type Studio struct {
+	StuId int64	 	`orm:"pk;auto" json:"stu_id"`  	//演出厅ID
+	StuName string 	`orm:size(30) json:"stu_name"` 	//演出厅名字
+	StuType int64   `json:"stu_type"`
+	StuRows int64  	`json:"stu_rows"`
+	StuCols int64 	`json:"stu_cols"`
+}
+
 func init() {
 	//连接Mysql数据库
 	orm.RegisterDataBase("default", "mysql", "root:123456@tcp(47.94.14.45:3306)/ttms?charset=utf8", 30) //最后是一个超时时间
 	//注册model
-	orm.RegisterModel(new(Employee))
+	orm.RegisterModel(new(Employee),new(Studio))
 	//创建表,第二个参数表示如果存在该表是否覆盖
 	orm.RunSyncdb("default",false,true)
 
 	logs.Debug("init database .....")
-	o := orm.NewOrm()
-	logs.Debug(o)
 }

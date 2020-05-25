@@ -21,5 +21,6 @@ func init() {
 	beego.Router("/user/updata", &controllers.UserController{},"Post:UpdateUserData")
 	beego.Router("/user/delete", &controllers.UserController{},"Get:DeleteUserData")
 
+	//
 
 }
