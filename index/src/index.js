@@ -3,30 +3,33 @@ class Csscheck{
         this.log_num = document.querySelector('.log_num');
         this.log_pas = document.querySelector('.log_pas');
         this.reg = /^1[0-9]{10}/    
-        this.log_num.addEventListener('keydown',()=>{
-           if(this.log_num.value == 11){
-                
-           }
-            
-        })
     }
-    check(str){
+    check(){
         const tip1 = '请输入电话号码';
         const tip2 = '请输入密码';
+        const tip3 = '请输入十一位电话号';
+        //决定这个函数的返回值
+        let judge = true;  
         //判断是否输入
         if(this.log_num.value == ''){
             //设置输入为空的提示信息
             this.errEmpty(this.log_num,tip1);
-            return false;
+            judge = false;
+        }
+        else if(this.log_num.value.length !=11){  
+            this.innerShow('请输入十一位手机号码',0)
+            judge = false;
         }
         if(this.log_pas.value == ''){
             this.errEmpty(this.log_pas,tip2);
-            return false;
+            judge = false;
         }
-        return this.reg.test(str)
+       return judge;
+         
     }
     errEmpty(dom,tip){
         let className = dom.className;
+
         dom.setAttribute('placeholder',"输入不能为空!")
         dom.setAttribute('class',`${dom.className} placeholder`)
         setTimeout(() => {
@@ -34,7 +37,23 @@ class Csscheck{
             dom.setAttribute('class',`${className}`)
         }, 2000);
     }
-
+    //参数：显示字符串 是错误/正确信息
+    innerShow(str,judge){
+        let tips = document.querySelector('.tips_Inner');
+        let scroll_box = document.querySelector('.scroll_box')
+        tips.innerHTML = str;
+        if(judge == 0){
+            tips.style.color = 'rgb(212, 19, 19)';
+        }
+        else{
+            tips.style.color = 'rgb(255, 248, 220)'
+        }
+        scroll_box.style.transition = '1s';
+        scroll_box.style.transform = "translateY(-8vh)"
+        setTimeout(() => {
+            scroll_box.style.transform = "translateY(0vh)"
+        }, 1500);
+    }
 }
 
 class Login{
@@ -52,11 +71,7 @@ class Login{
             //一个操作，判断账号密码输入是否合法
             if(this.permit){
                 ajax('http://gaoxingkun.top:8888/account/login/verify','post',this.postData(),'json',this.callback)
-            }
-            else{
-                //输出对应的结果
-            }
-            
+            }   
         })
     }
     postData(){
@@ -88,17 +103,27 @@ class SessionJudge{
     }
     callback(data){
         console.log(data);
-        
     }
 }
-
-
 
 window.onload = ()=>{
     const csscheck = new Csscheck();
     const loginer = new Login();
     loginer.csscheck = ()=>{
-        csscheck.check();
+        let judge = csscheck.check();
+        return judge;
+    }
+    loginer.callback = (data)=>{
+        console.log(data.errno);
+        //返回值是字符串，首先类型转换  为0代表登录成功
+        if(!parseInt(data.errno)){
+            console.log(121);
+            
+            csscheck.innerShow(`${data.emp_name} ${data.errmsg}`,1)
+        }
+        else{
+            csscheck.innerShow(`${data.errmsg}`,0)
+        }
     }
     const session = new SessionJudge();
 }
