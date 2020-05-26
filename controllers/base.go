@@ -11,6 +11,7 @@ const EMP_KEY = "EMP_KEY"
 type BaseController struct {
 	beego.Controller
 	Employee models.Employee
+	resp map[string]interface{}
 	IsLogin bool
 }
 
@@ -67,6 +68,21 @@ func (c *BaseController)GetAuthority()int64{
 	return ret
 }
 
-func JudgeAuthority(op int)  {
-	
+func (c *BaseController)JudgeAuthority(op int64) bool  {
+	//获取session
+	c.MyPrepare()
+	if !c.IsLogin {
+		c.PackRecode(c.resp,models.RECODE_SESSIONERR) //4101 未登录
+		return false
+	}
+
+
+	//查看是否有权限
+	au := c.GetAuthority()
+	if au & op ==0{
+		c.PackRecode(c.resp,models.RECODE_NOAUTH) //4502 没有权限
+		return false
+	}
+	return true
+
 }
