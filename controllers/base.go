@@ -37,3 +37,12 @@ func (c *BaseController)PackRecode(resp map[string]interface{},recode string)  {
 	resp["errno"] = recode
 	resp["errmsg"] = models.RecodeText(recode)
 }
+
+func (c *BaseController)GetAuthority(emp_privilege int64)int{
+	switch emp_privilege {
+	case models.ADMINISTRATOR:
+
+
+	}
+	return  1
+}

@@ -6,6 +6,37 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+//权限
+const (
+	MG_EMP = 1
+	MG_STU = 2
+	MG_MOV = 4
+	MG_SCH = 8
+	MG_QUERY_STU = 16
+	MG_QUERY_MOV = 32
+	MG_QUERY_SCH = 64
+	MG_PERSONAL_SALE = 128
+	MG_PERFORMANCE = 256
+	MG_BOX_OFFICE = 512
+	MG_TICKET = 1024
+	MG_QUERY_TICKET = 2048
+)
+
+//表名
+const (
+	EMPPLYEE = "employee"
+	STUDIO   = "studio"
+)
+
+//职位
+const (
+	ADMINISTRATOR = 1
+	OPERATIONSMANAGER = 2
+	CONDUCTOR = 3
+	ACCOUNTING = 4
+	FINANCIALMANAGER = 5
+)
+
 /*
 定义数据结构、连接数据库、建表、建库。
  */

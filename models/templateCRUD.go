@@ -4,10 +4,7 @@ import (
 	"astaxie/beego/logs"
 	"astaxie/beego/orm"
 )
-const (
-	EMPPLYEE = "employee"
-	STUDIO = "studio"
-)
+
 
 /*数据库查询所有数据,分页展示
 slice 切片指针类型，用来返回数据
@@ -156,6 +153,8 @@ func DeleteByTablename(tablename string, p interface{}) error {
 	switch tablename {
 	case EMPPLYEE:
 		_,err = o.Delete(p.(*Employee))
+	case STUDIO:
+		_,err = o.Delete(p.(*Studio))
 
 	}
 	if err != nil{

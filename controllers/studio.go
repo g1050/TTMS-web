@@ -11,9 +11,9 @@ type StudioController struct {
 }
 
 func (c *StudioController )InsertStudio() {
+	logs.Debug("添加演出厅")
 
 	data := models.Studio{}
-	logs.Debug("添加演出厅")
 	resp := make(map[string]interface{})
 	defer c.sendJSON(resp)
 
@@ -40,4 +40,29 @@ func (c *StudioController )InsertStudio() {
 	msg,_ := json.Marshal(data)
 	logs.Debug("%s",msg)
 
+}
+
+func (c *StudioController)DeleteStudio() {
+	logs.Debug("删除演出厅")
+
+	resp := make(map[string]interface{})
+	defer c.sendJSON(resp)
+
+	data := models.Studio{}
+
+	id,err := c.GetInt64("stu_id")
+	if err != nil {
+		c.PackRecode(resp,models.RECODE_NODATA) //4002 没有收到ID
+		return
+	}
+
+	logs.Debug("要删除的演出厅的ID",id)
+	data.StuId = id
+	err2 := models.DeleteByTablename(models.STUDIO,&data)
+	if err2 != nil {
+		c.PackRecode(resp,models.RECODE_DBERR) //4001 数据库出错
+		return
+	}
+
+	c.PackRecode(resp,models.RECODE_OK)
 }
