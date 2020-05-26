@@ -3,6 +3,7 @@ package controllers
 import (
 	"astaxie/beego/logs"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/config"
 	"ttms/models"
 )
 
@@ -38,11 +39,34 @@ func (c *BaseController)PackRecode(resp map[string]interface{},recode string)  {
 	resp["errmsg"] = models.RecodeText(recode)
 }
 
-func (c *BaseController)GetAuthority(emp_privilege int64)int{
-	switch emp_privilege {
+//返回当前用户具有的权限
+//0 表示未登录 其他俺表示具有的权限
+func (c *BaseController)GetAuthority()int64{
+
+
+	c.Prepare()
+	//获取session
+	if !c.IsLogin {
+		logs.Error("账号未登录")
+		return 0
+	}
+
+	iniconf, err := config.NewConfig("ini", "conf/app.conf")
+	if err != nil {
+		logs.Error("读取配置文件出错",err)
+	}
+
+	var ret int64
+	switch c.Employee.EmpPrivilege {
 	case models.ADMINISTRATOR:
+		ret,_ = iniconf.Int64("ADMINISTRATOR")
+		logs.Debug("配置文件中是:",ret)
 
 
 	}
-	return  1
+	return ret
+}
+
+func JudgeAuthority(op int)  {
+	
 }

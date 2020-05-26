@@ -10,9 +10,6 @@ type AccountController struct {
 	BaseController
 }
 
-
-
-
 //验证手机号和密码
 func (c *AccountController) VerifyUser() {
 	var data models.Employee;
@@ -37,6 +34,7 @@ func (c *AccountController) VerifyUser() {
 
 	//判断密码
 	if data.EmpPassword == employee.EmpPassword {
+		logs.Debug("密码验证成功")
 		c.PackRecode(resp,models.RECODE_OK) //验证密码成功
 		//设置session
 		c.SetSession(EMP_KEY,employee)
@@ -44,6 +42,7 @@ func (c *AccountController) VerifyUser() {
 	} else {
 		c.PackRecode(resp,models.RECODE_PWDERR) //密码错误
 	}
+
 }
 
 //注册时候上传用户信息,插入信息到数据库，设置session。
@@ -89,7 +88,6 @@ func (c *AccountController) GetUserSession(){
 	//已经登录
 	if c.IsLogin {
 		resp["emp_name"] = c.Employee.EmpName
-
 		c.PackRecode(resp,models.RECODE_OK) //已经登录
 	}else {
 		c.PackRecode(resp,models.RECODE_SESSIONERR)

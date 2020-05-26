@@ -17,7 +17,20 @@ func (c *StudioController )InsertStudio() {
 	resp := make(map[string]interface{})
 	defer c.sendJSON(resp)
 
-	logs.Debug("%s",c.Ctx.Input.RequestBody)
+	//获取session
+	c.MyPrepare()
+	if !c.IsLogin {
+		c.PackRecode(resp,models.RECODE_SESSIONERR) //4101 未登录
+		return
+	}
+
+
+	au := c.GetAuthority()
+	if au & models.MG_STU ==0{
+		c.PackRecode(resp,models.RECODE_NOAUTH)
+		return
+	}
+
 	//获取前端数据
 	if err:=json.Unmarshal(c.Ctx.Input.RequestBody,&data);err != nil{
 		logs.Error(err)
@@ -43,10 +56,24 @@ func (c *StudioController )InsertStudio() {
 }
 
 func (c *StudioController)DeleteStudio() {
-	logs.Debug("删除演出厅")
 
+	logs.Debug("删除演出厅")
 	resp := make(map[string]interface{})
 	defer c.sendJSON(resp)
+
+	//获取session
+	c.MyPrepare()
+	if !c.IsLogin {
+		c.PackRecode(resp,models.RECODE_SESSIONERR) //4101 未登录
+		return
+	}
+
+
+	au := c.GetAuthority()
+	if au & models.MG_STU ==0{
+		c.PackRecode(resp,models.RECODE_NOAUTH)
+		return
+	}
 
 	data := models.Studio{}
 

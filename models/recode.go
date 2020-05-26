@@ -18,6 +18,7 @@ const (
 	RECODE_IOERR      = "4302"
 	RECODE_SERVERERR  = "4500"
 	RECODE_UNKNOWERR  = "4501"
+	RECODE_NOAUTH 	  = "4502"
 )
 
 var recodeText = map[string]string{
@@ -38,6 +39,7 @@ var recodeText = map[string]string{
 	RECODE_IOERR:      "文件读写错误",
 	RECODE_SERVERERR:  "内部错误",
 	RECODE_UNKNOWERR:  "未知错误",
+	RECODE_NOAUTH: 	   "没有权限",
 }
 
 func RecodeText(code string) string {
