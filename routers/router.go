@@ -24,6 +24,8 @@ func init() {
 	//演出厅管理
 	beego.Router("/studio/create", &controllers.StudioController{},"Post:InsertStudio")
 	beego.Router("/studio/delete", &controllers.StudioController{},"Get:DeleteStudio")
+	beego.Router("/studio/retrieve/:page", &controllers.StudioController{},"Get:GetStudioData")
+	beego.Router("/studio/update", &controllers.StudioController{},"Post:UpdateStudio")
 
 
 }

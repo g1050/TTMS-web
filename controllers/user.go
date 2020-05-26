@@ -21,7 +21,12 @@ type UserController struct {
 
 //批量获取,排序,分页显示
 func (c *UserController)GetUserData() {
+	c.resp = make(map[string]interface{})
 	defer c.sendJSON(c.resp)
+
+	if ok := c.JudgeAuthority(models.MG_EMP); !ok {
+		return
+	}
 
 	pageStr := c.Ctx.Input.Param(":page")
 	page,_ := strconv.Atoi(pageStr)
@@ -49,7 +54,13 @@ func (c *UserController)GetUserData() {
 单个插入
  */
 func (c *UserController)InsertUserData() {
+	c.resp = make(map[string]interface{})
 	defer c.sendJSON(c.resp)
+
+	if ok := c.JudgeAuthority(models.MG_EMP); !ok {
+		return
+	}
+
 	//获取前段的数据
 	data := models.Employee{}
 	json.Unmarshal(c.Ctx.Input.RequestBody,&data)
@@ -67,7 +78,12 @@ func (c *UserController)InsertUserData() {
 
 //批量插入,弃用
 func (c *UserController)InsertUserDataMul() {
+	c.resp = make(map[string]interface{})
 	defer c.sendJSON(c.resp)
+
+	if ok := c.JudgeAuthority(models.MG_EMP); !ok {
+		return
+	}
 
 	//data的成员是Employee数组
 	data := DataEmp{}
@@ -90,8 +106,12 @@ func (c *UserController)InsertUserDataMul() {
 更新用户数据
  */
 func (c *UserController)UpdateUserData() {
-	//获取用户数据
+	c.resp = make(map[string]interface{})
 	defer c.sendJSON(c.resp)
+
+	if ok := c.JudgeAuthority(models.MG_EMP); !ok {
+		return
+	}
 
 	data := models.Employee{}
 	json.Unmarshal(c.Ctx.Input.RequestBody,&data)
@@ -121,8 +141,12 @@ func (c *UserController)UpdateUserData() {
 删除用户数据
  */
 func (c *UserController)DeleteUserData() {
-	//获取用户数据
+	c.resp = make(map[string]interface{})
 	defer c.sendJSON(c.resp)
+
+	if ok := c.JudgeAuthority(models.MG_EMP); !ok {
+		return
+	}
 
 	data := models.Employee{}
 	data.EmpPhonenumber = c.GetString("emp_phonenumber")

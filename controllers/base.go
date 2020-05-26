@@ -76,7 +76,6 @@ func (c *BaseController)JudgeAuthority(op int64) bool  {
 		return false
 	}
 
-
 	//查看是否有权限
 	au := c.GetAuthority()
 	if au & op ==0{

@@ -13,6 +13,7 @@ type AccountController struct {
 //验证手机号和密码
 func (c *AccountController) VerifyUser() {
 	var data models.Employee;
+	c.resp = make(map[string]interface{})
 	defer c.sendJSON(c.resp)
 
 	//获取前端数据
@@ -48,6 +49,7 @@ func (c *AccountController) VerifyUser() {
 func (c *AccountController) PostUserData() {
 	//data := make(map[string]interface{})
 	var data models.Employee;
+	c.resp = make(map[string]interface{})
 	defer c.sendJSON(c.resp)
 
 	//获取前端数据

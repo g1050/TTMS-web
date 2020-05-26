@@ -33,6 +33,9 @@ func GetDataByNumAndOffset(tablename string,slice interface{},rowslimit,offset i
 	switch tablename{
 	case EMPPLYEE:
 		ret2, err2 = qs.OrderBy(orderby).Limit(rowslimit,offset).All(slice.(*[]Employee))
+	case STUDIO:
+		ret2, err2 = qs.OrderBy(orderby).Limit(rowslimit,offset).All(slice.(*[]Studio))
+
 	}
 
 	//查询
@@ -131,6 +134,8 @@ func UpdateByTablename(tablename string, p interface{}) error {
 	switch tablename {
 	case EMPPLYEE:
 		_,err = o.Update(p.(*Employee))
+	case STUDIO:
+		_,err = o.Update(p.(*Studio))
 
 	}
 	if err != nil{
