@@ -35,6 +35,8 @@ func (c *AccountController) VerifyUser() {
 	//判断密码
 	if data.EmpPassword == employee.EmpPassword {
 		logs.Debug("密码验证成功")
+
+		c.resp["emp_privilege"] = employee.EmpPrivilege //添加职位信息
 		c.PackRecode(c.resp,models.RECODE_OK) //验证密码成功
 		//设置session
 		c.SetSession(EMP_KEY,employee)
@@ -88,9 +90,10 @@ func (c *AccountController) GetUserSession(){
 	//已经登录
 	if c.IsLogin {
 		resp["emp_name"] = c.Employee.EmpName
+		resp["emp_privilege"] = c.Employee.EmpPrivilege //添加职位信息
 		c.PackRecode(resp,models.RECODE_OK) //已经登录
 	}else {
-		c.PackRecode(resp,models.RECODE_SESSIONERR)
+		c.PackRecode(resp,models.RECODE_SESSIONERR) //未登录
 	}
 
 }
