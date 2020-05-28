@@ -28,6 +28,8 @@ func init() {
 	beego.Router("/studio/delete", &controllers.StudioController{},"Get:DeleteStudio")
 	beego.Router("/studio/retrieve/:page", &controllers.StudioController{},"Get:GetStudioData")
 	beego.Router("/studio/update", &controllers.StudioController{},"Post:UpdateStudio")
+	beego.Router("/studio/retrieve", &controllers.StudioController{},"Get:GetHint")
+	beego.Router("/studio/retrieve/name", &controllers.StudioController{},"Get:GetStudioByName")
 
 
 }

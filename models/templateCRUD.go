@@ -182,6 +182,10 @@ func GetHintByFieldAndValue(tablename,field , value string,container interface{}
 	case EMPPLYEE:
 		qs = o.QueryTable(tablename)
 		num,err = qs.Filter(field+CONTAIN,value).All(container.(*[]Employee), field)
+	case STUDIO:
+		qs = o.QueryTable(tablename)
+		num,err = qs.Filter(field+CONTAIN,value).All(container.(*[]Studio), field)
+
 
 
 	}
