@@ -211,7 +211,47 @@ func (c *UserController) GetHint() {
 
 }
 
-//提取结构提中的名字信息，打包成data发送
+/*
+通过名字来返回符合要求的员工
+也是模糊搜索
+ */
+func (c *UserController) GetUserByName() {
+	logs.Debug("按照全名模糊搜索")
+	//开辟map
+	c.resp = make(map[string]interface{})
+	defer c.sendJSON(c.resp)
+
+	//检查权限
+	if ok := c.JudgeAuthority(models.MG_EMP); !ok {
+		return
+	}
+
+	//解析参数
+	name := c.GetString("emp_name")
+	logs.Debug("要搜索的全名是",name)
+
+	//从数据库中查询
+	var container []models.Employee
+	num,err := models.GetHintByFieldAndValue(models.EMPPLYEE,"emp_name",name,&container)
+
+	if num == 0 || err != nil {
+		logs.Error(err)
+		c.PackRecode(c.resp,models.RECODE_NODATA) //4002无数据
+		return
+	}
+
+	logs.Debug("全名查询到的结果是",container)
+
+	//包装数组对象
+	c.resp["data"] = container
+	//返回状态代码
+	c.resp["sum"] = num
+	c.PackRecode(c.resp,models.RECODE_OK)
+}
+
+/*
+提取结构提中的名字信息，打包成data发送
+ */
 func (c *UserController)PackEmpName(resp map[string]interface{},container []models.Employee)  {
 	m := make([]string,0)
 
