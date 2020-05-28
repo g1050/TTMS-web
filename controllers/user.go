@@ -172,3 +172,51 @@ func (c *UserController)DeleteUserData() {
 	c.PackRecode(c.resp,models.RECODE_OK)
 
 }
+
+/*
+用于搜索用户时候的模糊匹配,实现搜索提示
+ */
+func (c *UserController) GetHint() {
+	logs.Debug("模糊搜索获取提示")
+	//开辟map
+	c.resp = make(map[string]interface{})
+	defer c.sendJSON(c.resp)
+
+	//检查权限
+	if ok := c.JudgeAuthority(models.MG_EMP); !ok {
+		return
+	}
+
+	//解析参数
+	hint := c.GetString("emp_hint")
+	logs.Debug("要搜索的字符是",hint)
+
+	//从数据库中查询
+	var container []models.Employee
+	num,err := models.GetHintByFieldAndValue(models.EMPPLYEE,"emp_name",hint,&container)
+
+	if num == 0 || err != nil {
+		logs.Error(err)
+		c.PackRecode(c.resp,models.RECODE_NODATA) //4002无数据
+		return
+	}
+
+	logs.Debug("模糊查询到的结果是",container)
+
+	//包装成字符串数组
+	c.PackEmpName(c.resp,container)
+	//返回状态代码
+	c.resp["sum"] = num
+	c.PackRecode(c.resp,models.RECODE_OK)
+
+}
+
+//提取结构提中的名字信息，打包成data发送
+func (c *UserController)PackEmpName(resp map[string]interface{},container []models.Employee)  {
+	m := make([]string,0)
+
+	for _,emp := range container {
+		m = append(m,emp.EmpName)
+	}
+	resp["data"] = m
+}

@@ -37,6 +37,7 @@ func (c *AccountController) VerifyUser() {
 		logs.Debug("密码验证成功")
 
 		c.resp["emp_privilege"] = employee.EmpPrivilege //添加职位信息
+		c.resp["emp_name"] = employee.EmpName //返回名字
 		c.PackRecode(c.resp,models.RECODE_OK) //验证密码成功
 		//设置session
 		c.SetSession(EMP_KEY,employee)

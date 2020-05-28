@@ -168,3 +168,24 @@ func DeleteByTablename(tablename string, p interface{}) error {
 
 	return err
 }
+
+/*
+模糊查询模板,like '%a%'
+ */
+func GetHintByFieldAndValue(tablename,field , value string,container interface{})(int64,error){
+	o := orm.NewOrm()
+	var qs orm.QuerySeter
+	var num int64
+	var err error
+
+	switch tablename{
+	case EMPPLYEE:
+		qs = o.QueryTable(tablename)
+		num,err = qs.Filter(field+CONTAIN,value).All(container.(*[]Employee), field)
+
+
+	}
+
+	return num,err
+
+}

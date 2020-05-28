@@ -37,6 +37,7 @@ const (
 	FINANCIALMANAGER = 4
 )
 
+const CONTAIN = "__icontains"
 /*
 定义数据结构、连接数据库、建表、建库。
  */
