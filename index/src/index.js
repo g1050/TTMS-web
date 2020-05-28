@@ -1,3 +1,4 @@
+//对登录样式进行处理的类
 class Csscheck{
     constructor(){
         this.log_num = document.querySelector('.log_num');
@@ -55,7 +56,7 @@ class Csscheck{
         }, 1500);
     }
 }
-
+//处理登录的类
 class Login{
     constructor(){
         this.button = document.querySelector('.log_sub');
@@ -92,38 +93,76 @@ class Login{
         }
         
     }
+    setLocalstorage(data){
+        let storage = window.localStorage;
+        storage[`emp_privilege`] = data.emp_privilege;
+    }
 
 }
-
+//处理session请求的类
 class SessionJudge{
     constructor(){
         this.url = "http://gaoxingkun.top:8888/account/login/session"
+        this._this = this;
+    }
+    get(){
         ajax(this.url,'GET','','json', this.callback);
-
+    }
+    setLocalstorage(data){
+        let storage = window.localStorage;
+        storage['emp_privilege'] = data.emp_privilege;
+        storage['emp_name'] = data.emp_name;
     }
     callback(data){
-        console.log(data);
+        console.log('undefined');
+     
     }
+   
 }
 
 window.onload = ()=>{
     const csscheck = new Csscheck();
     const loginer = new Login();
+    //将loginer csscheck方法重写
     loginer.csscheck = ()=>{
         let judge = csscheck.check();
         return judge;
     }
+    //设置callback函数内容
     loginer.callback = (data)=>{
         console.log(data.errno);
         //返回值是字符串，首先类型转换  为0代表登录成功
+        //登录成功
         if(!parseInt(data.errno)){
             console.log(121);
             
             csscheck.innerShow(`${data.emp_name} ${data.errmsg}`,1)
+            //登录成功将信息保存在localstorage中
+            loginer.setLocalstorage(data);
         }
-        else{
-            csscheck.innerShow(`${data.errmsg}`,0)
+        //登录失败
+        else if(data.errno == '4001'){
+            csscheck.innerShow(`该账号不存在`,0)
+        }
+        else if(data.errno == '4106'){
+            csscheck.innerShow(`密码错误`,0)
         }
     }
-    const session = new SessionJudge();
+    const sessionJudge = new SessionJudge();
+    //将sessionJudge callback重写
+    sessionJudge.callback = (data)=>{
+        console.log(data);
+           
+        if(data.errno == '0'){
+            console.log(111);
+            
+            sessionJudge.setLocalstorage(data);
+            const date = new Date();
+            const storeTime = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`
+            console.log(date.getFullYear(),date.getHours(),date.getMinutes());
+            
+        }
+    }
+    //发送session请求
+    sessionJudge.get();
 }
