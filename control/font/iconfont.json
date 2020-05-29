@@ -1,0 +1,37 @@
+{
+  "id": "1851955",
+  "name": "ttms",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "4849919",
+      "name": "查询",
+      "font_class": "chaxun",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "9917843",
+      "name": "修 改",
+      "font_class": "icon-xiugai",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "5003968",
+      "name": "下  拉",
+      "font_class": "xiala",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "12588369",
+      "name": "删除筛选项",
+      "font_class": "chushaixuanxiang",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    }
+  ]
+}

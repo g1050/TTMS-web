@@ -1,17 +1,36 @@
 class Query{
     constructor(){
-        this.input = document.querySelector('.submit');
+       // this.input = document.querySelector('.submit');
         this.url = "http://gaoxingkun.top:8888/user/retrieve/";
-        this.request(1)
-        this.input.addEventListener('click',()=>{
-            this.request(1)  
-        })
+        this.pre = ['系统管理员','运营经理','售票员','会计','运营经理'];
+        this.staff_url = document.querySelector('.staff_ul');
+       
+        // this.input.addEventListener('click',()=>{
+        //     this.request(1)  
+        // })
     }
+    //发送请求
     request(num){
         let url = this.url + num
         console.log(num);
         
         ajax(url,'GET','','json', this.callback); 
+    }
+    //向页面添加一行数据
+    showData(data){
+        console.log(data);
+        
+        let list = document.createElement('li');
+        list.innerHTML = ` <span class="stf_name">${data.emp_name}</span>|<span class="stf_pho">${data.emp_phonenumber}</span>|<span span class="stf_pas">${data.emp_password}</span>|<span class="stf_born">${data.emp_born_year}</span>|<span class="stf_pre">${this.pre[data.emp_privilege]}</span>|<span class="staff_del iconfont">&#xe600;</span>|<span class="staff_mod iconfont">&#xe601;</span>`
+        console.log(23);
+        console.log(data);
+        this.staff_url.appendChild(list);
+    }
+    //向页面添加十行数据
+    showTotalData(data){
+        for(let i=0;i<10;i++){
+            this.showData(data.data[i])
+        }
     }
     callback(data){
         console.log(data);
@@ -108,12 +127,20 @@ class Delete{
 
 
 }
-
-window.onload = ()=>{
-    const query = new Query();
-    const add = new Add();
-    const mod = new Modify();
-    const del = new Delete();
-    query.request(2);
-    query.request(3);
+class GetLocal{
+    constructor(){
+        this.pre = ['系统管理员','运营经理','售票员','会计','运营经理'];
+        this.storage = window.localStorage;
+        this.user_name = document.getElementsByClassName('user_name')[0];
+        this.user_pre = document.getElementsByClassName('user_pre')[0];
+       
+   
+        
+    }
+    setInner(){
+        this.user_name.innerHTML = this.storage[`emp_name`];
+        let index_num = parseInt(this.storage[`emp_privilege`]);
+        this.user_pre.innerHTML = this.pre[index_num];
+    }
 }
+
