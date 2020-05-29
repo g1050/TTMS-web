@@ -34,7 +34,7 @@ func (c *StudioController )InsertStudio() {
 	logs.Debug("收到的影厅信息",data,data.StuName)
 
 	//插入数据库
-	err := models.InsertByTableName("studio",&data)
+	_,err := models.InsertByTableName("studio",&data)
 	if err != nil {
 		c.PackRecode(c.resp,models.RECODE_DBERR) //4001 数据库插入错误
 		logs.Error(err)

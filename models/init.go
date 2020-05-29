@@ -26,6 +26,7 @@ const (
 const (
 	EMPPLYEE = "employee"
 	STUDIO   = "studio"
+	MOVIE = "movie"
 )
 
 //职位
@@ -63,9 +64,9 @@ type Movie struct {
 	MovId int64	 	`orm:"pk;auto" json:"mov_id"`  	//电影ID
 	MovName string 	`orm:"size(30)" json:"mov_name"` 	//电影名字
 	MovType string	 `orm:"size(5)"json:"mov_type"` 			//电影类型
-	MovStatus float64	`json:"mov_status"` //电影品评分
-	MovReligon string	`orm:"size(5)" json:"mov_religon"` //电影地区
-	MovDescription string	`orm:"size(512)" json:"mov_religon"` //电影描述
+	MovComment float64	`json:"mov_comment"` //电影品评分
+	MovRel string	`orm:"size(5)" json:"mov_rel"` //电影地区
+	MovDescription string	`orm:"size(512)" json:"mov_description"` //电影描述
 	MovTime int64 		`json:"mov_time"` //电影时长
 	MovImg string 		`json:"mov_img"` //电影图片
 }
@@ -74,7 +75,7 @@ func init() {
 	//连接Mysql数据库
 	orm.RegisterDataBase("default", "mysql", "root:123456@tcp(47.94.14.45:3306)/ttms?charset=utf8", 30) //最后是一个超时时间
 	//注册model
-	orm.RegisterModel(new(Employee),new(Studio))
+	orm.RegisterModel(new(Employee),new(Studio),new(Movie))
 	//创建表,第二个参数表示如果存在该表是否覆盖
 	orm.RunSyncdb("default",false,true)
 

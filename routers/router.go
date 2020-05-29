@@ -32,6 +32,8 @@ func init() {
 	beego.Router("/studio/retrieve/name", &controllers.StudioController{},"Get:GetStudioByName")
 
 	//影片管理
-	
+	beego.Router("/movie/create/info", &controllers.MovieController{},"Post:InsertMovie")
+	beego.Router("/movie/create/image/:id", &controllers.MovieController{},"Post:InsertMovieImage")
+
 
 }

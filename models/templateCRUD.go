@@ -74,20 +74,23 @@ func InsertMul(tablename string,p interface{})  (error,int64){
 tablename 要插入的表的名字
 p 是一个结构体指针根据tablename转换
  */
-func InsertByTableName(tablename string,p interface{})error {
+func InsertByTableName(tablename string,p interface{})( int64,error) {
 	o := orm.NewOrm()
 
 	var err error
+	var num int64
 	switch tablename {
 	case EMPPLYEE:
 		_,err = o.Insert(p.(*Employee))
 	case STUDIO:
 		_,err = o.Insert(p.(*Studio))
+	case MOVIE:
+		num,err = o.Insert(p.(*Movie))
 
 	}
 
 	//logs.Debug(id,err)
-	return err
+	return num,err
 }
 
 
@@ -192,4 +195,16 @@ func GetHintByFieldAndValue(tablename,field , value string,container interface{}
 
 	return num,err
 
+}
+
+func UpdateByTablenameAndField(tablename , field string,p interface{})(int64,error) {
+	o := orm.NewOrm()
+
+	var num int64
+	var err error
+	switch tablename {
+	case MOVIE:
+		num,err = o.Update(p.(*Movie),field)
+	}
+	return num,err
 }

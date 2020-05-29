@@ -67,7 +67,7 @@ func (c *UserController)InsertUserData() {
 	logs.Debug("前端口获得的数据是",data)
 
 	//发给M层插入,返送指针类型
-	err := models.InsertByTableName(models.EMPPLYEE,&data)
+	_,err := models.InsertByTableName(models.EMPPLYEE,&data)
 	if err != nil {
 		c.PackRecode(c.resp,models.RECODE_DATAEXIST) //4003已经注册
 		return
