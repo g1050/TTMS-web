@@ -35,6 +35,8 @@ func GetDataByNumAndOffset(tablename string,slice interface{},rowslimit,offset i
 		ret2, err2 = qs.OrderBy(orderby).Limit(rowslimit,offset).All(slice.(*[]Employee))
 	case STUDIO:
 		ret2, err2 = qs.OrderBy(orderby).Limit(rowslimit,offset).All(slice.(*[]Studio))
+	case MOVIE:
+		ret2, err2 = qs.OrderBy(orderby).Limit(rowslimit,offset).All(slice.(*[]Movie))
 
 	}
 
@@ -139,6 +141,8 @@ func UpdateByTablename(tablename string, p interface{}) error {
 		_,err = o.Update(p.(*Employee))
 	case STUDIO:
 		_,err = o.Update(p.(*Studio))
+	case MOVIE:
+		_,err = o.Update(p.(*Movie))
 
 	}
 	if err != nil{
@@ -163,6 +167,8 @@ func DeleteByTablename(tablename string, p interface{}) error {
 		_,err = o.Delete(p.(*Employee))
 	case STUDIO:
 		_,err = o.Delete(p.(*Studio))
+	case MOVIE:
+		_,err = o.Delete(p.(*Movie))
 
 	}
 	if err != nil{

@@ -34,6 +34,9 @@ func init() {
 	//影片管理
 	beego.Router("/movie/create/info", &controllers.MovieController{},"Post:InsertMovie")
 	beego.Router("/movie/create/image/:id", &controllers.MovieController{},"Post:InsertMovieImage")
+	beego.Router("/movie/delete", &controllers.MovieController{},"Get:DeleteMovie")
+	beego.Router("/movie/retrieve/:page", &controllers.MovieController{},"Get:GetMovie")
+	beego.Router("/movie/update", &controllers.MovieController{},"Post:UpdateMovie")
 
 
 }

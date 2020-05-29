@@ -97,3 +97,93 @@ func (c *MovieController) InsertMovieImage() {
 
 	return
 }
+
+
+func (c *MovieController)DeleteMovie() {
+
+	logs.Debug("删除电影")
+	c.resp = make(map[string]interface{})
+	defer c.sendJSON(c.resp)
+
+	//检查权限
+	if ok := c.JudgeAuthority(models.MG_MOV); !ok {
+		return
+	}
+
+	data := models.Movie{}
+
+	id,err := c.GetInt64("mov_id")
+	if err != nil {
+		c.PackRecode(c.resp,models.RECODE_NODATA) //4002 没有收到ID
+		return
+	}
+
+	logs.Debug("要删除的电影的ID",id)
+	data.MovId= id
+	err2 := models.DeleteByTablename(models.MOVIE,&data)
+	if err2 != nil {
+		c.PackRecode(c.resp,models.RECODE_DBERR) //4001 数据库出错
+		return
+	}
+
+	c.PackRecode(c.resp,models.RECODE_OK)
+}
+
+func (c *MovieController) GetMovie() {
+	c.resp = make(map[string]interface{})
+	defer c.sendJSON(c.resp)
+
+	//验证权限
+	if ok := c.JudgeAuthority(models.MG_MOV); !ok {
+		return
+	}
+
+	pageStr := c.Ctx.Input.Param(":page")
+	page,_ := strconv.Atoi(pageStr)
+	logs.Debug("获取电影信息第",page,"页")
+
+	slice := []models.Movie{}
+	//返回情况返回相应数据
+	//models.T()
+	err,sum,ret2 := models.GetDataByNumAndOffset(models.MOVIE,&slice,10,(page-1)*10,"mov_id")
+	if err != nil || ret2 == 0{
+		logs.Error("查询n条数据出错")
+		c.resp["sum"] = 0
+		c.PackRecode(c.resp,models.RECODE_DBERR) //数据库错误
+		return
+	}
+
+	c.PackRecode(c.resp,models.RECODE_OK)
+	c.resp["sum"] = sum
+	c.resp["data"] = slice
+	logs.Debug("从数据库存中获得数据",slice)
+}
+
+
+func (c *MovieController)UpdateMovie() {
+
+	logs.Debug("更新电影信息")
+	c.resp = make(map[string]interface{})
+	defer c.sendJSON(c.resp)
+
+	if ok := c.JudgeAuthority(models.MG_MOV); !ok {
+		return
+	}
+
+
+	data := models.Movie{}
+	json.Unmarshal(c.Ctx.Input.RequestBody,&data)
+	logs.Debug("从前段获取的数据是",data)
+
+	//修改
+	err := models.UpdateByTablename(models.MOVIE,&data)
+
+	//返回结果
+	if err != nil {
+		c.PackRecode(c.resp,models.RECODE_DBERR) //4001　插入失败
+		return
+	}
+	c.PackRecode(c.resp,models.RECODE_OK)
+
+
+}
