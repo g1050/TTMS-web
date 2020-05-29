@@ -31,5 +31,7 @@ func init() {
 	beego.Router("/studio/retrieve", &controllers.StudioController{},"Get:GetHint")
 	beego.Router("/studio/retrieve/name", &controllers.StudioController{},"Get:GetStudioByName")
 
+	//影片管理
+	
 
 }
