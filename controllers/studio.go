@@ -213,6 +213,8 @@ func (c *StudioController) GetStudioByName() {
 	c.PackRecode(c.resp,models.RECODE_OK)
 }
 
+
+
 /*
 提取结构提中的名字信息，打包成data发送
 */

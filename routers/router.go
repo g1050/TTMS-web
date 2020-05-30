@@ -37,6 +37,8 @@ func init() {
 	beego.Router("/movie/delete", &controllers.MovieController{},"Get:DeleteMovie")
 	beego.Router("/movie/retrieve/:page", &controllers.MovieController{},"Get:GetMovie")
 	beego.Router("/movie/update", &controllers.MovieController{},"Post:UpdateMovie")
+	beego.Router("/movie/retrieve", &controllers.MovieController{},"Get:GetHint")
+	beego.Router("/movie/retrieve/name", &controllers.MovieController{},"Get:GetMovieByName")
 
 
 }

@@ -187,3 +187,92 @@ func (c *MovieController)UpdateMovie() {
 
 
 }
+
+/*
+用于搜索电影时候的搜索提示
+*/
+func (c *MovieController) GetHint() {
+	logs.Debug("查询电影,模糊搜索获取提示")
+	//开辟map
+	c.resp = make(map[string]interface{})
+	defer c.sendJSON(c.resp)
+
+	//检查权限
+	if ok := c.JudgeAuthority(models.MG_QUERY_MOV); !ok {
+		return
+	}
+
+	//解析参数
+	hint := c.GetString("mov_hint")
+	logs.Debug("要搜索的字符是",hint)
+
+	//从数据库中查询
+	var container []models.Movie
+	num,err := models.GetHintByFieldAndValue(models.MOVIE,"mov_name",hint,&container)
+
+	if num == 0 || err != nil {
+		logs.Error(err)
+		c.PackRecode(c.resp,models.RECODE_NODATA) //4002无数据
+		return
+	}
+
+	logs.Debug("电影查询的搜索提示是",container)
+
+	//包装成字符串数组
+	c.PackMovName(c.resp,container)
+	//返回状态代码
+	c.resp["sum"] = num
+	c.PackRecode(c.resp,models.RECODE_OK)
+
+}
+
+/*
+通过名字来返回符合要求的影厅
+也是模糊搜索
+*/
+func (c *MovieController) GetMovieByName() {
+
+	logs.Debug("按照全名模糊搜索")
+	//开辟map
+	c.resp = make(map[string]interface{})
+	defer c.sendJSON(c.resp)
+
+	//检查权限
+	if ok := c.JudgeAuthority(models.MG_QUERY_MOV); !ok {
+		return
+	}
+
+	//解析参数
+	name := c.GetString("mov_name")
+	logs.Debug("要搜索的全名是",name)
+
+	//从数据库中查询
+	var container []models.Movie
+	num,err := models.GetHintByFieldAndValue(models.MOVIE,"mov_name",name,&container)
+
+	if num == 0 || err != nil {
+		logs.Error(err)
+		c.PackRecode(c.resp,models.RECODE_NODATA) //4002无数据
+		return
+	}
+
+	logs.Debug("全名查询到的结果是",container)
+
+	//包装数组对象
+	c.resp["data"] = container
+	//返回状态代码
+	c.resp["sum"] = num
+	c.PackRecode(c.resp,models.RECODE_OK)
+}
+
+/*
+提取结构提中的名字信息，打包成data发送
+*/
+func (c *MovieController)PackMovName(resp map[string]interface{},container []models.Movie)  {
+	m := make([]string,0)
+
+	for _,stu:= range container {
+		m = append(m,stu.MovName)
+	}
+	resp["data"] = m
+}
