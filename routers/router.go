@@ -40,5 +40,10 @@ func init() {
 	beego.Router("/movie/retrieve", &controllers.MovieController{},"Get:GetHint")
 	beego.Router("/movie/retrieve/name", &controllers.MovieController{},"Get:GetMovieByName")
 
+	//座位管理
+	beego.Router("/seat/retrieve", &controllers.SeatController{},"Get:GetSeat")
+	beego.Router("/seat/update", &controllers.SeatController{},"Post:UpdateSeat")
+
+
 
 }

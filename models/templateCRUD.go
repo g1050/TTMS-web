@@ -221,6 +221,9 @@ func GetHintByFieldAndValue(tablename,field , value string,container interface{}
 
 }
 
+/*
+更新某个字段
+ */
 func UpdateByTablenameAndField(tablename , field string,p interface{})(int64,error) {
 	o := orm.NewOrm()
 
@@ -229,10 +232,15 @@ func UpdateByTablenameAndField(tablename , field string,p interface{})(int64,err
 	switch tablename {
 	case MOVIE:
 		num,err = o.Update(p.(*Movie),field)
+	case SEAT:
+		num,err = o.Update(p.(*Seat),field)
 	}
 	return num,err
 }
 
+/*
+通过ID来获取数据
+ */
 func GetDataById(tablename string, p interface{})error {
 
 	o := orm.NewOrm()
@@ -243,4 +251,20 @@ func GetDataById(tablename string, p interface{})error {
 
 	}
 	return err
+}
+
+func QuertOneToMany(tablename,fk string,id int64,p interface{}) (int64,error){
+
+	o := orm.NewOrm()
+	var num int64
+	var err error
+
+	switch tablename {
+	case SEAT:
+		num, err = o.QueryTable(tablename).Filter(fk, id).RelatedSel().All(p.(*[]*Seat))
+
+	}
+
+	return num,err
+
 }
