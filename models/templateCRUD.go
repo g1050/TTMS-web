@@ -171,6 +171,7 @@ func DeleteByTablename(tablename string, p interface{}) (int64,error) {
 		num,err = o.Delete(p.(*Employee))
 	case STUDIO:
 		num,err = o.Delete(p.(*Studio))
+
 	case MOVIE:
 		num,err = o.Delete(p.(*Movie))
 	case SEAT:
@@ -180,6 +181,13 @@ func DeleteByTablename(tablename string, p interface{}) (int64,error) {
 	if err != nil{
 		logs.Error(err)
 	}
+
+	//ID删除后不连续
+	/*
+	cnt,_ := o.QueryTable(tablename).Count()
+	str := "alter table " + tablename + " auto_increment=" + strconv.Itoa(int(cnt+1));
+	o.Raw(str).Exec()
+	 */
 
 	return num,err
 }
