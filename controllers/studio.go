@@ -33,6 +33,10 @@ func (c *StudioController )InsertStudio() {
 
 	logs.Debug("收到的影厅信息",data,data.StuName)
 
+	//添加可用座位数量
+	data.StuAvaSeat = data.StuRows*data.StuCols
+
+
 	//插入数据库
 	_,err := models.InsertByTableName("studio",&data)
 	if err != nil {
@@ -40,14 +44,27 @@ func (c *StudioController )InsertStudio() {
 		logs.Error(err)
 		return
 	}
+
+	//添加座位信息
+	insertSeat(data.StuRows,data.StuCols,&data)
+
 	//返回信息
 	c.PackRecode(c.resp,models.RECODE_OK) //成功插入数据库
-	data.StuName = "第一影厅"
-	msg,_ := json.Marshal(data)
-	logs.Debug("%s",msg)
 
 }
 
+/*
+添加座位
+ */
+func insertSeat(row, col int64,stu *models.Studio) {
+	var i,j int64
+	for  i = 1;i <= row;i++ {
+		for j = 1;j <= col;j++ {
+			seat := models.Seat{StRow:i,StCol:j,Studio:stu}
+			models.InsertByTableName(models.SEAT,&seat)
+		}
+	}
+}
 func (c *StudioController)DeleteStudio() {
 
 	logs.Debug("删除演出厅")
@@ -69,7 +86,7 @@ func (c *StudioController)DeleteStudio() {
 
 	logs.Debug("要删除的演出厅的ID",id)
 	data.StuId = id
-	err2 := models.DeleteByTablename(models.STUDIO,&data)
+	_,err2 := models.DeleteByTablename(models.STUDIO,&data)
 	if err2 != nil {
 		c.PackRecode(c.resp,models.RECODE_DBERR) //4001 数据库出错
 		return
@@ -124,8 +141,37 @@ func (c *StudioController)UpdateStudio() {
 	json.Unmarshal(c.Ctx.Input.RequestBody,&data)
 	logs.Debug("从前段获取的数据是",data)
 
+	//判断roww和col是否改变
+	s := models.Studio{StuId:data.StuId}
+	err1 := models.GetDataById(models.STUDIO,&s)
+	if err1 != nil {
+		c.PackRecode(c.resp,models.RECODE_DBERR) //4001 数据库查询错误　
+		return
+	}
+
+	//判断座位是否需要重新载入
+	if s.StuRows == data.StuRows && s.StuCols == data.StuCols {
+		logs.Debug("座位信息未修改")
+	}else {
+		logs.Debug("修改了座位信息")
+		//删除座位
+		//删除时候必须有主键
+		_,err2 := models.DeleteByTablename(models.STUDIO,&s)
+		if err2 != nil {
+			logs.Error(err2)
+			c.PackRecode(c.resp,models.RECODE_DBERR)
+			return
+		}
+
+		models.InsertByTableName(models.STUDIO,&data)
+		//重新插入
+		insertSeat(data.StuRows,data.StuCols,&data)
+	}
+
 	//修改
 	err := models.UpdateByTablename(models.STUDIO,&data)
+
+
 
 	//返回结果
 	if err != nil {

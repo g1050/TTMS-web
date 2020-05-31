@@ -88,6 +88,9 @@ func InsertByTableName(tablename string,p interface{})( int64,error) {
 		_,err = o.Insert(p.(*Studio))
 	case MOVIE:
 		num,err = o.Insert(p.(*Movie))
+	case SEAT:
+		num,err = o.Insert(p.(*Seat))
+
 
 	}
 
@@ -157,25 +160,28 @@ func UpdateByTablename(tablename string, p interface{}) error {
 tablename 表名字
 p　要修改的数据的结构体指针
 */
-func DeleteByTablename(tablename string, p interface{}) error {
+func DeleteByTablename(tablename string, p interface{}) (int64,error) {
 	logs.Debug("func DeleteByTablename tablename:",tablename)
 
 	o := orm.NewOrm()
 	var err error
+	var num int64
 	switch tablename {
 	case EMPPLYEE:
-		_,err = o.Delete(p.(*Employee))
+		num,err = o.Delete(p.(*Employee))
 	case STUDIO:
-		_,err = o.Delete(p.(*Studio))
+		num,err = o.Delete(p.(*Studio))
 	case MOVIE:
-		_,err = o.Delete(p.(*Movie))
+		num,err = o.Delete(p.(*Movie))
+	case SEAT:
+		num,err = o.Delete(p.(*Seat))
 
 	}
 	if err != nil{
 		logs.Error(err)
 	}
 
-	return err
+	return num,err
 }
 
 /*
@@ -217,4 +223,16 @@ func UpdateByTablenameAndField(tablename , field string,p interface{})(int64,err
 		num,err = o.Update(p.(*Movie),field)
 	}
 	return num,err
+}
+
+func GetDataById(tablename string, p interface{})error {
+
+	o := orm.NewOrm()
+	var err error
+	switch tablename {
+	case STUDIO:
+		err = o.Read(p.(*Studio))
+
+	}
+	return err
 }

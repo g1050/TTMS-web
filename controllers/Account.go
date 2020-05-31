@@ -27,6 +27,7 @@ func (c *AccountController) VerifyUser() {
 	employee := models.Employee{EmpPhonenumber: data.EmpPhonenumber}
 	//从数据库中取出验证,条件查询
 	if err := models.SelectEmployeeByPhone(&employee);err != nil {
+		logs.Error(err)
 		c.PackRecode(c.resp,models.RECODE_DBERR) //数据库错误
 		return
 	}

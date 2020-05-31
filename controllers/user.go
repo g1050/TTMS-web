@@ -163,7 +163,7 @@ func (c *UserController)DeleteUserData() {
 	//获取id
 	data.EmpId = models.GetId(models.EMPPLYEE,"emp_phonenumber",data.EmpPhonenumber)
 	//删除
-	err := models.DeleteByTablename(models.EMPPLYEE,&data)
+	_,err := models.DeleteByTablename(models.EMPPLYEE,&data)
 	//返回结果
 	if err != nil {
 		c.PackRecode(c.resp,models.RECODE_DBERR) //4001　插入失败

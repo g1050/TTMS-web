@@ -120,7 +120,7 @@ func (c *MovieController)DeleteMovie() {
 
 	logs.Debug("要删除的电影的ID",id)
 	data.MovId= id
-	err2 := models.DeleteByTablename(models.MOVIE,&data)
+	_,err2 := models.DeleteByTablename(models.MOVIE,&data)
 	if err2 != nil {
 		c.PackRecode(c.resp,models.RECODE_DBERR) //4001 数据库出错
 		return
