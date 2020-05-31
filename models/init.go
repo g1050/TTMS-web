@@ -71,6 +71,14 @@ type Movie struct {
 	MovImg string 		`json:"mov_img"` //电影图片
 }
 
+type Seat struct {
+	StId int64	`orm:"pk;auto" json:"st_id"`
+	Studio *Studio `orm:"rel(fk)"`    //设置一对多关系
+	StRow int64	`json:"st_row"`
+	StCol int64	`json:"st_col"`
+	StStatus int64	`json:"st_status"` //座位状态 0正常 1坏 2墙壁
+}
+
 func init() {
 	//连接Mysql数据库
 	orm.RegisterDataBase("default", "mysql", "root:123456@tcp(47.94.14.45:3306)/ttms?charset=utf8", 30) //最后是一个超时时间
