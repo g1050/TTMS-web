@@ -7,69 +7,61 @@
     <link rel="stylesheet" href="control.css">
 </head>
 <body>
-    <div class="choose">
-        <span class="user_name"></span>
-        <div class="pre">
-            <img src="img/show.png" class="show_choose"><span class="user_pre">系统管理员</span> 
+    <div class="left">
+       
+        <div class="top">
+            <span class="intr">天唐票务后台管理</span>
+            <img src="img/img1.jpeg" class="user_img">
+            <span class="user_name">校长</span>
+            <span class="user_pre">系统管理员</span>
         </div>
-        <div class="circle"></div>
-    </div>
-    <div class="choose_nav">
-        <div class="pre_control">
-            <div class="control_staff">
-                   <img src="img/staff.png" alt="">
-                   <span>员工</span>
-            </div>
-            <div class="control_movie">
-                <img src="img/movie.png" alt="">
-                <span>影厅</span>
-            </div>
-            <div class="control_set">
-                <img src="img/seat.png" alt="">
-                <span>座位</span>
-            </div>
-            <div class="back">
-                  <img src="img/return.png" alt="">
-                <span>返回</span>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="staff_div">
-            <ul class="staff_ul">
-                
-                <li>
-                    <span class="stf_name">王五</span>|<span class="stf_pho">18243868599</span>|<span class="stf_pas">1234567</span>|<span class="stf_born">20000101</span>|<span class="stf_pre">系统管理员</span>|<span class="staff_del iconfont">&#xe600;</span>|<span class="staff_mod iconfont">&#xe601;</span>
-                </li>
-            
+        <div class="bottom">
+            <ul class="os_col">
+                <li class="iconfont">&#xe620; 员工管理</li>
+                <li class="iconfont">&#xe602; 影厅管理</li>
+                <li class="iconfont">&#xe603; 座位管理</li>
             </ul>
         </div>
     </div>
-    <div class="page">
-        <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
+    <div class="right">
+        <div class="att">
+            <div class="att_inf"></div>
+            <button class="att_yes">是</button><button class="att_no">否</button>
+        </div>
+        <div class="stf_col">
+            <div class="stf_top">
+                <div class="contain">
+                    <input type="text" maxlength="30" class="stf_ser" oninput="search()"><button class="stf_ser_but iconfont">  &#xe653;</button>
+                    <div class="show_ser ">
+                      
+                    </div>
+                </div>
+              
+              
+            </div>
+            <div class="stf_bottom">
+                <div class="ser_res">
+                    <div class="inf_show">
+                        <span class="inf_name">姓名</span>
+                        <span class="inf_pho">手机号码</span>
+                        <span class="inf_pas">密码</span>
+                        <span class="inf_born">生日</span>
+                        <span class="inf_pre">系统管理员</span>
+                    </div>
+
+                  
+                    
+                </div>
+                <div class="page">
+                   
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- <input type="submit" class="submit">
-    添加：<input type="submit" class="add">
-    姓名<input type="text" class="add_name">
-    密码<input type="text" class="add_pas">
-    出生<input type="text" class="add_born">
-    手机<input type="text" class="add_pho">
-    职位<input type="text" class="add_pri">
-    <br>
-    修改：<input type="submit" class="modify">
-    姓名<input type="text" class="mod_name">
-    密码<input type="text" class="mod_pas">
-    出生<input type="text" class="mod_born">
-    手机<input type="text" class="mod_pho">
-    职位<input type="text" class="mod_pri">
-    <br>
-    删除：<input type="submit" class="delete"><input type="text" class="del_pho"> -->
+  
 </body>
 <script src="../ajax.js"></script>
+<script src="src/web_control.js"></script>
 <script src="src/control.js"></script> 
 <script src="src/index.js"></script>
 </html>

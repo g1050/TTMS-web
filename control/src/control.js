@@ -4,10 +4,12 @@ class Query{
         this.url = "http://gaoxingkun.top:8888/user/retrieve/";
         this.pre = ['系统管理员','运营经理','售票员','会计','运营经理'];
         this.staff_url = document.querySelector('.staff_ul');
-       
-        // this.input.addEventListener('click',()=>{
-        //     this.request(1)  
-        // })
+        //判断是在删除还是在修改   默认首先删除
+        this.isDel = false;
+        //删除和修改两个按钮
+        this.del = document.querySelector('.stf_del');
+        this.mod = document.querySelector('.stf_mod');
+        this.data = {};
     }
     //发送请求
     request(num){
@@ -17,20 +19,87 @@ class Query{
         ajax(url,'GET','','json', this.callback); 
     }
     //向页面添加一行数据
-    showData(data){
-        console.log(data);
+    showData(data,i){
+       
         
         let list = document.createElement('li');
-        list.innerHTML = ` <span class="stf_name">${data.emp_name}</span>|<span class="stf_pho">${data.emp_phonenumber}</span>|<span span class="stf_pas">${data.emp_password}</span>|<span class="stf_born">${data.emp_born_year}</span>|<span class="stf_pre">${this.pre[data.emp_privilege]}</span>|<span class="staff_del iconfont">&#xe600;</span>|<span class="staff_mod iconfont">&#xe601;</span>`
-        console.log(23);
-        console.log(data);
+        if(this.isDel){        
+            list.innerHTML = ` <span class="stf_name">${data.emp_name}</span>|<span class="stf_pho">${data.emp_phonenumber}</span>|<span span class="stf_pas">${data.emp_password}</span>|<span class="stf_born">${data.emp_born_year}</span>|<span class="stf_pre">${this.pre[data.emp_privilege]}</span>|<span class="staff_mod iconfont">&#xe601;</span>`
+          
+        }
+        else{
+            list.innerHTML = ` <span class="stf_name">${data.emp_name}</span>|<span class="stf_pho">${data.emp_phonenumber}</span>|<span span class="stf_pas">${data.emp_password}</span>|<span class="stf_born">${data.emp_born_year}</span>|<span class="stf_pre">${this.pre[data.emp_privilege]}</span>|<span class="staff_del iconfont">&#xe600;</span>`
+           
+        }
+        list.setAttribute('class',`li${i}`);
+       
         this.staff_url.appendChild(list);
     }
     //向页面添加十行数据
     showTotalData(data){
         for(let i=0;i<10;i++){
-            this.showData(data.data[i])
+            //传入下标，方便设置li的class
+            this.showData(data.data[i],i)
         }
+    }
+    //两个按钮绑定事件
+    addEvent(){
+        //进行删除
+        this.del.addEventListener('click',()=>{
+            if(this.isDel == true){
+                return;
+            }
+            let ul = document.querySelector('.staff_ul');
+            ul.innerHTML = ` `;
+            this.showTotalData(this.data);
+            //生成新的元素删除按钮添加点击事件
+            this.addDel();
+            this.isDel = true;
+         })
+        
+        this.mod.addEventListener('click',()=>{
+            if(this.isDel == false){
+                return;
+            }
+                let ul = document.querySelector('.staff_ul');
+                ul.innerHTML = ` `;
+                 this.showTotalData(this.data);
+                 this.isDel = false;  
+        })
+    }
+    //为删除按钮添加事件
+    addDel(){
+        //首先获取dom
+      
+    
+        for(let i = 0;i < 10;i++){
+            //当前删除的按钮
+            let but_del = document.getElementsByClassName('staff_del')[i];
+          
+            
+            
+            //当前按钮的父元素
+            let but_del_par = but_del.parentNode;
+            //获得当前按钮元素的电话
+            let pho = but_del_par.getElementsByClassName('stf_pho')[0].innerHTML;
+            console.log(pho);
+            
+            //点击删除后的事件   实例中重写
+            but_del.addEventListener('click',(e)=>{
+               
+                console.log(11111);
+                
+                //发送请求
+                this.addDelEvent(pho);
+            })
+          
+
+        }
+    }
+    //添加事件中执行的行为  实例中进行重写
+    addDelEvent(pho){
+        console.log('undefined');
+        
     }
     callback(data){
         console.log(data);
@@ -67,10 +136,10 @@ class Add{
         return JSON.stringify(data);
     
     }
-         callback(data){
-             console.log(data);
-             
-         }
+    callback(data){
+        console.log(data);
+        
+    }
 }
 
 class Modify{
@@ -107,22 +176,19 @@ class Modify{
 
 class Delete{
     constructor(){
-        this.input = document.querySelector('.delete')
+      
         this.url = "http://gaoxingkun.top:8888/user/delete"
-        this.del_pho = document.querySelector('.del_pho');
-        this.input.addEventListener('click',()=>{
-            this.del();
-        })
+        this.del_pho = '';
     }
-    getdata(){
-        return `emp_phonenumber=${this.del_pho.value}`
-    }
+
     callback(data){
         console.log(data);
         
     }
     del(){
-        ajax(this.url,'GET',this.getdata(),'json', this.callback); 
+        console.log(this.del_pho);
+        
+        //ajax(this.url,'GET',this.del_pho,'json', this.callback); 
     }
 
 
@@ -134,8 +200,6 @@ class GetLocal{
         this.user_name = document.getElementsByClassName('user_name')[0];
         this.user_pre = document.getElementsByClassName('user_pre')[0];
        
-   
-        
     }
     setInner(){
         this.user_name.innerHTML = this.storage[`emp_name`];
@@ -143,4 +207,6 @@ class GetLocal{
         this.user_pre.innerHTML = this.pre[index_num];
     }
 }
+
+
 

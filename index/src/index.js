@@ -131,6 +131,7 @@ window.onload = ()=>{
     //设置callback函数内容
     loginer.callback = (data)=>{
         console.log(data.errno);
+        
         //返回值是字符串，首先类型转换  为0代表登录成功
         //登录成功
         if(!parseInt(data.errno)){
@@ -139,6 +140,7 @@ window.onload = ()=>{
             csscheck.innerShow(`${data.emp_name} ${data.errmsg}`,1)
             //登录成功将信息保存在localstorage中
             loginer.setLocalstorage(data);
+            window.open('../control/control.html','_self')
         }
         //登录失败
         else if(data.errno == '4001'){
@@ -160,7 +162,7 @@ window.onload = ()=>{
             const date = new Date();
             const storeTime = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`
             console.log(date.getFullYear(),date.getHours(),date.getMinutes());
-            
+            window.open('../control/control.html','_self')
         }
     }
     //发送session请求

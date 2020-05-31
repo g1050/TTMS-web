@@ -7,6 +7,7 @@ body{
     height: 100%;
     background-size: auto 100%;
     background-repeat: no-repeat;
+    overflow: hidden;
 }
 @font-face {
     font-family: 'iconfont';
@@ -141,10 +142,31 @@ li{
         width: 100vw;
         margin-top: 15vh;
         height: 80vh;
-
+        z-index: 1;
+    }
+    .staff_div button{
+        width: 15vw;
+        height: 3.5vh;
+        border: none;
+        outline: none;
     } 
+    .staff_div .stf_del{
+        margin-left: 20vw;
+        width: 15vw;
+        height: 3.5vh;
+        border-top-left-radius: 5vw;
+        border-bottom-left-radius: 5vw;
+    }
+    .staff_div .stf_mod{
+        margin-left: 30vw;
+        border-top-right-radius: 5vw;
+        border-bottom-right-radius: 5vw;
+    }
     .container li{
-        z-index: -2;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
         font-size: .5rem;
         margin: 0 auto;
         width: 95vw;
@@ -155,13 +177,17 @@ li{
         padding-left: .5rem;
         margin: 2vh 0;
     }
+
     .container li span{
+      
+        text-align: center;
+        vertical-align: middle;
         display: inline-block;
         line-height: 3.5vh;
         margin: 0 0.5vw;
     }
     .stf_name{
-        width: 2.5rem;
+        width: 2.3rem;
     }
     .stf_pho{
         width: 5rem;
@@ -169,12 +195,20 @@ li{
     .stf_pas{
         width: 3rem;
         overflow: hidden;
-        
+        text-overflow: ellipsis;
+        margin:0;
     }
     .stf_born{
         width: 3.5rem;
     }
+    .stf_pre{
+        width: 4.2rem;
+    }
+    .del_mod{
+
+    }
     .container .staff_del{
+     
         font-size: .5rem;
         color: tomato;
         margin:0 .5vw;
@@ -185,3 +219,348 @@ li{
     }
 }
 
+/* 网页端 */
+@media screen and (min-width:768px){
+    body{
+        width: 100vw;
+        height: 100vh;
+      
+    }
+    .left{
+        float: left;
+        width: 20vw;
+        height: 100%;
+        display: inline-block;
+        background-color: rgb(54, 54, 54);
+    }
+    .top{
+        color: rgb(188, 188, 188);
+        width: 100%;
+        height: 50vh;
+        text-align: center;
+        border-bottom: 1px solid gray;
+    }
+    .intr{
+        display: inline-block;
+        margin-top: 3vh;
+        font-size: 22px;
+        letter-spacing: 2px;
+    }
+    .top img{
+      
+        /* position: relative;
+        left: 50%;
+        transform: translateX(-50%); */
+        box-sizing: border-box;
+        width: 10vw;
+        height: 10vw;
+        margin: 4vh auto;
+        border-radius: 50%;
+        border: 1px solid rgb(188, 188, 188);
+        padding: 8px;
+    }
+    .user_name{
+        display: block;
+        text-align: center;
+        font-size: 22px;
+        margin-bottom: 2vh;
+    }
+    .user_pre{
+        display: block;
+        width: 50%;
+        margin: 0 auto;
+        font-size: 18px;
+        /* border: 1px solid black; */
+        border-radius: 8px;
+    }
+    .bottom{
+        position: relative;
+        width: 20vw;
+        height: 50vh;
+        /* background-color: blanchedalmond; */
+    }
+    .bottom .os_col{
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        padding-top: 3vh;
+    }
+    .os_col li{
+        width: 100%;
+        height: 8vh;
+        /* border: 1px solid black; */
+        margin: 3vh 0;
+        font-size: 1.2rem;
+        text-align: center;
+        line-height: 8vh;
+        color: rgb(188, 188, 188);
+        background-color: rgb(74, 74, 74);
+        cursor: pointer;
+    }
+    .os_col li:hover{
+        color: rgb(74, 74, 74);
+        background-color: rgb(207, 207, 207);
+    }
+    .right{
+        position: relative;
+        float: right;
+        width: 80vw;
+        height: 100vh;
+        background-color: rgb(207, 207, 207);
+    }
+    .stf_col{
+        width: 100%;
+        height: 100vh;
+    }
+    .stf_top{
+        position: relative;
+        width: 100%;
+        height: 16vh;
+        border: 1px solid rgb(99, 91, 91)
+    }
+    .contain{
+        display: inline-block;
+        position: absolute;
+        top: 5vh;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0 auto;
+    }
+    .stf_top .stf_ser{
+        box-sizing: border-box;
+        padding-left: 1vw;
+        outline: none;
+        width: 30vw;
+        height: 5vh;
+        vertical-align: middle;
+        border: none;
+        font-size: 1rem;
+        margin: 0;
+    }
+    .stf_ser_but{
+        width: 5vh;
+        height:5vh;
+        vertical-align: middle;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+    .show_ser{
+        display: none;
+        width: 30vw;
+        background-color: rgb(183, 183, 183);
+    }
+    .show_ser>div{
+        box-sizing: border-box;
+        padding-left: 1vw;
+        border-bottom: 1px solid rgb(235, 235, 235);
+        height: 4vh;
+        line-height: 4vh;
+        font-size: .8rem;
+        cursor: pointer;
+       
+    } 
+    .show_ser>div:hover{
+        background-color: rgb(112, 107, 107);
+    }
+    /* ----------------下方信息展示------------- */
+    .stf_bottom{
+        position: relative;
+        width: 100%;
+        height: 84vh;
+        overflow: hidden;
+        
+    }
+    .stf_bottom .ser_res{
+        margin-top: 3vh;
+    }
+    .ser_res>div{
+        position: relative;
+        margin: 1vh auto;
+        width: 60vw;
+        height: 5vh;
+        line-height: 5vh;
+        /* background-color: darkgoldenrod; */
+        font-size: 1rem;
+        box-sizing: border-box;
+        padding-left: 2vh;
+        border: 1px solid rgb(153, 152, 152);
+        border-radius: .5vw;
+    }
+    .stf_bottom .ser_res>div:hover{
+        width: 60vw;
+        height: 6.5vh;
+        line-height: 7vh;
+        transition: .3s;
+      
+    }
+    .stf_bottom .ser_res>div:hover div{
+        width: 60vw;
+        height: 6.5vh;
+        line-height: 7vh;
+        transition: .3s;
+      
+    }
+    
+    .ser_res>div span,input{
+        vertical-align: middle;
+        display: inline-block;
+        margin: 0 1vw;
+    }
+    .ser_res>div input{
+        outline: 0;
+        border: none;
+        height: 3vh;
+        font-size: .8rem;
+        box-sizing: border-box;
+        padding-left: .5vw;
+        background-color: rgb(207, 207, 207);
+        border-radius: .5vw;
+    }
+    .stf_bottom .ser_res .inf_show{
+        border: none;
+        border-radius: 0;
+        border-top:1px solid rgb(153, 152, 152);
+        border-bottom:1px solid rgb(153, 152, 152);
+        position: relative;
+        margin-bottom: 2vh;
+       
+    }
+    .stf_bottom .ser_res .inf_show:hover{
+        width: 60vw;
+        height: 5vh;
+        line-height: 5vh;
+        transition: 0;
+       
+    }
+    /*添加按钮*/
+    .stf_add{
+        font-size: 18px;
+        cursor: pointer;
+    }
+    .inf_name,.mod_name{
+        width: 6vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .inf_pho,.mod_pho{
+        width: 9vw;
+    }
+    .inf_pas,.mod_pas{
+        width: 10vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .inf_born,.mod_born{
+        width: 7vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .inf_pre,.mod_pre{
+        width: 7vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .ser_res .inf_mod{
+        width: 2vw;
+        margin: 0;
+        cursor: pointer;
+    }
+    .inf_del{
+        width: 2vw;
+        color: rgb(216, 45, 45);
+        cursor: pointer;
+    }
+    /*--------------修改的模块----------*/
+    .mod_input{
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 60vw;
+        height: 5vh;
+        line-height: 5vh;
+        background-color: rgb(136, 136, 136);
+        padding-left: 2vh;
+        box-sizing: border-box;
+    }
+    .mod_pre{
+        display: inline-block;
+        margin: 0 1vw;
+        height: 3vh;
+        vertical-align: middle;
+        outline: none;
+        font-size: .8rem;
+        background-color: rgb(207, 207, 207);
+        border-radius: .5vw;
+    }
+    .mod_input .mod_acc{
+        width: 2vw;
+        cursor: pointer;
+        margin: 0 0;
+    }
+    .mod_noacc{
+        cursor: pointer;
+        color:rgb(216, 45, 45);
+        margin: 0 1vw;
+    }
+    .page span{
+        display: inline-block;
+    }
+    .page{
+        position: absolute;
+        margin: 0 auto;
+        bottom: 2vh;
+       
+        left: 50%;
+        transform: translateX(-50%);
+    } 
+
+    .page span{
+        width: 4vh;
+        height: 4vh;
+        text-align: center;
+        line-height: 4vh;
+        color: rgb(5, 5, 5);
+        border: 1px solid rgb(136, 136, 136);
+        cursor: pointer;
+        margin: 0 1vw;
+    }
+    .page span:hover{
+        background-color: rgb(136, 136, 136);
+        border: 1px solid rgb(207, 207, 207);
+        color: rgb(207, 207, 207);
+    }
+    .right .att{
+        display: none;
+         width: 2vw;
+        height: 2vh; 
+        background-color: rgb(235, 235, 235);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        border-radius: .5rem;
+        z-index: 1;
+    }
+    .att_inf{
+        text-align: center;
+        height: 15vh;
+        line-height: 15vh;
+        font-size: 20px;
+    }
+    .att button{
+        width: 3vw;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .att_yes{
+      
+        margin-left: 5vw;
+        margin-right: 4vw;
+        
+    }
+  
+}
