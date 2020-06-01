@@ -317,3 +317,14 @@ func ClearManyToMany(tablename, add string,sta interface{})(int64,error) {
 
 }
 
+func RelateQuery(tablename string,p interface{})(int64,error) {
+	o := orm.NewOrm()
+
+	var num int64
+	var err error
+	switch tablename {
+	case SCHEDULE:
+		num,err = o.QueryTable(tablename)	.RelatedSel().All(p.(*[]Schedule))
+	}
+	return num,err
+}

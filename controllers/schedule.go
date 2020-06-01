@@ -183,7 +183,7 @@ func (c *ScheduleController)UpdateSchedule() {
 /*
 获取演出计划的信息
  */
-func (c *ScheduleController) GetSchdule() {
+func (c *ScheduleController) GetSchedule() {
 	c.resp = make(map[string]interface{})
 	defer c.sendJSON(c.resp)
 
@@ -196,9 +196,16 @@ func (c *ScheduleController) GetSchdule() {
 	page,_ := strconv.Atoi(pageStr)
 	logs.Debug("获取放映计划信息第",page,"页")
 
-	slice := []models.Schedule{}
-	//返回情况返回相应数据
+	slice  := []models.Schedule{}
+	num,err := models.RelateQuery(models.SCHEDULE,&slice)
+	if err != nil {
+		logs.Error(err)
+		c.PackRecode(c.resp,models.RECODE_DBERR)
+		return
+	}
+	//关联查询
 
+	/*
 	//先查询所有的演出计划信息，不做关联查询
 	err,sum,ret2 := models.GetDataByNumAndOffset(models.SCHEDULE,&slice,10,(page-1)*10,"sch_stu_id")
 	if err != nil || ret2 == 0{
@@ -213,10 +220,10 @@ func (c *ScheduleController) GetSchdule() {
 		logs.Debug(index)
 
 	}
+	 */
 
-	c.PackRecode(c.resp,models.RECODE_OK)
-	c.resp["sum"] = sum
-	c.resp["data"] = slice
 	logs.Debug("从数据库存中获得数据",slice)
-	logs.Debug(c.resp)
+	c.resp["sum"] = num
+	c.resp["data"] = slice
+	c.PackRecode(c.resp,models.RECODE_OK)
 }
