@@ -109,6 +109,78 @@ class Css_Show{
 
 }
 
+
+//系统管理员侧边栏选择按钮
+class Os_Option_Cho{
+    constructor(){
+        //获得侧边栏数组
+        this.option = document.getElementsByClassName('os_li');
+        //获得选择列表的初始className
+        this.class_name = this.option[0].className;
+        console.log(this.class_name);
+        //默认第一个员工管理被选中
+        this.option[0].className = `${this.class_name} is_Choose`
+        //员工管理页面
+        this.stf_col = document.querySelector('stf_col');
+        this.cin_col = document.querySelector('.cin_col');
+        this.seat_col = document.querySelector('.seat_col');
+        
+        this.os_content = document.getElementsByClassName('os_content');
+    }
+    //点击切换事件
+    option_change(){
+      
+        for(let i = 0;i < this.option.length;i++){
+           
+            this.option[i].addEventListener('click',()=>{
+                for(let i = 0;i < this.option.length;i++){
+                    this.os_content[i].style.display = 'none';
+                    this.option[i].className = `${this.class_name}`
+                }
+                this.os_content[i].style.display = 'block';
+                this.option[i].className = `${this.class_name} is_Choose`
+            })
+        }
+    }
+
+}
+
+//职位对应的页面控制
+class Page_Cho{
+    constructor(){
+        this.pre = ['系统管理员','运营经理','售票员','会计','财务经理'];
+        this.storage = window.localStorage;
+        this.index_num = parseInt(this.storage['emp_privilege']);
+    }
+    //根据获得的职位号码生成对饮的页面
+    document_init(){
+        //首先获得localstorage的元素
+        const get_local = new Get_Local();
+        //进行设置
+        get_local.set_Inner();
+        //如果职位是系统管理员
+        if(this.index_num == 0){
+            //为侧边栏绑定选择事件
+            let os_option_cho = new Os_Option_Cho();
+            os_option_cho.option_change();
+            //完成搜索的设置
+            let stf_seach = new Stf_Search();
+            //完成分页的设置 包括
+            //@查询每页的员工信息
+            //@对每个员工绑定删除事件
+            //@对每个员工绑定修改事件
+            //@完成员工信息的展示
+            let stf_req = new Stf_Req();
+            stf_req.request(1);
+            //为按钮添加事件，以可以添加员工
+            let stf_add = new Stf_Add();
+            stf_add.stf_add_event();
+        }
+    }
+    
+}
+
+
 window.onload = ()=>{
     const html_init = new Html_Init()
     html_init.init();
@@ -141,22 +213,13 @@ window.onload = ()=>{
     }
     //如果是网页端
    else{
-       console.log(222);
-       //首先获得localstorage的元素
-       const get_local = new Get_Local();
-       //进行设置
-       get_local.set_Inner();
-       //完成搜索的设置
-       let stf_seach = new Stf_Search();
-       //完成分页的设置 包括
-       //@查询每页的员工信息
-       //@对每个员工绑定删除事件
-       //@对每个员工绑定修改事件
-       //@完成员工信息的展示
-       let stf_req = new Stf_Req();
-       stf_req.request(1);
-    //    let stf_add = new Stf_Add();
-    //    stf_add.stf_add_event();
+       //获得职位并生成对应页面
+        const page_cho = new Page_Cho();
+        page_cho.document_init();
+        console.log(page_cho.index_num);
+        
+     
+    
    }
 
 }

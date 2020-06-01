@@ -17,9 +17,9 @@
         </div>
         <div class="bottom">
             <ul class="os_col">
-                <li class="iconfont">&#xe620; 员工管理</li>
-                <li class="iconfont">&#xe602; 影厅管理</li>
-                <li class="iconfont">&#xe603; 座位管理</li>
+                <li class="iconfont os_li">&#xe620; 员工管理</li>
+                <li class="iconfont os_li">&#xe602; 影厅管理</li>
+                <li class="iconfont os_li">&#xe603; 座位管理</li>
             </ul>
         </div>
     </div>
@@ -28,7 +28,7 @@
             <div class="att_inf"></div>
             <button class="att_yes">是</button><button class="att_no">否</button>
         </div>
-        <div class="stf_col">
+        <div class="stf_col os_content">
             <div class="stf_top">
                 <div class="contain">
                     <input type="text" maxlength="30" class="stf_ser" oninput="search()"><button class="stf_ser_but iconfont">  &#xe653;</button>
@@ -57,10 +57,13 @@
                 </div>
             </div>
         </div>
+        <div class="cin_col os_content"></div>
+        <div class="seat_col os_content"></div>
     </div>
   
 </body>
 <script src="../ajax.js"></script>
+<script src="src/cin_control.js"></script>
 <script src="src/web_control.js"></script>
 <script src="src/control.js"></script> 
 <script src="src/index.js"></script>

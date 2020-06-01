@@ -1,7 +1,7 @@
 //-------------------------基本信息获取模块----------//
 class Get_Local{
     constructor(){
-        this.pre = ['系统管理员','运营经理','售票员','会计','运营经理'];
+        this.pre = ['系统管理员','运营经理','售票员','会计','财务经理'];
         this.user_name = document.querySelector('.user_name');
         this.user_pre = document.querySelector('.user_pre');
         this.storage = window.localStorage;
@@ -253,6 +253,7 @@ class Stf_Mod{
 //-----------------添加模块-------------------//
 class Stf_Add{
     constructor(){
+        this.url = 'http://gaoxingkun.top:8888//user/create'
         this.ser_res = document.querySelector('.ser_res');
         this.inf_show = `
         <div class="inf_show">
@@ -271,14 +272,14 @@ class Stf_Add{
     this.page = document.querySelector('.page');
     //获得
     this.ser_res = document.querySelector('.ser_res');
-    console.log(111);
+   
     
     console.log(this.but_add);
     
     
     }
     stf_add_event(){
-        console.log(888);
+     
         let but_add = document.querySelector('.stf_add');
         console.log(but_add);
         let a = document.querySelector('.inf_name');
@@ -287,13 +288,144 @@ class Stf_Add{
             
         })
         but_add.addEventListener('click',()=>{
-            console.log(23);
+           
             this.page.innerHTML = ''
             this.ser_res.innerHTML = ''
             this.ser_res.innerHTML = this.inf_show;
+            //添加add的html结构
+            let add_html=`
+            <div class="add_div">
+                <input class='add_name' placeholder='姓名'>
+                <input class='add_pho' maxlength='11' placeholder='手机号码'>
+                <input class='add_pas'  maxlength='36' placeholder='密码'>
+                <input class='add_born'  placeholder='出生日期'>
+                <select class='add_pre' >
+                    <option>系统管理员</option> 
+                    <option>运营经理</option> 
+                    <option>售票员</option> 
+                    <option>会计</option>
+                    <option>财务经理</option>  
+                </select>
+                <button class="add_yes">添加</button>    <button class="add_no">取消</button>
+                </div>
+            `
+            this.ser_res.innerHTML +=add_html;
+            //获得添加的两个按钮
+            this.add_yes = document.querySelector('.add_yes');
+            this.add_no = document.querySelector('.add_no');
+            console.log(this.add_yes);
+            //添加事件
+            this.add_yes.addEventListener('click',()=>{
+                console.log(2423)
+                //按下确认首先判断输入是否合法
+                let judge = this.add_input_judge();
+                if(judge){
+                    //获得数据
+                    let post_data = this.post_data();
+                    this.add_post(post_data);
+                }
+            })
+            this.add_no.addEventListener('click',()=>{
+                //按下取消则返回
+                let stf_req = new Stf_Req();
+                stf_req.request(1);
+            })
+            //按钮样式控制
+            this.add_yes.addEventListener('mousedown',()=>{
+                this.add_yes.style.color = 'rgb(207, 207, 207)';
+                this.add_yes.style.border = '1px solid rgb(207, 207, 207) '
+                this.add_yes.style.background = 'rgb(136, 136, 136)'
+            })
+            this.add_yes.addEventListener('mouseup',()=>{
+                this.add_yes.style.color = 'rgb(10, 10, 10)';
+                this.add_yes.style.border = '1px solid rgb(207, 207, 207) '
+                this.add_yes.style.background = 'rgb(239, 239, 239)'
+            })
+            this.add_no.addEventListener('mousedown',()=>{
+                this.add_no.style.color = 'rgb(207, 207, 207)';
+                this.add_no.style.border = '1px solid rgb(207, 207, 207) '
+                this.add_no.style.background = 'rgb(136, 136, 136)'
+            })
+            this.add_no.addEventListener('mouseup',()=>{
+                this.add_no.style.color = 'rgb(10, 10, 10)';
+                this.add_no.style.border = '1px solid rgb(207, 207, 207) '
+                this.add_no.style.background = 'rgb(239, 239, 239)'
+            })
+
     })
        
 
+    }
+    //判断输入是否合法
+    add_input_judge(){
+        //获得dom元素
+        let add_name = document.querySelector('.add_name');
+        let add_pho = document.querySelector('.add_pho');
+        let add_pas = document.querySelector('.add_pas');
+        let add_born = document.querySelector('.add_born');
+        let add_pre = document.querySelector('.add_pre');
+        console.log(add_born);
+        let judge = true;
+        if(add_name.value == ''){
+            add_name.setAttribute('placeholder','请输入姓名');
+            judge = false;
+        }
+        if(add_pho.value == ''){
+            add_pho.setAttribute('placeholder','请输入电话号码');
+            judge = false;
+        }
+        if(add_pas.value == ''){
+            add_pas.setAttribute('placeholder','请输入密码');
+            judge = false;
+        }
+        if(add_born.value == ''){
+            add_born.setAttribute('placeholder','请输入出生日期');
+            judge = false;
+        }
+        if(add_pho.value.length != 11){
+            add_pho.value = '';
+            add_pho.setAttribute('placeholder','请输入正确格式');
+            judge = false;
+        }
+        return judge;
+    }
+    //获得发送的数据
+    post_data(){
+        let add_name = document.querySelector('.add_name');
+        let add_pho = document.querySelector('.add_pho');
+        let add_pas = document.querySelector('.add_pas');
+        let add_born = document.querySelector('.add_born');
+        let add_pre = document.querySelector('.add_pre');
+        let pre = ['系统管理员','运营经理','售票员','会计','财务经理'];
+        let index = 0;
+
+        for(let i = 0; i < pre.length ;i++){
+            if(add_pre.value == pre[i]){
+                index = i;
+                break;
+            }
+               
+        }
+        let data = {
+            "emp_password":`${add_pas.value}`,
+            "emp_name":`${add_name.value}`,
+            "emp_born_year":`${add_born.value}`,
+            "emp_phonenumber":`${add_pho.value}`,
+            "emp_privilege":index
+        }
+        
+        return  JSON.stringify(data);
+    }
+    //发送请求
+    add_post(post_data){
+        ajax(this.url,'post',post_data,'json',this.callback);
+    }
+    callback(data){
+        console.log(data);
+        //请求发送后重新加载页面
+        let stf_req = new Stf_Req();
+        stf_req.request(1);
+        
     }
 }
 
@@ -302,7 +434,7 @@ class Stf_Add{
 class Stf_Req{
     constructor(){
         this.url = "http://gaoxingkun.top:8888/user/retrieve/";
-        this.pre = ['系统管理员','运营经理','售票员','会计','运营经理'];
+        this.pre = ['系统管理员','运营经理','售票员','会计','财务经理'];
         this.rer_res = document.querySelector('.rer_res');
         this.page = document.querySelector('.page');
         //当前显示的是第几页
@@ -324,7 +456,7 @@ class Stf_Req{
 //-----------------------生成一页的数据--------------//
         let ser_res = document.querySelector('.ser_res');
         let page = document.querySelector('.page');
-        console.log(ser_res);
+      
         let inf_show = `
             <div class="inf_show">
                 <span class="inf_name">姓名</span>
@@ -339,7 +471,7 @@ class Stf_Req{
         
         ser_res.innerHTML = inf_show;
         //inf_show_div.appendChild(span);
-        const pre = ['系统管理员','运营经理','售票员','会计','运营经理'];
+        const pre = ['系统管理员','运营经理','售票员','会计','财务经理'];
         //生成对应员工信息
         for(let i=0;i<data.data.length;i++){
             let div = document.createElement('div');
