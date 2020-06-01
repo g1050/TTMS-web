@@ -317,6 +317,3 @@ func ClearManyToMany(tablename, add string,sta interface{})(int64,error) {
 
 }
 
-func RelateQuery(tablename )  {
-	
-}

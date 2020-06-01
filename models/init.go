@@ -90,11 +90,16 @@ type Seat struct {
 }
 
 //演出计划表,与演出厅和电影都是多对多的关系
+//修改关系为一对一,演出厅ID和电影的ID作为演出计划的ID
 type Schedule struct {
 	SchId int64 `orm:"pk;auto" json:"sch_id"`
 	SchTime string `json:"sch_time"` //采用string 类型存储
+	Studio *Studio	`orm:"rel(one)"`
+	Movie *Movie	`orm:"rel(one)"`
+
 	SchStuId int64 `json:"sch_stu_id"`
 	SchMovId int64 `json:"sch_mov_id"`
+
 	SchPrice float64 `json:"sch_price"`
 
 	Studios []*Studio`orm:"rel(m2m)" json:"studios"`
