@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>影院管理控制台</title>
-    <link rel="stylesheet" href="control.css">
+    <link rel="stylesheet" href="stf_control.css">
+    <link rel="stylesheet" href="cin_control.css">
 </head>
 <body>
     <div class="left">
@@ -23,21 +24,19 @@
             </ul>
         </div>
     </div>
+
     <div class="right">
         <div class="att">
             <div class="att_inf"></div>
             <button class="att_yes">是</button><button class="att_no">否</button>
         </div>
+
         <div class="stf_col os_content">
             <div class="stf_top">
-                <div class="contain">
+                <div class="stf_contain">
                     <input type="text" maxlength="30" class="stf_ser" oninput="search()"><button class="stf_ser_but iconfont">  &#xe653;</button>
-                    <div class="show_ser ">
-                      
-                    </div>
+                    <div class="stf_show_ser "></div>
                 </div>
-              
-              
             </div>
             <div class="stf_bottom">
                 <div class="ser_res">
@@ -48,16 +47,33 @@
                         <span class="inf_born">生日</span>
                         <span class="inf_pre">系统管理员</span>
                     </div>
-
-                  
-                    
                 </div>
-                <div class="page">
-                   
-                </div>
+                <div class="page"></div>
             </div>
         </div>
-        <div class="cin_col os_content"></div>
+
+        <div class="cin_col os_content">
+            <div class="cin_top">
+                <div class="cin_contain">
+                        <input type="text" maxlength="30" class="cin_ser" oninput="cin_search()"><button class="cin_ser_but iconfont">  &#xe653;</button>
+                        <div class="cin_show_ser "></div>
+                </div>
+            </div>
+            <div class="cin_bottom">
+                <div class="cin_ser_res">
+                    <div class="cin_inf_show">
+                        <span class="inf_id">影厅ID</span>
+                        <span class="inf_name">影厅名称</span>
+                        <span class="inf_type">影厅类型</span>
+                        <span class="inf_rows">行数</span>
+                        <span class="inf_cols">列数</span>
+                        <span class="inf_seat">可用座位</span>
+                        <span class="cin_add iconfont">&#xe604;</span>
+                    </div>
+                </div>
+                <div class="cin_page"></div>
+            </div>
+        </div>
         <div class="seat_col os_content"></div>
     </div>
   

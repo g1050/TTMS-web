@@ -41,6 +41,7 @@ class Stf_Search{
         
     }
     callback(data){
+       console.log(data);
        
       
     }
@@ -72,7 +73,7 @@ let input_callback = (data)=>{
     if(data.errno == '4101'){
         window.open('../index/index.html','_self')
     }
-    let show_data = document.querySelector('.show_ser')
+    let show_data = document.querySelector('.stf_show_ser')
     if(data.errno == '4002'){
         show_data.style.display = 'none';
     }
@@ -99,7 +100,7 @@ let search = ()=>{
         stf_search.sea_name();
     }
     else{
-        let show_data = document.querySelector('.show_ser')
+        let show_data = document.querySelector('.stf_show_ser')
         show_data.style.display = 'none';
     }
    
@@ -185,7 +186,6 @@ class Stf_Mod{
         this.mod_div_acc = this.ser_res.getElementsByClassName('mod_acc');
         //获得输入dom数组中的退出按钮数组
         this.mod_div_noacc = this.ser_res.getElementsByClassName('mod_noacc');
-        this.url = 'http://gaoxingkun.top:8888//user/updata'
     }
     //修改按键的按钮
     but_mod_event(){
@@ -270,8 +270,7 @@ class Stf_Add{
     this.but_add = document.querySelector('.stf_add');
     //获得换页按钮
     this.page = document.querySelector('.page');
-    //获得
-    this.ser_res = document.querySelector('.ser_res');
+
    
     
     console.log(this.but_add);
@@ -449,6 +448,9 @@ class Stf_Req{
     //回调函数将返回的数据加载到html上
     callback(data){
         console.log(data);
+        if(data.errno == '4101'){
+            window.open('../index/index.html','_self')
+        }
         // if(data.errno = '4101'){
         //     window.open('../index/index.html','_self')
         // }

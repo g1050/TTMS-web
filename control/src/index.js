@@ -141,6 +141,19 @@ class Os_Option_Cho{
                 this.option[i].className = `${this.class_name} is_Choose`
             })
         }
+        //为影厅管理按钮添加事件  
+        //@首先请求一页数据
+        this.option[1].addEventListener('click',()=>{
+            let cin_req = new Cin_Req();
+            cin_req.request(1);
+            //为影厅管理挂载添加事件
+            let cin_add = new Cin_Add();
+            cin_add.cin_add_event();
+            //为什么删除：因为加载顺序原因，必须放在request里，否则进cin_req，直接
+            //进这里  dom还未加载
+            // let cin_del = new Cin_Del();
+            // cin_del.but_del_event();
+        }) 
     }
 
 }
@@ -152,7 +165,7 @@ class Page_Cho{
         this.storage = window.localStorage;
         this.index_num = parseInt(this.storage['emp_privilege']);
     }
-    //根据获得的职位号码生成对饮的页面
+    //根据获得的职位号码生成对应的页面
     document_init(){
         //首先获得localstorage的元素
         const get_local = new Get_Local();

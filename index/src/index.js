@@ -134,7 +134,7 @@ window.onload = ()=>{
         
         //返回值是字符串，首先类型转换  为0代表登录成功
         //登录成功
-        if(!parseInt(data.errno)){
+        if(data.errno == '0'){
             console.log(121);
             
             csscheck.innerShow(`${data.emp_name} ${data.errmsg}`,1)
