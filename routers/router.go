@@ -44,6 +44,10 @@ func init() {
 	beego.Router("/seat/retrieve", &controllers.SeatController{},"Get:GetSeat")
 	beego.Router("/seat/update", &controllers.SeatController{},"Post:UpdateSeat")
 
+	//演出计划管理
+	beego.Router("/schedule/create", &controllers.ScheduleController{},"Post:InsertSchedule")
+
+
 
 
 }

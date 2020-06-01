@@ -4,7 +4,6 @@ import (
 	"astaxie/beego/logs"
 	"astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
-	"time"
 )
 
 //权限
@@ -29,6 +28,7 @@ const (
 	STUDIO   = "studio"
 	MOVIE = "movie"
 	SEAT = "seat"
+	SCHEDULE = "schedule"
 )
 
 //职位
@@ -63,7 +63,7 @@ type Studio struct {
 	StuAvaSeat int64	`json:"stu_ava_seat"`
 
 	Seat []*Seat	`orm:"reverse(many)"` // 设置一对多的反向关系
-	Schedule []*Schedule `orm:"reverse(many)" json:"-"` //设置多对多反向关系
+	Schedules []*Schedule `orm:"reverse(many)" json:"-"` //设置多对多反向关系
 }
 //电影表
 type Movie struct {
@@ -76,7 +76,7 @@ type Movie struct {
 	MovTime int64 		`json:"mov_time"` //电影时长
 	MovImg string 		`json:"mov_img"` //电影图片
 
-	Schedule []*Schedule `orm:"reverse(many)" json:"-"` //设置多对多反向关系
+	Schedules []*Schedule `orm:"reverse(many)" json:"-"` //设置多对多反向关系
 
 }
 //座位表,座位表和演出厅表是一对多关系,演出厅ID作为座位的外键
@@ -92,13 +92,13 @@ type Seat struct {
 //演出计划表,与演出厅和电影都是多对多的关系
 type Schedule struct {
 	SchId int64 `orm:"pk;auto" json:"sch_id"`
-	SchTime time.Time `json:"sch_time"`
+	SchTime string `json:"sch_time"` //采用string 类型存储
 	SchStuId int64 `json:"sch_stu_id"`
 	SchMovId int64 `json:"sch_mov_id"`
 	SchPrice float64 `json:"sch_price"`
 
-	Studio []*Studio`orm:"rel(m2m)" json:"-"`
-	Movie []*Movie 	`orm:"rel(m2m)" json:"-"`
+	Studios []*Studio`orm:"rel(m2m)" json:"-"`
+	Movies []*Movie 	`orm:"rel(m2m)" json:"-"`
 
 }
 

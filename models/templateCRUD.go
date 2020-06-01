@@ -90,8 +90,8 @@ func InsertByTableName(tablename string,p interface{})( int64,error) {
 		num,err = o.Insert(p.(*Movie))
 	case SEAT:
 		num,err = o.Insert(p.(*Seat))
-
-
+	case SCHEDULE:
+		num,err = o.Insert(p.(*Schedule))
 	}
 
 	//logs.Debug(id,err)
@@ -267,7 +267,31 @@ func QuertOneToMany(tablename,fk string,id int64,p interface{}) (int64,error){
 		num, err = o.QueryTable(tablename).Filter(fk, id).RelatedSel().All(p.(*[]*Seat))
 
 	}
+	return num,err
+}
 
+/*
+tablename 说明是那个模块
+add说明要添加的对象的字段名字
+sta 是含ID的对象,指针类型
+change 是添加的对象
+ */
+func AddManyToMany(tablename, add string,sta ,change interface{})(int64,error){
+	o := orm.NewOrm()
+
+	var num int64
+	var err error
+
+	switch tablename{
+	case SCHEDULE:
+		m2m := o.QueryM2M(sta.(*Schedule), add)
+		switch add {
+		case "Studios":
+			num,err = m2m.Add(change.(Studio))
+		case "Movies":
+			num,err = m2m.Add(change.(Movie))
+		}
+	}
 	return num,err
 
 }
