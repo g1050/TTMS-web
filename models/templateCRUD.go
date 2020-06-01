@@ -37,6 +37,8 @@ func GetDataByNumAndOffset(tablename string,slice interface{},rowslimit,offset i
 		ret2, err2 = qs.OrderBy(orderby).Limit(rowslimit,offset).All(slice.(*[]Studio))
 	case MOVIE:
 		ret2, err2 = qs.OrderBy(orderby).Limit(rowslimit,offset).All(slice.(*[]Movie))
+	case SCHEDULE:
+		ret2, err2 = qs.OrderBy(orderby).Limit(rowslimit,offset).All(slice.(*[]Schedule))
 
 	}
 
@@ -313,4 +315,8 @@ func ClearManyToMany(tablename, add string,sta interface{})(int64,error) {
 	num,err := m2m.Clear()
 	return num,err
 
+}
+
+func RelateQuery(tablename )  {
+	
 }

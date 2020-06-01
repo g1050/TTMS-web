@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"github.com/astaxie/beego/logs"
+	"strconv"
 	"ttms/models"
 )
 
@@ -157,4 +158,45 @@ func (c *ScheduleController)UpdateSchedule() {
 	c.PackRecode(c.resp,models.RECODE_OK)
 
 
+}
+
+/*
+获取演出计划的信息
+ */
+func (c *ScheduleController) GetSchdule() {
+	c.resp = make(map[string]interface{})
+	defer c.sendJSON(c.resp)
+
+	//验证权限
+	if ok := c.JudgeAuthority(models.MG_QUERY_SCH); !ok {
+		return
+	}
+
+	pageStr := c.Ctx.Input.Param(":page")
+	page,_ := strconv.Atoi(pageStr)
+	logs.Debug("获取放映计划信息第",page,"页")
+
+	slice := []models.Schedule{}
+	//返回情况返回相应数据
+
+	//先查询所有的演出计划信息，不做关联查询
+	err,sum,ret2 := models.GetDataByNumAndOffset(models.SCHEDULE,&slice,10,(page-1)*10,"sch_stu_id")
+	if err != nil || ret2 == 0{
+		logs.Error("查询n条数据出错")
+		c.resp["sum"] = 0
+		c.PackRecode(c.resp,models.RECODE_DBERR) //数据库错误
+		return
+	}
+
+	for index,_ := range slice {
+		//做关联查询,查询哪些用到了这个演出计划
+
+
+	}
+
+	c.PackRecode(c.resp,models.RECODE_OK)
+	c.resp["sum"] = sum
+	c.resp["data"] = slice
+	logs.Debug("从数据库存中获得数据",slice)
+	logs.Debug(c.resp)
 }

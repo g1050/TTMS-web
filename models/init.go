@@ -97,8 +97,8 @@ type Schedule struct {
 	SchMovId int64 `json:"sch_mov_id"`
 	SchPrice float64 `json:"sch_price"`
 
-	Studios []*Studio`orm:"rel(m2m)" json:"-"`
-	Movies []*Movie 	`orm:"rel(m2m)" json:"-"`
+	Studios []*Studio`orm:"rel(m2m)" json:"studios"`
+	Movies []*Movie 	`orm:"rel(m2m)" json:"movies"`
 
 }
 
