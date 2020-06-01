@@ -94,11 +94,14 @@ type Seat struct {
 type Schedule struct {
 	SchId int64 `orm:"pk;auto" json:"sch_id"`
 	SchTime string `json:"sch_time"` //采用string 类型存储
-	Studio *Studio	`orm:"rel(one)"`
-	Movie *Movie	`orm:"rel(one)"`
+	Studio *Studio	`orm:"rel(one)" json:"-"` //该字段不需要返回给客户端
+	Movie *Movie	`orm:"rel(one)" json:"-"` //不打包
 
-	SchStuId int64 `json:"sch_stu_id"`
-	SchMovId int64 `json:"sch_mov_id"`
+	StuName string `json:"stu_name"`
+	MovName string `json:"mov_name"`
+
+	SchStuId int64 `json:"-"`
+	SchMovId int64 `json:"-"`
 
 	SchPrice float64 `json:"sch_price"`
 
@@ -109,6 +112,19 @@ type Schedule struct {
 
 }
 
+/*
+电影票表结构的定义，
+需要在生成演出计划的时候就票信息添加到数据库中去
+ */
+type Ticket struct {
+	TicID int64 `json:"tic_id"`
+	TicStu string
+	TicMov string
+
+	Studio *Studio	`orm:"rel(one)" json:"-"` //该字段不需要返回给客户端
+	Movie *Movie	`orm:"rel(one)" json:"-"` //不打包
+	Seat *Seat 		`orm:"rel(one)" json:"seat"` //座位信息需要返回
+}
 func init() {
 	//连接Mysql数据库
 	orm.RegisterDataBase("default", "mysql", "root:123456@tcp(47.94.14.45:3306)/ttms?charset=utf8", 30) //最后是一个超时时间

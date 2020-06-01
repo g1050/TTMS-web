@@ -206,6 +206,13 @@ func (c *ScheduleController) GetSchedule() {
 		c.PackRecode(c.resp,models.RECODE_DBERR) //数据库错误
 		return
 	}
+
+	//重新赋值StuName字段和MovName字段
+	for index,value := range slice {
+	 	slice[index].StuName = value.Studio.StuName
+		slice[index].MovName = value.Movie.MovName
+	}
+
 	/*
 	num,err := models.RelateQuery(models.SCHEDULE,&slice)
 	if err != nil {
