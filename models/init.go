@@ -63,7 +63,7 @@ type Studio struct {
 	StuAvaSeat int64	`json:"stu_ava_seat"`
 
 	Seat []*Seat	`orm:"reverse(many)"` // 设置一对多的反向关系
-	Schedules []*Schedule `orm:"reverse(many)" json:"-"` //设置多对多反向关系
+	//Schedules []*Schedule `orm:"reverse(many)" json:"-"` //设置多对多反向关系
 }
 //电影表
 type Movie struct {
@@ -76,7 +76,7 @@ type Movie struct {
 	MovTime int64 		`json:"mov_time"` //电影时长
 	MovImg string 		`json:"mov_img"` //电影图片
 
-	Schedules []*Schedule `orm:"reverse(many)" json:"-"` //设置多对多反向关系
+	//Schedules []*Schedule `orm:"reverse(many)" json:"-"` //设置多对多反向关系
 
 }
 //座位表,座位表和演出厅表是一对多关系,演出厅ID作为座位的外键
@@ -102,8 +102,10 @@ type Schedule struct {
 
 	SchPrice float64 `json:"sch_price"`
 
+	/*
 	Studios []*Studio`orm:"rel(m2m)" json:"studios"`
 	Movies []*Movie 	`orm:"rel(m2m)" json:"movies"`
+	 */
 
 }
 

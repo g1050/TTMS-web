@@ -196,13 +196,24 @@ func (c *ScheduleController) GetSchedule() {
 	page,_ := strconv.Atoi(pageStr)
 	logs.Debug("获取放映计划信息第",page,"页")
 
+	//slice中携带的信息太多，需要,挑选
 	slice  := []models.Schedule{}
+
+	err,sum,ret2 := models.GetDataByNumAndOffset(models.SCHEDULE,&slice,10,(page-1)*10,"sch_stu_id")
+	if err != nil || ret2 == 0{
+		logs.Error("查询n条数据出错")
+		c.resp["sum"] = 0
+		c.PackRecode(c.resp,models.RECODE_DBERR) //数据库错误
+		return
+	}
+	/*
 	num,err := models.RelateQuery(models.SCHEDULE,&slice)
 	if err != nil {
 		logs.Error(err)
 		c.PackRecode(c.resp,models.RECODE_DBERR)
 		return
 	}
+	 */
 	//关联查询
 
 	/*
@@ -223,7 +234,7 @@ func (c *ScheduleController) GetSchedule() {
 	 */
 
 	logs.Debug("从数据库存中获得数据",slice)
-	c.resp["sum"] = num
+	c.resp["sum"] = sum
 	c.resp["data"] = slice
 	c.PackRecode(c.resp,models.RECODE_OK)
 }
