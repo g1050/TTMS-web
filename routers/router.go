@@ -46,6 +46,8 @@ func init() {
 
 	//演出计划管理
 	beego.Router("/schedule/create", &controllers.ScheduleController{},"Post:InsertSchedule")
+	beego.Router("/schedule/delete", &controllers.ScheduleController{},"Get:DeleteSchedule")
+	beego.Router("/schedule/update", &controllers.ScheduleController{},"Post:UpdateSchedule")
 
 
 

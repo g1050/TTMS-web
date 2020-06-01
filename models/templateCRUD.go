@@ -146,6 +146,8 @@ func UpdateByTablename(tablename string, p interface{}) error {
 		_,err = o.Update(p.(*Studio))
 	case MOVIE:
 		_,err = o.Update(p.(*Movie))
+	case SCHEDULE:
+		_,err = o.Update(p.(*Schedule))
 
 	}
 	if err != nil{
@@ -176,6 +178,8 @@ func DeleteByTablename(tablename string, p interface{}) (int64,error) {
 		num,err = o.Delete(p.(*Movie))
 	case SEAT:
 		num,err = o.Delete(p.(*Seat))
+	case SCHEDULE:
+		num,err = o.Delete(p.(*Schedule))
 
 	}
 	if err != nil{
@@ -248,7 +252,8 @@ func GetDataById(tablename string, p interface{})error {
 	switch tablename {
 	case STUDIO:
 		err = o.Read(p.(*Studio))
-
+	case SCHEDULE:
+		err = o.Read(p.(*Schedule))
 	}
 	return err
 }
@@ -292,6 +297,20 @@ func AddManyToMany(tablename, add string,sta ,change interface{})(int64,error){
 			num,err = m2m.Add(change.(Movie))
 		}
 	}
+	return num,err
+
+}
+
+func ClearManyToMany(tablename, add string,sta interface{})(int64,error) {
+	o := orm.NewOrm()
+	var  m2m orm.QueryM2Mer
+
+	switch tablename{
+	case SCHEDULE:
+		m2m = o.QueryM2M(sta.(*Schedule), add)
+	}
+
+	num,err := m2m.Clear()
 	return num,err
 
 }

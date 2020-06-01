@@ -59,3 +59,102 @@ func (c *ScheduleController)InsertSchedule()  {
 	//返回信息
 	c.PackRecode(c.resp,models.RECODE_OK) //成功插入数据库
 }
+
+func (c *ScheduleController)DeleteSchedule() {
+
+	logs.Debug("删除演出计划")
+	c.resp = make(map[string]interface{})
+	defer c.sendJSON(c.resp)
+
+	//检查权限
+	if ok := c.JudgeAuthority(models.MG_SCH); !ok {
+		return
+	}
+
+	data := models.Schedule{}
+
+	id,err := c.GetInt64("sch_id")
+	if err != nil {
+		c.PackRecode(c.resp,models.RECODE_NODATA) //4002 没有收到ID
+		return
+	}
+
+	logs.Debug("要删除的演出计划的ID",id)
+	data.SchId = id
+
+	//删除两个表中的关系
+	models.ClearManyToMany(models.SCHEDULE,"Studios",&data)
+	models.ClearManyToMany(models.SCHEDULE,"Movies",&data)
+
+	_,err2 := models.DeleteByTablename(models.SCHEDULE,&data)
+	if err2 != nil {
+		c.PackRecode(c.resp,models.RECODE_DBERR) //4001 数据库出错
+		return
+	}
+
+	c.PackRecode(c.resp,models.RECODE_OK)
+}
+
+
+/*
+修改演出计划,注意重新修改电影和演出厅的对应关系
+ */
+func (c *ScheduleController)UpdateSchedule() {
+
+	logs.Debug("更新放映计划信息")
+	c.resp = make(map[string]interface{})
+	defer c.sendJSON(c.resp)
+
+	if ok := c.JudgeAuthority(models.MG_SCH); !ok {
+		return
+	}
+
+
+	data := models.Schedule{}
+	json.Unmarshal(c.Ctx.Input.RequestBody,&data)
+	logs.Debug("从前段获取的数据是",data)
+
+	//判断演出厅和c电影是否改变
+	s := models.Schedule{SchId:data.SchId}
+	err1 := models.GetDataById(models.SCHEDULE,&s)
+	if err1 != nil {
+		c.PackRecode(c.resp,models.RECODE_DBERR) //4001 数据库查询错误　
+		return
+	}
+
+	//判断是否改变
+	if data.SchMovId != s.SchMovId { //电影发生变化
+		//删除之前的对应关系
+		models.ClearManyToMany(models.SCHEDULE,"Movies",&data)
+
+		movie := models.Movie{MovId:data.SchMovId}
+		_,err2 := models.AddManyToMany(models.SCHEDULE,"Movies",&data,movie)
+		if err2 != nil {
+			c.PackRecode(c.resp,models.RECODE_DBERR)
+			return
+		}
+	}
+
+	if data.SchStuId != s.SchStuId {
+		//删除原来的对应关系
+		models.ClearManyToMany(models.SCHEDULE,"Studios",&data)
+
+		studio := models.Studio{StuId:data.SchStuId}
+		_,err2 := models.AddManyToMany(models.SCHEDULE,"Studios",&data,studio)
+		if err2 != nil {
+			c.PackRecode(c.resp,models.RECODE_DBERR)
+			return
+		}
+	}
+
+	//修改
+	err := models.UpdateByTablename(models.SCHEDULE,&data)
+	//返回结果
+	if err != nil {
+		c.PackRecode(c.resp,models.RECODE_DBERR) //4001　插入失败
+		return
+	}
+	c.PackRecode(c.resp,models.RECODE_OK)
+
+
+}
