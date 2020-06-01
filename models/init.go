@@ -4,6 +4,7 @@ import (
 	"astaxie/beego/logs"
 	"astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+	"time"
 )
 
 //权限
@@ -43,6 +44,7 @@ const CONTAIN = "__icontains"
 /*
 定义数据结构、连接数据库、建表、建库。
  */
+//员工表
 type Employee struct {
 	EmpId 			int64 	`orm:"pk;auto" json:"emp_id"`//员工ID
 	//Emp_LoginName 	string 	`orm:"size(30)" json:"emp_login_name"`//员工姓名
@@ -52,16 +54,18 @@ type Employee struct {
 	EmpPhonenumber string 	`orm:"size(15);unique" json:"emp_phonenumber"`//手机号
 	EmpPrivilege 	int 	`json:"emp_privilege"`//权限
 }
-
+//演出厅表
 type Studio struct {
 	StuId int64	 	`orm:"pk;auto" json:"stu_id"`  	//演出厅ID
 	StuName string 	`orm:"size(30)" json:"stu_name"` 	//演出厅名字
 	StuRows int64  	`json:"stu_rows"`
 	StuCols int64 	`json:"stu_cols"`
 	StuAvaSeat int64	`json:"stu_ava_seat"`
-	Seat []*Seat	`orm:"reverse(many)"` // 设置一对多的反向关系
-}
 
+	Seat []*Seat	`orm:"reverse(many)"` // 设置一对多的反向关系
+	Schedule []*Schedule `orm:"reverse(many)" json:"-"` //设置多对多反向关系
+}
+//电影表
 type Movie struct {
 	MovId int64	 	`orm:"pk;auto" json:"mov_id"`  	//电影ID
 	MovName string 	`orm:"size(30)" json:"mov_name"` 	//电影名字
@@ -71,21 +75,38 @@ type Movie struct {
 	MovDescription string	`orm:"size(512)" json:"mov_description"` //电影描述
 	MovTime int64 		`json:"mov_time"` //电影时长
 	MovImg string 		`json:"mov_img"` //电影图片
-}
 
+	Schedule []*Schedule `orm:"reverse(many)" json:"-"` //设置多对多反向关系
+
+}
+//座位表,座位表和演出厅表是一对多关系,演出厅ID作为座位的外键
 type Seat struct {
 	StId int64	`orm:"pk;auto" json:"st_id"`
-	Studio *Studio `orm:"rel(fk)"`    //设置一对多关系
 	StRow int64	`json:"st_row"`
 	StCol int64	`json:"st_col"`
 	StStatus int64	`json:"st_status"` //座位状态 0正常 1坏 2墙壁
+
+	Studio *Studio `orm:"rel(fk)" json:"-"`    //设置一对多关系
+}
+
+//演出计划表,与演出厅和电影都是多对多的关系
+type Schedule struct {
+	SchId int64 `orm:"pk;auto" json:"sch_id"`
+	SchTime time.Time `json:"sch_time"`
+	SchStuId int64 `json:"sch_stu_id"`
+	SchMovId int64 `json:"sch_mov_id"`
+	SchPrice float64 `json:"sch_price"`
+
+	Studio []*Studio`orm:"rel(m2m)" json:"-"`
+	Movie []*Movie 	`orm:"rel(m2m)" json:"-"`
+
 }
 
 func init() {
 	//连接Mysql数据库
 	orm.RegisterDataBase("default", "mysql", "root:123456@tcp(47.94.14.45:3306)/ttms?charset=utf8", 30) //最后是一个超时时间
 	//注册model
-	orm.RegisterModel(new(Employee),new(Studio),new(Movie),new(Seat))
+	orm.RegisterModel(new(Employee),new(Studio),new(Movie),new(Seat),new(Schedule))
 	//创建表,第二个参数表示如果存在该表是否覆盖
 	orm.RunSyncdb("default",false,true)
 

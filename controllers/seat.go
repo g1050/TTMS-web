@@ -10,13 +10,6 @@ type SeatController struct {
 	BaseController
 }
 
-type SeatForSend struct {
-	StId int64	`json:"st_id"`
-	StuId int64	`json:"stu_id"`
-	StRow int64	`json:"st_row"`
-	StCol int64	`json:"st_col"`
-	StStatus int64	`json:"st_status"` //座位状态 0正常 1坏 2墙壁
-}
 /*
 查询演出厅的座位信息
  */
@@ -46,14 +39,9 @@ func (c *SeatController)GetSeat() {
 	}
 
 	logs.Debug("%d seats read\n", num)
-	s := []SeatForSend{}
-	for _, seat := range seats {
-		tmp := SeatForSend{StId:seat.StId,StuId:seat.Studio.StuId,StRow:seat.StRow,StCol:seat.StCol,StStatus:seat.StStatus}
-		s = append(s,tmp)
-		logs.Debug(*seat)
-	}
+
 	c.resp["sum"] =  num
-	c.resp["data"] = s
+	c.resp["data"] = seats
 	c.PackRecode(c.resp,models.RECODE_OK)
 }
 

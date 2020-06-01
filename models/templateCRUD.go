@@ -253,6 +253,9 @@ func GetDataById(tablename string, p interface{})error {
 	return err
 }
 
+/*
+查询一对多关系
+ */
 func QuertOneToMany(tablename,fk string,id int64,p interface{}) (int64,error){
 
 	o := orm.NewOrm()
