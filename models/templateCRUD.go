@@ -93,6 +93,9 @@ func InsertByTableName(tablename string,p interface{})( int64,error) {
 		num,err = o.Insert(p.(*Seat))
 	case SCHEDULE:
 		num,err = o.Insert(p.(*Schedule))
+	case TICKET:
+		num,err = o.Insert(p.(*Ticket))
+
 	}
 
 	//logs.Debug(id,err)
@@ -257,6 +260,8 @@ func GetDataById(tablename string, p interface{})error {
 		err = o.Read(p.(*Studio))
 	case SCHEDULE:
 		err = o.Read(p.(*Schedule))
+	case MOVIE:
+		err = o.Read(p.(*Movie))
 	}
 	return err
 }

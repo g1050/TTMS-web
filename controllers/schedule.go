@@ -50,7 +50,40 @@ func (c *ScheduleController)InsertSchedule()  {
 	}
 
 	//生成相应的票
-	
+	//根据座位生成相应的代码
+	//查询所有座位
+	var seats []*models.Seat
+	//获取座位信息
+	num, err2 := models.QuertOneToMany(models.SEAT, "Studio", data.SchStuId, &seats)
+	if err2 != nil {
+		c.PackRecode(c.resp, models.RECODE_DBERR)
+		return
+	}
+	logs.Debug("%d seats read\n", num)
+
+	m := models.Movie{MovId:data.SchMovId}
+	s := models.Studio{StuId:data.SchStuId}
+	models.GetDataById(models.MOVIE,&m)
+	models.GetDataById(models.STUDIO,&s)
+	logs.Debug("查询到的电影名字",m.MovName)
+	logs.Debug("查询到的演出厅名字",s.StuName)
+
+
+	for _,value := range seats {
+		//每个座位生成对应的票
+		tic := models.Ticket{Seat:value}
+		tic.TicMovId = data.SchMovId
+		tic.TicSchId = data.SchId
+
+		//给movname 和 stuname
+		tic.TicMovName = m.MovName
+		tic.TicStuName = s.StuName
+
+		num,err := models.InsertByTableName(models.TICKET,&tic)
+		logs.Debug("生成的票是",tic)
+		logs.Debug(num,err)
+		logs.Debug(*value)
+	}
 
 	/*
 	//添加多对多关系

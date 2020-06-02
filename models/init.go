@@ -29,6 +29,7 @@ const (
 	MOVIE = "movie"
 	SEAT = "seat"
 	SCHEDULE = "schedule"
+	TICKET = "ticket"
 )
 
 //职位
@@ -53,6 +54,8 @@ type Employee struct {
 	EmpBornyear 	string 	`orm:"size(10)" json:"emp_born_year"`//出生年月
 	EmpPhonenumber string 	`orm:"size(15);unique" json:"emp_phonenumber"`//手机号
 	EmpPrivilege 	int 	`json:"emp_privilege"`//权限
+
+	//用来统计销售额
 }
 //演出厅表
 type Studio struct {
@@ -82,9 +85,9 @@ type Movie struct {
 	MovTime int64 		`json:"mov_time"` //电影时长
 	MovImg string 		`json:"mov_img"` //电影图片
 
-	//Schedules []*Schedule `orm:"reverse(many)" json:"-"` //设置多对多反向关系
-
+	//Schedules []*Schedule `rm:"reverse(many)" json:"-"` //设置多对多反向关系
 }
+
 //座位表,座位表和演出厅表是一对多关系,演出厅ID作为座位的外键
 type Seat struct {
 	StId int64	`orm:"pk;auto" json:"st_id"`
@@ -92,7 +95,7 @@ type Seat struct {
 	StCol int64	`json:"st_col"`
 	StStatus int64	`json:"st_status"` //座位状态 0正常 1坏 2墙壁
 
-	Studio *Studio `orm:"rel(fk)" json:"-"`    //设置一对多关系
+	Studio *Studio`orm:"rel(fk)" json:"-"`    //设置一对多关系
 }
 
 //演出计划表,与演出厅和电影都是多对多的关系
@@ -124,23 +127,28 @@ type Schedule struct {
  */
 type Ticket struct {
 	//必要的字段
-	TicID int64 `json:"tic_id"`
+	TicId int64 `orm:"pk;auto" json:"tic_id"`
 	TicSchId int64
 	TicStatus int64 //已经售出 未售出
+	TicEmpId int64
+	TicMovId int64
+
 	Seat *Seat 		`orm:"rel(one)" json:"seat"` //座位信息需要返回,一对一关系
+
+	/*
+	Employee *Employee	`orm:"rel(fk)"` //一对一关系,用来统计销售业绩
+	 */
 
 	//人性化展示
 	TicStuName string
 	TicMovName string
-	Studio *Studio	`orm:"rel(one)" json:"-"` //该字段不需要返回给客户端 一对以关系
-	Movie *Movie	`orm:"rel(one)" json:"-"` //不打包
 
 }
 func init() {
 	//连接Mysql数据库
 	orm.RegisterDataBase("default", "mysql", "root:123456@tcp(47.94.14.45:3306)/ttms?charset=utf8", 30) //最后是一个超时时间
 	//注册model
-	orm.RegisterModel(new(Employee),new(Studio),new(Movie),new(Seat),new(Schedule))
+	orm.RegisterModel(new(Employee),new(Studio),new(Movie),new(Seat),new(Schedule),new(Ticket))
 	//创建表,第二个参数表示如果存在该表是否覆盖
 	orm.RunSyncdb("default",false,true)
 
