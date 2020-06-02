@@ -61,13 +61,16 @@ func (c *BaseController)GetAuthority()int64{
 	switch c.Employee.EmpPrivilege {
 	case models.ADMINISTRATOR:
 		ret,_ = iniconf.Int64("ADMINISTRATOR")
-		logs.Debug("配置文件中是:",ret)
 	case models.OPERATIONSMANAGER:
 		ret,_ = iniconf.Int64("OPERATIONSMANAGER")
-		logs.Debug("配置文件中是:",ret)
-
-
+	case models.CONDUCTOR:
+		ret,_ = iniconf.Int64("ACCOUNTING")
+	case models.ACCOUNTING:
+		ret,_ = iniconf.Int64("ACCOUNTING")
+	case models.FINANCIALMANAGER:
+		ret,_ = iniconf.Int64("FINANCIALMANAGER")
 	}
+	logs.Debug("配置文件中是:",ret)
 	return ret
 }
 
