@@ -200,7 +200,6 @@ func (c *UserController) GetHint() {
 		c.PackRecode(c.resp,models.RECODE_NODATA) //4002无数据
 		return
 	}
-
 	logs.Debug("模糊查询到的结果是",container)
 
 	//包装成字符串数组
@@ -216,6 +215,38 @@ func (c *UserController) GetHint() {
 也是模糊搜索
  */
 func (c *UserController) GetUserByName() {
+	logs.Debug("模糊搜索获取提示")
+	//开辟map
+	c.resp = make(map[string]interface{})
+	defer c.sendJSON(c.resp)
+
+	//检查权限
+	if ok := c.JudgeAuthority(models.MG_EMP); !ok {
+		return
+	}
+
+	//解析参数
+	hint := c.GetString("emp_name")
+	logs.Debug("要搜索的字符是",hint)
+
+	//从数据库中查询
+	var container []models.Employee
+	num,err := models.GetHintByFieldAndValue(models.EMPPLYEE,"emp_name",hint,&container)
+
+	if num == 0 || err != nil {
+		logs.Error(err)
+		c.PackRecode(c.resp,models.RECODE_NODATA) //4002无数据
+		return
+	}
+
+	logs.Debug("模糊查询到的结果是",container)
+
+
+	//返回状态代码
+	c.resp["data"] = container
+	c.resp["sum"] = num
+	c.PackRecode(c.resp,models.RECODE_OK)
+	/*
 	logs.Debug("按照全名模糊搜索")
 	//开辟map
 	c.resp = make(map[string]interface{})
@@ -241,12 +272,14 @@ func (c *UserController) GetUserByName() {
 	}
 
 	logs.Debug("全名查询到的结果是",container)
+	logs.Debug(container)
 
 	//包装数组对象
 	c.resp["data"] = container
 	//返回状态代码
 	c.resp["sum"] = num
 	c.PackRecode(c.resp,models.RECODE_OK)
+	 */
 }
 
 /*

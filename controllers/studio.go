@@ -34,7 +34,20 @@ func (c *StudioController )InsertStudio() {
 	logs.Debug("收到的影厅信息",data,data.StuName)
 
 	//添加可用座位数量
-	data.StuAvaSeat = data.StuRows*data.StuCols
+	switch data.StuSize {
+	case 1:
+		data.StuAvaSeat =  25
+		//添加座位信息
+		insertSeat(5,5,&data)
+	case 2:
+		data.StuAvaSeat = 49
+		//添加座位信息
+		insertSeat(7,7,&data)
+	case 3:
+		data.StuAvaSeat = 100
+		//添加座位信息
+		insertSeat(10,10,&data)
+	}
 
 
 	//插入数据库
@@ -45,8 +58,6 @@ func (c *StudioController )InsertStudio() {
 		return
 	}
 
-	//添加座位信息
-	insertSeat(data.StuRows,data.StuCols,&data)
 
 	//返回信息
 	c.PackRecode(c.resp,models.RECODE_OK) //成功插入数据库
@@ -111,7 +122,7 @@ func (c *StudioController) GetStudioData() {
 	slice := []models.Studio{}
 	//返回情况返回相应数据
 	//models.T()
-	err,sum,ret2 := models.GetDataByNumAndOffset(models.STUDIO,&slice,10,(page-1)*10,"stu_id")
+	err,sum,ret2 := models.GetDataByNumAndOffset(models.STUDIO,&slice,10,(page-1)*10,"stu_type")
 	if err != nil || ret2 == 0{
 		logs.Error("查询n条数据出错")
 		c.resp["sum"] = 0
@@ -150,7 +161,14 @@ func (c *StudioController)UpdateStudio() {
 	}
 
 	//判断座位是否需要重新载入
-	if s.StuRows == data.StuRows && s.StuCols == data.StuCols {
+	if s.StuSize== data.StuSize {
+		//修改
+		err := models.UpdateByTablename(models.STUDIO,&data)
+		//返回结果
+		if err != nil {
+			c.PackRecode(c.resp,models.RECODE_DBERR) //4001　插入失败
+			return
+		}
 		logs.Debug("座位信息未修改")
 	}else {
 		logs.Debug("修改了座位信息")
@@ -163,21 +181,29 @@ func (c *StudioController)UpdateStudio() {
 			return
 		}
 
-		models.InsertByTableName(models.STUDIO,&data)
 		//重新插入
-		insertSeat(data.StuRows,data.StuCols,&data)
+		//添加可用座位数量
+		switch data.StuSize {
+		case 1:
+			data.StuAvaSeat =  25
+			//添加座位信息
+			insertSeat(5,5,&data)
+		case 2:
+			data.StuAvaSeat = 49
+			//添加座位信息
+			insertSeat(7,7,&data)
+		case 3:
+			data.StuAvaSeat = 100
+			//添加座位信息
+			insertSeat(10,10,&data)
+		}
+		models.InsertByTableName(models.STUDIO,&data)
 	}
 
-	//修改
-	err := models.UpdateByTablename(models.STUDIO,&data)
+	/*
 
+	 */
 
-
-	//返回结果
-	if err != nil {
-		c.PackRecode(c.resp,models.RECODE_DBERR) //4001　插入失败
-		return
-	}
 	c.PackRecode(c.resp,models.RECODE_OK)
 
 

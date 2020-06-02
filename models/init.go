@@ -58,11 +58,17 @@ type Employee struct {
 type Studio struct {
 	StuId int64	 	`orm:"pk;auto" json:"stu_id"`  	//演出厅ID
 	StuName string 	`orm:"size(30)" json:"stu_name"` 	//演出厅名字
+
+	/*
 	StuRows int64  	`json:"stu_rows"`
 	StuCols int64 	`json:"stu_cols"`
+	 */
+
+	StuType int64   `json:"stu_type"`
+	StuSize int64	`json:"stu_size"`
 	StuAvaSeat int64	`json:"stu_ava_seat"`
 
-	Seat []*Seat	`orm:"reverse(many)"` // 设置一对多的反向关系
+	Seat []*Seat	`orm:"reverse(many)" json:"-"` // 设置一对多的反向关系
 	//Schedules []*Schedule `orm:"reverse(many)" json:"-"` //设置多对多反向关系
 }
 //电影表
@@ -100,8 +106,8 @@ type Schedule struct {
 	StuName string `json:"stu_name"`
 	MovName string `json:"mov_name"`
 
-	SchStuId int64 `json:"-"`
-	SchMovId int64 `json:"-"`
+	SchStuId int64 `json:"sch_stu_id"`
+	SchMovId int64 `json:"sch_mov_id"`
 
 	SchPrice float64 `json:"sch_price"`
 
