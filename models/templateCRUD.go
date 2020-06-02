@@ -239,6 +239,8 @@ func UpdateByTablenameAndField(tablename , field string,p interface{})(int64,err
 		num,err = o.Update(p.(*Movie),field)
 	case SEAT:
 		num,err = o.Update(p.(*Seat),field)
+	case STUDIO:
+		num,err = o.Update(p.(*Studio),field)
 	}
 	return num,err
 }
@@ -326,4 +328,16 @@ func RelateQuery(tablename string,p interface{})(int64,error) {
 		num,err = o.QueryTable(tablename)	.RelatedSel().All(p.(*[]Schedule))
 	}
 	return num,err
+}
+
+func ManyToOneReverse(tablename string,param,p interface{})error {
+	o := orm.NewOrm()
+
+	var err error
+	switch tablename {
+	case STUDIO:
+		err = o.QueryTable(tablename).Filter("Seat__StId",param.(int64)).Limit(1).One(p.(*Studio))
+
+	}
+	return err
 }

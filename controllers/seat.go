@@ -64,11 +64,26 @@ func (c *SeatController)UpdateSeat() {
 
 	_,err := models.UpdateByTablenameAndField(models.SEAT,"st_status",&data)
 
+
+	//修改可用座位数字
+	//一对多反向查询演出厅
+	studio := models.Studio{}
+	err2 := models.ManyToOneReverse(models.STUDIO,data.StId,&studio)
+	logs.Debug("查询到的演出厅信息是:",studio)
+
+	if data.StStatus == 1{
+		studio.StuAvaSeat -= 1
+	} else {
+		studio.StuAvaSeat += 1
+	}
+	models.UpdateByTablenameAndField(models.STUDIO,"stu_ava_seat",&studio)
 	//返回结果
-	if err != nil {
-		logs.Error(err)
+	if err != nil || err2 != nil{
+		logs.Error(err,err2)
 		c.PackRecode(c.resp,models.RECODE_DBERR) //4001　插入失败
 		return
 	}
+
+
 	c.PackRecode(c.resp,models.RECODE_OK)
 }
