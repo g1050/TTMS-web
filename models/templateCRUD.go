@@ -39,6 +39,8 @@ func GetDataByNumAndOffset(tablename string,slice interface{},rowslimit,offset i
 		ret2, err2 = qs.OrderBy(orderby).Limit(rowslimit,offset).All(slice.(*[]Movie))
 	case SCHEDULE:
 		ret2,err = qs.OrderBy(orderby).Limit(rowslimit,offset).RelatedSel().All(slice.(*[]Schedule))
+	case TICKET:
+		ret2, err2 = qs.OrderBy(orderby).Limit(rowslimit,offset).RelatedSel().All(slice.(*[]Ticket))
 	}
 
 	//查询

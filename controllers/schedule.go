@@ -37,9 +37,13 @@ func (c *ScheduleController)InsertSchedule()  {
 	//构造studio和movie
 	stu := models.Studio{StuId:data.SchStuId}
 	mov := models.Movie{MovId:data.SchMovId}
+	models.GetDataById(models.MOVIE,&mov)
+	models.GetDataById(models.STUDIO,&stu)
 	data.Movie = &mov
 	data.Studio = &stu
-	logs.Debug("收到的演出计划信息是",data,)
+	data.StuName = stu.StuName
+	data.MovName = mov.MovName
+	logs.Debug("收到的演出计划信息是",data)
 
 	//把演出计划插入插入数据库
 	_,err := models.InsertByTableName(models.SCHEDULE,&data)
@@ -61,13 +65,6 @@ func (c *ScheduleController)InsertSchedule()  {
 	}
 	logs.Debug("%d seats read\n", num)
 
-	m := models.Movie{MovId:data.SchMovId}
-	s := models.Studio{StuId:data.SchStuId}
-	models.GetDataById(models.MOVIE,&m)
-	models.GetDataById(models.STUDIO,&s)
-	logs.Debug("查询到的电影名字",m.MovName)
-	logs.Debug("查询到的演出厅名字",s.StuName)
-
 
 	for _,value := range seats {
 		//每个座位生成对应的票
@@ -76,13 +73,16 @@ func (c *ScheduleController)InsertSchedule()  {
 		tic.TicSchId = data.SchId
 
 		//给movname 和 stuname
-		tic.TicMovName = m.MovName
-		tic.TicStuName = s.StuName
+		tic.TicMovName = mov.MovName
+		tic.TicStuName = stu.StuName
 
 		num,err := models.InsertByTableName(models.TICKET,&tic)
 		logs.Debug("生成的票是",tic)
-		logs.Debug(num,err)
-		logs.Debug(*value)
+		if err != nil {
+			logs.Debug(num,err)
+			c.PackRecode(c.resp,models.RECODE_DBERR)
+			return
+		}
 	}
 
 	/*
@@ -243,11 +243,13 @@ func (c *ScheduleController) GetSchedule() {
 		return
 	}
 
+	/*
 	//重新赋值StuName字段和MovName字段
 	for index,value := range slice {
 	 	slice[index].StuName = value.Studio.StuName
 		slice[index].MovName = value.Movie.MovName
 	}
+	 */
 
 	/*
 	num,err := models.RelateQuery(models.SCHEDULE,&slice)
@@ -280,4 +282,45 @@ func (c *ScheduleController) GetSchedule() {
 	c.resp["sum"] = sum
 	c.resp["data"] = slice
 	c.PackRecode(c.resp,models.RECODE_OK)
+}
+
+
+/*
+根据电影ID查询,演出计划
+用户购票时候
+ */
+func (c *ScheduleController) GetScheduleByMovie() {
+	c.resp = make(map[string]interface{})
+	defer c.sendJSON(c.resp)
+
+	//验证权限
+	if ok := c.JudgeAuthority(models.MG_QUERY_SCH); !ok {
+		return
+	}
+
+	pageStr := c.Ctx.Input.Param(":page")
+	page, _ := strconv.Atoi(pageStr)
+	logs.Debug("获取放映计划信息第", page, "页")
+
+	//slice中携带的信息太多，需要,挑选
+	slice := []models.Schedule{}
+
+	err, sum, ret2 := models.GetDataByNumAndOffset(models.SCHEDULE, &slice, 10, (page-1)*10, "sch_stu_id")
+	if err != nil || ret2 == 0 {
+		logs.Error("查询n条数据出错")
+		c.resp["sum"] = 0
+		c.PackRecode(c.resp, models.RECODE_DBERR) //数据库错误
+		return
+	}
+
+	//重新赋值StuName字段和MovName字段
+	for index, value := range slice {
+		slice[index].StuName = value.Studio.StuName
+		slice[index].MovName = value.Movie.MovName
+	}
+
+	logs.Debug("从数据库存中获得数据", slice)
+	c.resp["sum"] = sum
+	c.resp["data"] = slice
+	c.PackRecode(c.resp, models.RECODE_OK)
 }

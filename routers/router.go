@@ -49,6 +49,11 @@ func init() {
 	beego.Router("/schedule/delete", &controllers.ScheduleController{},"Get:DeleteSchedule")
 	beego.Router("/schedule/update", &controllers.ScheduleController{},"Post:UpdateSchedule")
 	beego.Router("/schedule/retrieve/:page", &controllers.ScheduleController{},"Get:GetSchedule")
+	beego.Router("/schedule/retrieve/ByMovie", &controllers.ScheduleController{},"Get:GetScheduleByMovie")
+
+	//票务管理
+	beego.Router("/ticket/retrieve/:page", &controllers.TicketController{},"Get:GetTicket")
+
 
 
 

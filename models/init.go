@@ -133,7 +133,7 @@ type Ticket struct {
 	TicEmpId int64
 	TicMovId int64
 
-	Seat *Seat 		`orm:"rel(one)" json:"seat"` //座位信息需要返回,一对一关系
+	Seat *Seat 		`orm:"rel(fk)" json:"seat"` //座位信息需要返回,一对多关系,一个座位对应多张票
 
 	/*
 	Employee *Employee	`orm:"rel(fk)"` //一对一关系,用来统计销售业绩
