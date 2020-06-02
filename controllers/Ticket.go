@@ -78,7 +78,7 @@ func (c *TicketController)GetTicketByScheduleId() {
 其实就是把票改为售出的状态
 */
 type TicketArr struct {
-	ticket []models.Ticket
+	MTicket []models.Ticket `json:"m_ticket"`
 }
 func (c *TicketController)UpdateTIcket() {
 	c.resp = make(map[string]interface{})
@@ -92,12 +92,27 @@ func (c *TicketController)UpdateTIcket() {
 	json.Unmarshal(c.Ctx.Input.RequestBody,&data)
 	logs.Debug("从前段获取的数组是",data)
 
+	/*
+	t := models.Ticket{TicId:1}
+	tmp := TicketArr{}
+	tmp.MTicket= append(tmp.ticket,t)
+	tmp.MTicket= append(tmp.ticket,t)
+	tmp.MTicket= append(tmp.ticket,t)
+
+	str,err2 := json.Marshal(tmp.ticket)
+
+
+	logs.Debug("打包成json%s\n",str,err2)
+	logs.Debug(tmp)
+	*/
+
 	//修改
-	for _,value := range data.ticket {
+	for _,value := range data.MTicket{
 		value.TicStatus = 1
 		_, err := models.UpdateByTablenameAndField(models.TICKET,"tic_status",&value)
 		//返回结果
 		if err != nil {
+			logs.Error(err)
 			c.PackRecode(c.resp, models.RECODE_DBERR) //4001　插入失败
 			return
 		}

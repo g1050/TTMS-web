@@ -36,7 +36,7 @@ func GetDataByNumAndOffset(tablename string,slice interface{},rowslimit,offset i
 	case STUDIO:
 		ret2, err2 = qs.OrderBy(orderby).Limit(rowslimit,offset).All(slice.(*[]Studio))
 	case MOVIE:
-		ret2, err2 = qs.OrderBy(orderby).Limit(rowslimit,offset).All(slice.(*[]Movie))
+		ret2, err2 = qs.OrderBy(orderby).All(slice.(*[]Movie))
 	case SCHEDULE:
 		ret2,err = qs.OrderBy(orderby).Limit(rowslimit,offset).RelatedSel().All(slice.(*[]Schedule))
 	case TICKET:
