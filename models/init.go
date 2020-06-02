@@ -123,13 +123,18 @@ type Schedule struct {
 需要在生成演出计划的时候就票信息添加到数据库中去
  */
 type Ticket struct {
+	//必要的字段
 	TicID int64 `json:"tic_id"`
-	TicStu string
-	TicMov string
+	TicSchId int64
+	TicStatus int64 //已经售出 未售出
+	Seat *Seat 		`orm:"rel(one)" json:"seat"` //座位信息需要返回,一对一关系
 
-	Studio *Studio	`orm:"rel(one)" json:"-"` //该字段不需要返回给客户端
+	//人性化展示
+	TicStuName string
+	TicMovName string
+	Studio *Studio	`orm:"rel(one)" json:"-"` //该字段不需要返回给客户端 一对以关系
 	Movie *Movie	`orm:"rel(one)" json:"-"` //不打包
-	Seat *Seat 		`orm:"rel(one)" json:"seat"` //座位信息需要返回
+
 }
 func init() {
 	//连接Mysql数据库

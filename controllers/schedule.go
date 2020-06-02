@@ -49,6 +49,9 @@ func (c *ScheduleController)InsertSchedule()  {
 		return
 	}
 
+	//生成相应的票
+	
+
 	/*
 	//添加多对多关系
 	studio := models.Studio{StuId:data.SchStuId}
