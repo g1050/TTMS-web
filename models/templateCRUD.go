@@ -203,24 +203,46 @@ func DeleteByTablename(tablename string, p interface{}) (int64,error) {
 }
 
 /*
-模糊查询模板,like '%a%'
+根据key和value获取数据,精确搜索
+不同于按照值模糊匹配
  */
-func GetHintByFieldAndValue(tablename,field , value string,container interface{})(int64,error){
+func GetDataByFieldAndValue(tablename,field string, value interface{},container interface{})(int64,error)   {
 	o := orm.NewOrm()
 	var qs orm.QuerySeter
 	var num int64
 	var err error
 
+	qs = o.QueryTable(tablename)
+	switch tablename {
+	case SCHEDULE:
+		num,err = qs.Filter(field,value.(int64)).All(container.(*[]Schedule))
+	case TICKET:
+		num,err = qs.Filter(field,value.(int64)).All(container.(*[]Ticket))
+
+	}
+	return num,err
+}
+
+/*
+模糊查询模板,like '%a%'
+ */
+func GetHintByFieldAndValue(tablename,field string, value interface{},container interface{})(int64,error){
+	o := orm.NewOrm()
+	var qs orm.QuerySeter
+	var num int64
+	var err error
+
+	qs = o.QueryTable(tablename)
 	switch tablename{
 	case EMPPLYEE:
-		qs = o.QueryTable(tablename)
-		num,err = qs.Filter(field+CONTAIN,value).All(container.(*[]Employee))
+		num,err = qs.Filter(field+CONTAIN,value.(string)).All(container.(*[]Employee))
 	case STUDIO:
-		qs = o.QueryTable(tablename)
-		num,err = qs.Filter(field+CONTAIN,value).All(container.(*[]Studio))
+		num,err = qs.Filter(field+CONTAIN,value.(string)).All(container.(*[]Studio))
 	case MOVIE:
-		qs = o.QueryTable(tablename)
-		num,err = qs.Filter(field+CONTAIN,value).All(container.(*[]Movie))
+		num,err = qs.Filter(field+CONTAIN,value.(string)).All(container.(*[]Movie))
+	case SCHEDULE:
+		num,err = qs.Filter(field,value.(int64)).All(container.(*[]Schedule))
+
 
 
 
@@ -246,6 +268,8 @@ func UpdateByTablenameAndField(tablename , field string,p interface{})(int64,err
 		num,err = o.Update(p.(*Seat),field)
 	case STUDIO:
 		num,err = o.Update(p.(*Studio),field)
+	case TICKET:
+		num,err = o.Update(p.(*Ticket),field)
 	}
 	return num,err
 }

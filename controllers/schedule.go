@@ -288,8 +288,10 @@ func (c *ScheduleController) GetSchedule() {
 /*
 根据电影ID查询,演出计划
 用户购票时候
+暂时不做分页处理
  */
 func (c *ScheduleController) GetScheduleByMovie() {
+	logs.Debug("购票时候查询演出计划")
 	c.resp = make(map[string]interface{})
 	defer c.sendJSON(c.resp)
 
@@ -298,29 +300,23 @@ func (c *ScheduleController) GetScheduleByMovie() {
 		return
 	}
 
-	pageStr := c.Ctx.Input.Param(":page")
-	page, _ := strconv.Atoi(pageStr)
-	logs.Debug("获取放映计划信息第", page, "页")
+	mov_id,_ := c.GetInt64("mov_id")
+	logs.Debug("获取到的电影ID是",mov_id)
+
+
 
 	//slice中携带的信息太多，需要,挑选
 	slice := []models.Schedule{}
+	num,err := models.GetDataByFieldAndValue(models.SCHEDULE,"movie_id",mov_id,&slice)
 
-	err, sum, ret2 := models.GetDataByNumAndOffset(models.SCHEDULE, &slice, 10, (page-1)*10, "sch_stu_id")
-	if err != nil || ret2 == 0 {
-		logs.Error("查询n条数据出错")
-		c.resp["sum"] = 0
-		c.PackRecode(c.resp, models.RECODE_DBERR) //数据库错误
+	if err != nil {
+		c.PackRecode(c.resp,models.RECODE_DBERR)
 		return
 	}
 
-	//重新赋值StuName字段和MovName字段
-	for index, value := range slice {
-		slice[index].StuName = value.Studio.StuName
-		slice[index].MovName = value.Movie.MovName
-	}
 
 	logs.Debug("从数据库存中获得数据", slice)
-	c.resp["sum"] = sum
+	c.resp["sum"] = num
 	c.resp["data"] = slice
 	c.PackRecode(c.resp, models.RECODE_OK)
 }

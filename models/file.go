@@ -3,7 +3,6 @@ package models
 import (
 	"github.com/astaxie/beego/httplib"
 	"io/ioutil"
-	"os"
 )
 
 func UploadFile(bufer []byte,filename string)string{
@@ -15,6 +14,8 @@ func UploadFile(bufer []byte,filename string)string{
 	//fmt.Println(req.String())
 	ret,_ := req.String()
 	//删除文件
-	os.Remove(str)
+	//os.Remove(str)
+
+
 	return ret
 }

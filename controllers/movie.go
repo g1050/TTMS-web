@@ -134,7 +134,7 @@ func (c *MovieController) GetMovie() {
 	defer c.sendJSON(c.resp)
 
 	//验证权限
-	if ok := c.JudgeAuthority(models.MG_MOV); !ok {
+	if ok := c.JudgeAuthority(models.MG_QUERY_MOV); !ok {
 		return
 	}
 

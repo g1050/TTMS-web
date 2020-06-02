@@ -62,6 +62,9 @@ func (c *BaseController)GetAuthority()int64{
 	case models.ADMINISTRATOR:
 		ret,_ = iniconf.Int64("ADMINISTRATOR")
 		logs.Debug("配置文件中是:",ret)
+	case models.OPERATIONSMANAGER:
+		ret,_ = iniconf.Int64("OPERATIONSMANAGER")
+		logs.Debug("配置文件中是:",ret)
 
 
 	}
