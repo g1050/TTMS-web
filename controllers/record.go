@@ -111,10 +111,10 @@ func (c *RecordController)GetPerformance() {
 }
 
 /*
-查询业绩,分页,分组
+查询票房,分页,分组
 */
 func (c *RecordController)GetBoxOffice() {
-	logs.Debug("获取所有订单")
+	logs.Debug("获取票房")
 	c.resp = make(map[string]interface{})
 	defer c.sendJSON(c.resp)
 
@@ -128,7 +128,7 @@ func (c *RecordController)GetBoxOffice() {
 
 	//使用sql语句查询,没有找到很好的解决办法,实际上是通过ticket来查询的
 	//注意参数顺序是反过来的
-	tmp,num,err := models.QueryPerformance((page-1)*10,10)
+	tmp,num,err := models.QueryBoxOffice((page-1)*10,10)
 
 	if err != nil {
 		logs.Error(err)
@@ -138,11 +138,11 @@ func (c *RecordController)GetBoxOffice() {
 
 	//查询name
 	for index,value := range tmp {
-		emp := models.Employee{EmpId:value.Id}
-		models.GetDataById(models.EMPPLYEE,&emp)
-		tmp[index].Name = emp.EmpName
+		mov := models.Movie{MovId:value.Id}
+		models.GetDataById(models.MOVIE,&mov)
+		tmp[index].Name = mov.MovName
 	}
-	logs.Debug("统计业绩时候查到的数据是",tmp,num)
+	logs.Debug("统计票房时候查到的数据是",tmp,num)
 
 	c.resp["data"] = tmp
 	c.resp["sum"] = num

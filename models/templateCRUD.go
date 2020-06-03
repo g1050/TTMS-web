@@ -16,11 +16,25 @@ type Tmp struct {
 }
 
 
+/*
+统计销售额,通过视图
+ */
 func QueryPerformance(offset,rowslimit int)([]Tmp,int64,error){
 	o := orm.NewOrm()
 	var tmp []Tmp
 
 	num, err := o.Raw("SELECT id, sum_price from v1 LIMIT ?,?",offset,rowslimit).QueryRows(&tmp)
+	return tmp,num,err
+}
+
+/*
+统计票房
+ */
+func QueryBoxOffice(offset,rowslimit int)([]Tmp,int64,error){
+	o := orm.NewOrm()
+	var tmp []Tmp
+
+	num, err := o.Raw("SELECT id, sum_price from v2 LIMIT ?,?",offset,rowslimit).QueryRows(&tmp)
 	return tmp,num,err
 }
 
