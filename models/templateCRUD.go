@@ -5,11 +5,23 @@ import (
 	"astaxie/beego/orm"
 )
 
-func QueryBOxOffice(mp map[string]interface{})(int64,error,orm.Params)  {
+/*
+为了统计业绩、票房
+定义临时数据结构
+ */
+type Tmp struct {
+	Id       int64 `json:"id"`
+	SumPrice float64 `json:"sum_price"`
+	Name string
+}
+
+
+func QueryBOxOffice(offset,rowslimit int)([]Tmp,int64,error){
 	o := orm.NewOrm()
-	res := make(orm.Params)
-	nums, err := o.Raw("SELECT employee_id, sum record group by employee_id").RowsToMap(&res, "name", "value")
-	return nums,err,res
+	var tmp []Tmp
+
+	num, err := o.Raw("SELECT id, sum_price from v1 LIMIT ?,?",offset,rowslimit).QueryRows(&tmp)
+	return tmp,num,err
 }
 
 /*数据库查询所有数据,分页展示
@@ -303,6 +315,8 @@ func GetDataById(tablename string, p interface{})error {
 	switch tablename {
 	case STUDIO:
 		err = o.Read(p.(*Studio))
+	case EMPPLYEE:
+		err = o.Read(p.(*Employee))
 	case SCHEDULE:
 		err = o.Read(p.(*Schedule))
 	case MOVIE:

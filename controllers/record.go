@@ -88,14 +88,24 @@ func (c *RecordController)GetBoxOffice() {
 	logs.Debug("获取订单信息第",page,"页")
 
 	//使用sql语句查询,没有找到很好的解决办法,实际上是通过ticket来查询的
+	//注意参数顺序是反过来的
+	tmp,num,err := models.QueryBOxOffice((page-1)*10,10)
 
+	if err != nil {
+		logs.Error(err)
+		c.PackRecode(c.resp,models.RECODE_DBERR)
+		return
+	}
 
+	//查询name
+	for index,value := range tmp {
+		emp := models.Employee{EmpId:value.Id}
+		models.GetDataById(models.EMPPLYEE,&emp)
+		tmp[index].Name = emp.EmpName
+	}
+	logs.Debug("统计业绩时候查到的数据是",tmp,num)
 
-	c.PackRecode(c.resp,models.RECODE_OK)
-
-	/*
+	c.resp["data"] = tmp
 	c.resp["sum"] = num
-	c.resp["data"] = ret
-	 */
-	logs.Debug(c.resp)
+	c.PackRecode(c.resp,models.RECODE_OK)
 }
