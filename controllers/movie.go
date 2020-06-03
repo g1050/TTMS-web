@@ -74,6 +74,7 @@ func (c *MovieController) InsertMovieImage() {
 	//获取前段数据
 	filedata,hd,err := c.GetFile("image");
 	if err != nil{
+		logs.Error(err)
 		c.PackRecode(c.resp,models.RECODE_NODATA)
 		return
 	}
@@ -87,6 +88,7 @@ func (c *MovieController) InsertMovieImage() {
 	movie := models.Movie{MovId:int64(id),MovImg:path}
 	_,err2 := models.UpdateByTablenameAndField(models.MOVIE,"mov_img",&movie)
 	if err2 != nil {
+		logs.Error(err)
 		c.PackRecode(c.resp,models.RECODE_DBERR)
 		return
 	}

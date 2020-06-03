@@ -92,20 +92,6 @@ func (c *TicketController)UpdateTIcket() {
 	json.Unmarshal(c.Ctx.Input.RequestBody,&data)
 	logs.Debug("从前段获取的数组是",data)
 
-	/*
-	t := models.Ticket{TicId:1}
-	tmp := TicketArr{}
-	tmp.MTicket= append(tmp.ticket,t)
-	tmp.MTicket= append(tmp.ticket,t)
-	tmp.MTicket= append(tmp.ticket,t)
-
-	str,err2 := json.Marshal(tmp.ticket)
-
-
-	logs.Debug("打包成json%s\n",str,err2)
-	logs.Debug(tmp)
-	*/
-
 	//修改
 	for _,value := range data.MTicket{
 		value.TicStatus = 1
@@ -117,6 +103,45 @@ func (c *TicketController)UpdateTIcket() {
 			return
 		}
 	}
+
+	//生成订单
+
+	c.PackRecode(c.resp,models.RECODE_OK)
+
+}
+
+/*
+退票只能一张一张退
+ */
+func (c *TicketController)UpdateTicketReturn() {
+	c.resp = make(map[string]interface{})
+	defer c.sendJSON(c.resp)
+
+	if ok := c.JudgeAuthority(models.MG_TICKET); !ok {
+		return
+	}
+
+	data := models.Ticket{}
+	/*
+	data.TicId = 1
+	str,_ := json.Marshal(data)
+	logs.Debug("%s",str)
+	 */
+	json.Unmarshal(c.Ctx.Input.RequestBody,&data)
+
+	//修改票的信息
+	data.TicStatus = 0
+	logs.Debug("从前段获取的数组是",data)
+	_, err := models.UpdateByTablenameAndField(models.TICKET,"tic_status",&data)
+	//返回结果
+	if err != nil {
+		logs.Error(err)
+		c.PackRecode(c.resp, models.RECODE_DBERR) //4001　插入失败
+		return
+	}
+
+	//删除订单
+
 	c.PackRecode(c.resp,models.RECODE_OK)
 
 }
@@ -126,6 +151,10 @@ func (c *TicketController)GetTicketById()  {
 
 	c.resp = make(map[string]interface{})
 	defer c.sendJSON(c.resp)
+
+	if ok := c.JudgeAuthority(models.MG_QUERY_TICKET); !ok {
+		return
+	}
 
 	id,_:= c.GetInt64("tic_id")
 	logs.Debug("要查询的票的Id是",id)
