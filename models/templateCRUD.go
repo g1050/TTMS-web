@@ -5,6 +5,12 @@ import (
 	"astaxie/beego/orm"
 )
 
+func QueryBOxOffice(mp map[string]interface{})(int64,error,orm.Params)  {
+	o := orm.NewOrm()
+	res := make(orm.Params)
+	nums, err := o.Raw("SELECT employee_id, sum record group by employee_id").RowsToMap(&res, "name", "value")
+	return nums,err,res
+}
 
 /*数据库查询所有数据,分页展示
 slice 切片指针类型，用来返回数据
@@ -41,6 +47,11 @@ func GetDataByNumAndOffset(tablename string,slice interface{},rowslimit,offset i
 		ret2,err = qs.OrderBy(orderby).Limit(rowslimit,offset).RelatedSel().All(slice.(*[]Schedule))
 	case TICKET:
 		ret2, err2 = qs.OrderBy(orderby).Limit(rowslimit,offset).RelatedSel().All(slice.(*[]Ticket))
+	case RECORD:
+		ret2, err2 = qs.OrderBy(orderby).Limit(rowslimit,offset).RelatedSel().All(slice.(*[]Record))
+		//ret2, err2 = qs.OrderBy(orderby).Limit(rowslimit,offset).RelatedSel().All(slice.(*[]Record))
+		//ret2, err2 = qs.RelatedSel().All(slice.(*[]Record))
+
 	}
 
 	//查询
