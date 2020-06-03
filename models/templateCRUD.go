@@ -97,6 +97,9 @@ func InsertByTableName(tablename string,p interface{})( int64,error) {
 		num,err = o.Insert(p.(*Schedule))
 	case TICKET:
 		num,err = o.Insert(p.(*Ticket))
+	case RECORD:
+		num,err = o.Insert(p.(*Record))
+
 
 	}
 
@@ -119,17 +122,21 @@ func CheckExist(tablename , key , value string)bool {
 	return res
 }
 
-func GetId(tablename ,key ,value string)int64  {
+func GetId(tablename ,key string,value interface{})int64  {
 	logs.Debug("func: GetId tablename: ",tablename)
 
 	o := orm.NewOrm()
 	qs := o.QueryTable(tablename)
 	var ret int64
 	switch tablename {
-	case tablename:
+	case EMPPLYEE:
 		e := Employee{}
-		qs.Filter(key,value).One(&e)
+		qs.Filter(key,value.(string)).One(&e)
 		ret = e.EmpId
+	case RECORD:
+		r := Record{}
+		qs.Filter(key,value.(int64)).One(&r)
+		ret = r.RecId
 	}
 
 	return ret
@@ -186,7 +193,8 @@ func DeleteByTablename(tablename string, p interface{}) (int64,error) {
 		num,err = o.Delete(p.(*Seat))
 	case SCHEDULE:
 		num,err = o.Delete(p.(*Schedule))
-
+	case RECORD:
+		num,err = o.Delete(p.(*Record))
 	}
 	if err != nil{
 		logs.Error(err)

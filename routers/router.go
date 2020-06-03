@@ -54,7 +54,7 @@ func init() {
 	//票务管理
 	beego.Router("/ticket/retrieve/:page", &controllers.TicketController{},"Get:GetTicket")
 	beego.Router("/ticket/retrieve/bysch", &controllers.TicketController{},"Get:GetTicketByScheduleId")
-	beego.Router("/ticket/update", &controllers.TicketController{},"Post:UpdateTIcket")
+	beego.Router("/ticket/update", &controllers.TicketController{},"Post:UpdateTicket")
 	beego.Router("/ticket/retrieve/byid", &controllers.TicketController{},"Get:GetTicketById")
 	beego.Router("ticket/update/return", &controllers.TicketController{},"Post:UpdateTicketReturn")
 

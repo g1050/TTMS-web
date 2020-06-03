@@ -4,6 +4,7 @@ import (
 	"astaxie/beego/logs"
 	"astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+	"time"
 )
 
 //权限
@@ -30,6 +31,7 @@ const (
 	SEAT = "seat"
 	SCHEDULE = "schedule"
 	TICKET = "ticket"
+	RECORD = "record"
 )
 
 //职位
@@ -144,11 +146,25 @@ type Ticket struct {
 	TicMovName string
 
 }
+
+
+/*
+订单表结构,前端展示,演出计划某些字段,还有员工信息
+ */
+type Record struct {
+	RecId int64  `orm:"pk;auto"`
+	Employee *Employee `orm:"rel(fk)"` //设置多对多反向关系
+	Schedule *Schedule `orm:"rel(fk)"` //设置多对多反向关系
+	Movie *Movie `orm:"rel(fk)" json:"-"` //设置多对多反向关系
+	Ticket *Ticket `orm:"rel(fk)" json:"-"` //设置多对多反向关系
+	Created time.Time `orm:"auto_now;type(datetime)"`
+}
+
 func init() {
 	//连接Mysql数据库
 	orm.RegisterDataBase("default", "mysql", "root:123456@tcp(47.94.14.45:3306)/ttms?charset=utf8", 30) //最后是一个超时时间
 	//注册model
-	orm.RegisterModel(new(Employee),new(Studio),new(Movie),new(Seat),new(Schedule),new(Ticket))
+	orm.RegisterModel(new(Employee),new(Studio),new(Movie),new(Seat),new(Schedule),new(Ticket),new(Record))
 	//创建表,第二个参数表示如果存在该表是否覆盖
 	orm.RunSyncdb("default",false,true)
 

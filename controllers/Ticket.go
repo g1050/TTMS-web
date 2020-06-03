@@ -80,7 +80,7 @@ func (c *TicketController)GetTicketByScheduleId() {
 type TicketArr struct {
 	MTicket []models.Ticket `json:"m_ticket"`
 }
-func (c *TicketController)UpdateTIcket() {
+func (c *TicketController)UpdateTicket() {
 	c.resp = make(map[string]interface{})
 	defer c.sendJSON(c.resp)
 
@@ -92,6 +92,10 @@ func (c *TicketController)UpdateTIcket() {
 	json.Unmarshal(c.Ctx.Input.RequestBody,&data)
 	logs.Debug("从前段获取的数组是",data)
 
+
+	mov := models.Movie{}
+	sch := models.Schedule{}
+	emp := models.Employee{}
 	//修改
 	for _,value := range data.MTicket{
 		value.TicStatus = 1
@@ -102,9 +106,33 @@ func (c *TicketController)UpdateTIcket() {
 			c.PackRecode(c.resp, models.RECODE_DBERR) //4001　插入失败
 			return
 		}
-	}
 
-	//生成订单
+		//查询ticket
+		models.GetDataById(models.TICKET,&value)
+		logs.Debug("买票时候取到的票的信息是",value)
+		//生成订单
+		rec := models.Record{}
+		//构造movie
+		mov.MovId = value.TicMovId
+		rec.Movie = &mov
+		//构造演出计划
+		sch.SchId = value.TicSchId
+		rec.Schedule = &sch
+		//构造员工
+		emp.EmpId = value.TicEmpId
+		rec.Employee = &emp
+		//构造票的信息
+		rec.Ticket = &value
+
+		num,err := models.InsertByTableName(models.RECORD,&rec)
+		if err != nil {
+			logs.Error(num,err)
+			c.PackRecode(c.resp,models.RECODE_DBERR)
+			return
+		}
+		logs.Debug("生成销售记录是:",rec)
+
+	}
 
 	c.PackRecode(c.resp,models.RECODE_OK)
 
@@ -141,6 +169,16 @@ func (c *TicketController)UpdateTicketReturn() {
 	}
 
 	//删除订单
+	rec := models.Record{}
+	//删除订单
+	rec.RecId = models.GetId(models.RECORD,"ticket_id",data.TicId)
+	num,err := models.DeleteByTablename(models.RECORD,&rec)
+
+	if err != nil {
+		logs.Error(num,err)
+		c.PackRecode(c.resp,models.RECODE_DBERR)
+		return
+	}
 
 	c.PackRecode(c.resp,models.RECODE_OK)
 
