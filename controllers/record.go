@@ -74,6 +74,45 @@ func (c *RecordController)GetRecord() {
 /*
 查询业绩,分页,分组
  */
+func (c *RecordController)GetPerformance() {
+	logs.Debug("获取所有订单")
+	c.resp = make(map[string]interface{})
+	defer c.sendJSON(c.resp)
+
+	if ok := c.JudgeAuthority(models.MG_BOX_OFFICE); !ok {
+		return
+	}
+
+	pageStr := c.Ctx.Input.Param(":page")
+	page,_ := strconv.Atoi(pageStr)
+	logs.Debug("获取订单信息第",page,"页")
+
+	//使用sql语句查询,没有找到很好的解决办法,实际上是通过ticket来查询的
+	//注意参数顺序是反过来的
+	tmp,num,err := models.QueryPerformance((page-1)*10,10)
+
+	if err != nil {
+		logs.Error(err)
+		c.PackRecode(c.resp,models.RECODE_DBERR)
+		return
+	}
+
+	//查询name
+	for index,value := range tmp {
+		emp := models.Employee{EmpId:value.Id}
+		models.GetDataById(models.EMPPLYEE,&emp)
+		tmp[index].Name = emp.EmpName
+	}
+	logs.Debug("统计业绩时候查到的数据是",tmp,num)
+
+	c.resp["data"] = tmp
+	c.resp["sum"] = num
+	c.PackRecode(c.resp,models.RECODE_OK)
+}
+
+/*
+查询业绩,分页,分组
+*/
 func (c *RecordController)GetBoxOffice() {
 	logs.Debug("获取所有订单")
 	c.resp = make(map[string]interface{})
@@ -89,7 +128,7 @@ func (c *RecordController)GetBoxOffice() {
 
 	//使用sql语句查询,没有找到很好的解决办法,实际上是通过ticket来查询的
 	//注意参数顺序是反过来的
-	tmp,num,err := models.QueryBOxOffice((page-1)*10,10)
+	tmp,num,err := models.QueryPerformance((page-1)*10,10)
 
 	if err != nil {
 		logs.Error(err)

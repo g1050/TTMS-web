@@ -60,6 +60,7 @@ func init() {
 
 	//订单管理
 	beego.Router("/record/retrieve/:page", &controllers.RecordController{},"Get:GetRecord")
+	beego.Router("/record/performance/:page", &controllers.RecordController{},"Get:GetPerformance")
 	beego.Router("/record/boxoffice/:page", &controllers.RecordController{},"Get:GetBoxOffice")
 
 

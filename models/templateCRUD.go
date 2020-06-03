@@ -16,7 +16,7 @@ type Tmp struct {
 }
 
 
-func QueryBOxOffice(offset,rowslimit int)([]Tmp,int64,error){
+func QueryPerformance(offset,rowslimit int)([]Tmp,int64,error){
 	o := orm.NewOrm()
 	var tmp []Tmp
 
