@@ -33,6 +33,14 @@ func (c *StudioController )InsertStudio() {
 
 	logs.Debug("收到的影厅信息",data,data.StuName)
 
+	//插入数据库
+	_,err := models.InsertByTableName("studio",&data)
+	if err != nil {
+		c.PackRecode(c.resp,models.RECODE_DBERR) //4001 数据库插入错误
+		logs.Error(err)
+		return
+	}
+
 	//添加可用座位数量
 	switch data.StuSize {
 	case 1:
@@ -50,13 +58,7 @@ func (c *StudioController )InsertStudio() {
 	}
 
 
-	//插入数据库
-	_,err := models.InsertByTableName("studio",&data)
-	if err != nil {
-		c.PackRecode(c.resp,models.RECODE_DBERR) //4001 数据库插入错误
-		logs.Error(err)
-		return
-	}
+
 
 
 	//返回信息
@@ -72,7 +74,12 @@ func insertSeat(row, col int64,stu *models.Studio) {
 	for  i = 1;i <= row;i++ {
 		for j = 1;j <= col;j++ {
 			seat := models.Seat{StRow:i,StCol:j,Studio:stu}
-			models.InsertByTableName(models.SEAT,&seat)
+			num,err := models.InsertByTableName(models.SEAT,&seat)
+			if err != nil {
+				logs.Error(num,err)
+				return
+			}
+
 		}
 	}
 }

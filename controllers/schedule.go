@@ -75,6 +75,7 @@ func (c *ScheduleController)InsertSchedule()  {
 		//给movname 和 stuname
 		tic.TicMovName = mov.MovName
 		tic.TicStuName = stu.StuName
+		tic.TicPrice = data.SchPrice
 
 		num,err := models.InsertByTableName(models.TICKET,&tic)
 		logs.Debug("生成的票是",tic)
@@ -144,6 +145,8 @@ func (c *ScheduleController)DeleteSchedule() {
 
 /*
 修改演出计划,注意重新修改电影和演出厅的对应关系
+
+//生成的票要删掉,重新生成票
  */
 func (c *ScheduleController)UpdateSchedule() {
 

@@ -81,6 +81,8 @@ type TicketArr struct {
 	MTicket []models.Ticket `json:"m_ticket"`
 }
 func (c *TicketController)UpdateTicket() {
+
+	logs.Debug("购票")
 	c.resp = make(map[string]interface{})
 	defer c.sendJSON(c.resp)
 
@@ -119,10 +121,13 @@ func (c *TicketController)UpdateTicket() {
 		sch.SchId = value.TicSchId
 		rec.Schedule = &sch
 		//构造员工
-		emp.EmpId = value.TicEmpId
+		emp.EmpId = c.Employee.EmpId
 		rec.Employee = &emp
 		//构造票的信息
 		rec.Ticket = &value
+		//填写票价
+		rec.TIcPrice = value.TicPrice
+
 
 		num,err := models.InsertByTableName(models.RECORD,&rec)
 		if err != nil {

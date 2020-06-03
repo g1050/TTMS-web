@@ -131,6 +131,7 @@ type Ticket struct {
 	//必要的字段
 	TicId int64 `orm:"pk;auto" json:"tic_id"`
 	TicSchId int64
+	TicPrice float64 `json:"-"`
 	TicStatus int64 //已经售出 未售出
 	TicEmpId int64
 	TicMovId int64
@@ -153,6 +154,7 @@ type Ticket struct {
  */
 type Record struct {
 	RecId int64  `orm:"pk;auto"`
+	TIcPrice float64 `json:"-"`
 	Employee *Employee `orm:"rel(fk)"` //设置多对多反向关系
 	Schedule *Schedule `orm:"rel(fk)"` //设置多对多反向关系
 	Movie *Movie `orm:"rel(fk)" json:"-"` //设置多对多反向关系
