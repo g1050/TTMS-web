@@ -84,7 +84,7 @@ func (c *TicketController)UpdateTIcket() {
 	c.resp = make(map[string]interface{})
 	defer c.sendJSON(c.resp)
 
-	if ok := c.JudgeAuthority(models.MG_EMP); !ok {
+	if ok := c.JudgeAuthority(models.MG_TICKET); !ok {
 		return
 	}
 
@@ -119,4 +119,27 @@ func (c *TicketController)UpdateTIcket() {
 	}
 	c.PackRecode(c.resp,models.RECODE_OK)
 
+}
+
+func (c *TicketController)GetTicketById()  {
+	logs.Debug("通过Id来获取票")
+
+	c.resp = make(map[string]interface{})
+	defer c.sendJSON(c.resp)
+
+	id,_:= c.GetInt64("tic_id")
+	logs.Debug("要查询的票的Id是",id)
+
+	ticket := models.Ticket{TicId:id}
+	err := models.GetDataById(models.TICKET,&ticket)
+	logs.Debug("查到的ticket是",ticket)
+	if err != nil {
+		logs.Error(err)
+		c.PackRecode(c.resp,models.RECODE_DBERR)
+		return
+	}
+
+
+	c.resp["data"] = ticket
+	c.PackRecode(c.resp,models.RECODE_OK)
 }

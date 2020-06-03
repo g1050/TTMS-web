@@ -288,6 +288,11 @@ func GetDataById(tablename string, p interface{})error {
 		err = o.Read(p.(*Schedule))
 	case MOVIE:
 		err = o.Read(p.(*Movie))
+	case TICKET:
+		/*
+		err = o.Read(p.(*Ticket))
+		 */
+		err = o.QueryTable(tablename).Filter("tic_id", p.(*Ticket).TicId).RelatedSel().One(p.(*Ticket))
 	}
 	return err
 }
