@@ -16,8 +16,8 @@ const (
 	MG_QUERY_STU = 16
 	MG_QUERY_MOV = 32
 	MG_QUERY_SCH = 64
-	MG_PERSONAL_SALE = 128
-	MG_PERFORMANCE = 256
+	//MG_PERSONAL_SALE = 128
+	//MG_PERFORMANCE = 256
 	MG_BOX_OFFICE = 512
 	MG_TICKET = 1024
 	MG_QUERY_TICKET = 2048
@@ -105,8 +105,8 @@ type Seat struct {
 type Schedule struct {
 	SchId int64 `orm:"pk;auto" json:"sch_id"`
 	SchTime string `json:"sch_time"` //采用string 类型存储
-	Studio *Studio	`orm:"rel(one)" json:"-"` //该字段不需要返回给客户端
-	Movie *Movie	`orm:"rel(one)" json:"-"` //不打包
+	Studio *Studio	`orm:"rel(fk)" json:"-"` //该字段不需要返回给客户端
+	Movie *Movie	`orm:"rel(fk)" json:"-"` //不打包
 
 	StuName string `json:"stu_name"`
 	MovName string `json:"mov_name"`

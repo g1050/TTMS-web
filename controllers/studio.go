@@ -56,6 +56,7 @@ func (c *StudioController )InsertStudio() {
 		//添加座位信息
 		insertSeat(10,10,&data)
 	}
+	models.UpdateByTablenameAndField(models.STUDIO,"stu_ava_seat",&data)
 
 
 
@@ -188,6 +189,7 @@ func (c *StudioController)UpdateStudio() {
 			return
 		}
 
+		models.InsertByTableName(models.STUDIO,&data)
 		//重新插入
 		//添加可用座位数量
 		switch data.StuSize {
@@ -204,7 +206,8 @@ func (c *StudioController)UpdateStudio() {
 			//添加座位信息
 			insertSeat(10,10,&data)
 		}
-		models.InsertByTableName(models.STUDIO,&data)
+		models.UpdateByTablenameAndField(models.STUDIO,"stu_ava_seat",&data)
+
 	}
 
 	/*

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <div class="login">
+        <div class="top">
+            <h3>天唐票务</h3>
+            <span class="num">账号</span><input class="log_num" maxlength="11"  type="text" oninput = "value=value.replace(/[^\d]/g,'')">
+        </div>
+        <div class="bottom">
+            <div class="b_input">
+            <span class="pas">密码</span><input class="log_pas" maxlength="20" type="password" autocomplete="new-password"></div>
+            <div class="tips">
+                <div class="scroll_box">
+                    <input type="submit" class="submit log_sub">
+                    <span class="tips_Inner">输入账号有误！</span>
+                </div>
+              
+            </div>
+            
+        </div>
+       
+    </div>
+
+</body>
+<script src="../ajax.js"></script>
+<script src="src/index.js"></script>
+<script src="src/contril.js"></script> 
+</html>

@@ -1,11 +1,12 @@
 package main
 
 import (
+	"astaxie/beego/logs"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
 	//"ttms/models"
 	//_ "ttms/models"
-	_"ttms/routers"
+	_ "ttms/routers"
 )
 
 func main() {
@@ -21,6 +22,11 @@ func main() {
 
 	 */
 
+	//路由重定向
+	//ignoreStaticPath()
+
+	//配置文件
+	logs.SetLogger(logs.AdapterFile, `{"filename":"ttms.log"}`)
 
 	//解决跨域问题
 	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{

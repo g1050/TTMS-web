@@ -37,8 +37,15 @@ func (c *ScheduleController)InsertSchedule()  {
 	//构造studio和movie
 	stu := models.Studio{StuId:data.SchStuId}
 	mov := models.Movie{MovId:data.SchMovId}
-	models.GetDataById(models.MOVIE,&mov)
-	models.GetDataById(models.STUDIO,&stu)
+	err1 := models.GetDataById(models.MOVIE,&mov)
+	err2 := models.GetDataById(models.STUDIO,&stu)
+
+	//电影不合法
+	if err1 != nil || err2 != nil {
+		c.PackRecode(c.resp,models.RECODE_NODATA)
+		return
+	}
+
 	data.Movie = &mov
 	data.Studio = &stu
 	data.StuName = stu.StuName
@@ -86,20 +93,6 @@ func (c *ScheduleController)InsertSchedule()  {
 		}
 	}
 
-	/*
-	//添加多对多关系
-	studio := models.Studio{StuId:data.SchStuId}
-	_,err2 := models.AddManyToMany(models.SCHEDULE,"Studios",&data,studio)
-
-	movie := models.Movie{MovId:data.SchMovId}
-	_,err3 := models.AddManyToMany(models.SCHEDULE,"Movies",&data,movie)
-
-	if err2 != nil || err3 != nil {
-		logs.Error("err2 = ",err2,"\terr3 = ",err3)
-		c.PackRecode(c.resp,models.RECODE_DBERR) //4001
-		return
-	}
-	 */
 
 	//返回信息
 	c.PackRecode(c.resp,models.RECODE_OK) //成功插入数据库
@@ -167,50 +160,32 @@ func (c *ScheduleController)UpdateSchedule() {
 	mov := models.Movie{MovId:data.SchMovId}
 	data.Movie = &mov
 	data.Studio = &stu
+
+	//跟新name字段
+	err1 := models.GetDataById(models.STUDIO,&stu)
+	if err1 != nil {
+		logs.Error(err1)
+		c.PackRecode(c.resp,models.RECODE_NODATA)
+		return
+	}
+	err2 := models.GetDataById(models.MOVIE,&mov)
+	if err2 != nil {
+		logs.Error(err1)
+		c.PackRecode(c.resp,models.RECODE_NODATA)
+		return
+	}
+	logs.Debug(stu.StuName,mov.MovName)
+	data.StuName = stu.StuName
+	data.MovName = mov.MovName
+
 	logs.Debug("从前段获取的数据是",data)
 
 
-	/*
-	//判断演出厅和c电影是否改变
-	s := models.Schedule{SchId:data.SchId}
-	err1 := models.GetDataById(models.SCHEDULE,&s)
-	if err1 != nil {
-		c.PackRecode(c.resp,models.RECODE_DBERR) //4001 数据库查询错误　
-		return
-	}
-	 */
-
-	/*
-	//判断是否改变
-	if data.SchMovId != s.SchMovId { //电影发生变化
-		//删除之前的对应关系
-		models.ClearManyToMany(models.SCHEDULE,"Movies",&data)
-
-		movie := models.Movie{MovId:data.SchMovId}
-		_,err2 := models.AddManyToMany(models.SCHEDULE,"Movies",&data,movie)
-		if err2 != nil {
-			c.PackRecode(c.resp,models.RECODE_DBERR)
-			return
-		}
-	}
-
-	if data.SchStuId != s.SchStuId {
-		//删除原来的对应关系
-		models.ClearManyToMany(models.SCHEDULE,"Studios",&data)
-
-		studio := models.Studio{StuId:data.SchStuId}
-		_,err2 := models.AddManyToMany(models.SCHEDULE,"Studios",&data,studio)
-		if err2 != nil {
-			c.PackRecode(c.resp,models.RECODE_DBERR)
-			return
-		}
-	}
-	 */
-
-	//修改
+	//修改,演出厅不存在会导致出现问题
 	err := models.UpdateByTablename(models.SCHEDULE,&data)
 	//返回结果
 	if err != nil {
+		logs.Error(err)
 		c.PackRecode(c.resp,models.RECODE_DBERR) //4001　插入失败
 		return
 	}

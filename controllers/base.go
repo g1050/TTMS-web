@@ -64,7 +64,7 @@ func (c *BaseController)GetAuthority()int64{
 	case models.OPERATIONSMANAGER:
 		ret,_ = iniconf.Int64("OPERATIONSMANAGER")
 	case models.CONDUCTOR:
-		ret,_ = iniconf.Int64("ACCOUNTING")
+		ret,_ = iniconf.Int64("CONDUCTOR")
 	case models.ACCOUNTING:
 		ret,_ = iniconf.Int64("ACCOUNTING")
 	case models.FINANCIALMANAGER:

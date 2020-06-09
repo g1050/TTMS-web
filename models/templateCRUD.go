@@ -12,7 +12,7 @@ import (
 type Tmp struct {
 	Id       int64 `json:"id"`
 	SumPrice float64 `json:"sum_price"`
-	Name string
+	Name string `json:"name"`
 }
 
 
@@ -23,7 +23,7 @@ func QueryPerformance(offset,rowslimit int)([]Tmp,int64,error){
 	o := orm.NewOrm()
 	var tmp []Tmp
 
-	num, err := o.Raw("SELECT id, sum_price from v1 LIMIT ?,?",offset,rowslimit).QueryRows(&tmp)
+	num, err := o.Raw("SELECT id, sum_price from v1 order by sum_price desc LIMIT ?,? ",offset,rowslimit).QueryRows(&tmp)
 	return tmp,num,err
 }
 
@@ -34,7 +34,7 @@ func QueryBoxOffice(offset,rowslimit int)([]Tmp,int64,error){
 	o := orm.NewOrm()
 	var tmp []Tmp
 
-	num, err := o.Raw("SELECT id, sum_price from v2 LIMIT ?,?",offset,rowslimit).QueryRows(&tmp)
+	num, err := o.Raw("SELECT id, sum_price from v2 order by sum_price desc LIMIT ?,? ",offset,rowslimit).QueryRows(&tmp)
 	return tmp,num,err
 }
 
@@ -262,7 +262,7 @@ func GetDataByFieldAndValue(tablename,field string, value interface{},container 
 	case SCHEDULE:
 		num,err = qs.Filter(field,value.(int64)).All(container.(*[]Schedule))
 	case TICKET:
-		num,err = qs.Filter(field,value.(int64)).All(container.(*[]Ticket))
+		num,err = qs.Filter(field,value.(int64)).RelatedSel().All(container.(*[]Ticket))
 
 	}
 	return num,err
