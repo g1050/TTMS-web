@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>影院管理控制台</title>
+    <link rel="stylesheet" href="bus_control.css">
+    <link rel="stylesheet" href="stf_control.css">
+    <link rel="stylesheet" href="ticket_control.css">
+    <link rel="stylesheet" href="man_control.css">
+
+</head>
+
+<body>
+    <div class="left">
+
+        <div class="top">
+            <span class="intr">天唐票务后台管理</span>
+            <img src="img/img1.jpeg" class="user_img">
+            <span class="user_name">校长</span>
+            <span class="user_pre">系统管理员</span>
+        </div>
+        <div class="bottom">
+            <ul class="os_col">
+                <li class="iconfont os_li">&#xe620; 员工管理</li>
+                <li class="iconfont os_li">&#xe602; 影厅管理</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="right">
+        <div class="att">
+            <div class="att_inf"></div>
+            <button class="att_yes">是</button><button class="att_no">否</button>
+        </div>
+
+        <div class="stf_col os_content">
+            <div class="stf_top">
+                <div class="stf_contain">
+                    <input type="text" maxlength="30" class="stf_ser" oninput="search()"><button
+                        class="stf_ser_but iconfont"> &#xe653;</button>
+                    <div class="stf_show_ser "></div>
+                </div>
+            </div>
+            <div class="stf_bottom">
+                <div class="ser_res">
+                    <div class="inf_show">
+                        <span class="inf_name">姓名</span>
+                        <span class="inf_pho">手机号码</span>
+                        <span class="inf_pas">密码</span>
+                        <span class="inf_born">生日</span>
+                        <span class="inf_pre">系统管理员</span>
+                    </div>
+                </div>
+
+                <div class="page"></div>
+            </div>
+        </div>
+
+        <div class="cin_col os_content">
+            <div class="cin_top">
+                <div class="cin_contain">
+                    <input type="text" maxlength="30" class="cin_ser" oninput="cin_search()"><button
+                        class="cin_ser_but iconfont"> &#xe653;</button>
+                    <div class="cin_show_ser "></div>
+                </div>
+            </div>
+            <div class="cin_bottom">
+                <div class="cin_ser_res">
+                    <div class="cin_inf_show">
+                        <span class="inf_id">影厅ID</span>
+                        <span class="inf_name">影厅名称</span>
+                        <span class="inf_type">影厅类型</span>
+                        <span class="inf_rows">行数</span>
+                        <span class="inf_cols">列数</span>
+                        <span class="inf_seat">可用座位</span>
+                        <span class="cin_add iconfont">&#xe604;</span>
+                    </div>
+                </div>
+                <div class="create_seat_5">
+                    <div class="film_block"></div>
+                    <div class="create_seat_5_rows">
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+
+                    </div>
+                    <div class="create_seat_5_rows">
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_5_rows">
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_5_rows">
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_5_rows">
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                        <span class="iconfont ">&#xe603;</span>
+                    </div>
+                </div>
+                <div class="create_seat_7">
+                    <div class="film_block"></div>
+                    <div class="create_seat_7_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_7_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_7_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_7_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_7_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_7_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_7_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                </div>
+                <div class="create_seat_10">
+                    <div class="film_block"></div>
+                    <div class="create_seat_10_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_10_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_10_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_10_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_10_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_10_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_10_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_10_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_10_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                    <div class="create_seat_10_rows">
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                        <span class="iconfont">&#xe603;</span>
+                    </div>
+                </div>
+                <div class="cin_page"></div>
+
+            </div>
+        </div>
+        <div class="seat_col os_content"></div>
+
+
+        <div class="mov_col bus_content">
+            <div class="mov_img"></div>
+            <div class="move_main_shadow">
+                <div class="mov_top">
+                    <div class="mov_ser_div">
+                        <input type="text" class="mov_ser" placeholder="查询电影" oninput="film_input_ser()"><button
+                            class="mov_ser_but iconfont">&#xe653;</button>
+                        <div class="mov_res"></div>
+                    </div>
+
+                </div>
+                <div class="mov_bottom">
+                    <div class="mov_container">
+                        <div class="mov_con_left">
+                            <img class="mov_show_img" src="img/img1.jpeg" alt="">
+                            <div class="mov_show_iconfont iconfont">&#xe604;</div>
+                            <input type="file" accept="image/*" onchange="get_pic()" class="input_pic">
+
+                        </div>
+                        <div class="mov_con_right">
+
+                            <span class="mov_name">钢铁侠3</span><span class="mov_comment">8.4</span>
+                            <h3 class="mov_type">科幻</h3>
+                            <span class="mov_rel">美国</span>/<span class="mov_time">130</span>分钟
+                            <div class="mov_cut"></div>
+                            <div class="mov_des">
+                                一股突如其来的强大力量从宇宙魔方中出现，还带来了邪神洛基（汤姆·希德勒斯顿饰），他带走了宇宙魔方，并摧毁了实验现场，使长期致力于保护全球安危的“神盾局”感到措手不及。指挥官“独眼侠”尼克·弗瑞（塞缪尔·L·杰克逊饰）意识到他必须创建一个“史上最强”的联盟组织，集结各方超级英雄，才能拯救世界。
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mov_option">
+                    <span class="mov_del">删除</span>
+                    <span class="mov_mod">修改</span>
+                    <span class="mov_add">添加</span>
+                </div>
+                <div class="mov_left iconfont">&#xe608;</div>
+                <div class="mov_right iconfont">&#xe609;</div>
+                <em class="mov_id"></em>
+                <div class="is_del">
+                    <div class="is_del_name">删除此电影？</div>
+                    <button class="del_yes">是</button><button class="del_no">否</button>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="perforn_col bus_content">
+            <div class="container">
+                <div class="inf_show">
+                    <span class="inf_sch_id">ID</span>
+                    <span class="inf_sch_time">演出时间</span>
+                    <span class="inf_stu_name">影厅</span>
+                    <span class="inf_mov_name">电影</span>
+                    <span class="inf_sch_price">票价</span>
+                    <span class="inf_sch_add iconfont">&#xe604;</span>
+                </div>
+                <div class="res_show">
+                    <span class="res_sch_id">12</span>
+                    <span class="res_sch_time">2020-06-01 01:24:00</span>
+                    <span class="res_stu_name">石榴影厅</span>
+                    <span class="res_mov_name">钢铁侠</span>
+                    <span class="res_sch_price">25.5</span>
+                    <span class="res_sch_mod iconfont">&#xe601;</span>
+                    <span class="res_sch_del iconfont">&#xe600;</span>
+                    <div class="mod_div">
+                        <span class="mod_sch_id">12</span>
+                        <input type="text" class="mod_sch_time" placeholder="演出时间">
+                        <input type="text" class="mod_stu_name" placeholder="影厅">
+                        <input type="text" class="mod_mov_name" placeholder="电影">
+                        <input type="text" class="mod_sch_price" placeholder="票价">
+                        <span class="mod_yes iconfont">&#xe73b;</span>
+                        <span class="mod_no iconfont">&#xe600;</span>
+                    </div>
+                </div>
+            </div>
+            <div class="per_page"></div>
+            <div class="per_is_del_div">
+                <div class="per_is_del">shanchu</div>
+                <button class="is_del_yes">确定</button><button class="is_del_no">取消</button>
+            </div>
+        </div>
+
+
+
+        <div class="ticket_total_col tic_content">
+            <div class="ticket_inf_show">
+                <span class="tic_inf_id">ID</span>
+                <span class="tic_inf_row">行</span>
+                <span class="tic_inf_col">列</span>
+                <span class="tic_inf_status">状态</span>
+                <span class="tic_inf_sch">影厅</span>
+                <span class="tic_inf_mov">电影</span>
+            </div>
+            <div class="ticket_res">
+
+
+
+
+
+
+
+            </div>
+            <div class="ticket_page">
+                <span class="last">上一页</span>
+                <span class="next">下一页</span>
+            </div>
+        </div>
+
+
+
+        <div class="ticket_ser_col tic_content">
+            <div class="ticket_inf_mov_show">
+                <span class="tic_mov_id">ID</span>
+                <span class="tic_mov_name">电影</span>
+                <span class="tic_mov_type">类型</span>
+                <span class="tic_mov_time">时长</span>
+                <span class="tic_mov_comment">评分</span>
+                <span class="tic_mov_rel">国家</span>
+            </div>
+            <div class="ticket_mov_res">
+
+
+            </div>
+            <div class="attention">已经没票了哦</div>
+            <div class="ticket_page">
+                <div class=buy>购票</div>
+                <span class="last">上一页</span>
+                <span class="next">下一页</span>
+            </div>
+        </div>
+
+        <div class="return_col tic_content">
+            <div class="return_top">
+                <div class="return_div">
+                    <input type="text" class="return_input">
+                    <button class="return_but iconfont">&#xe653;</button>
+                </div>
+            </div>
+
+
+
+            <div class="return_bottom">
+                <div class="return_inf">
+                    <div class="return_inf_show">
+                        <span class="tic_inf_id">ID</span>
+                        <span class="tic_inf_row">行</span>
+                        <span class="tic_inf_col">列</span>
+                        <span class="tic_inf_status">状态</span>
+                        <span class="tic_inf_sch">影厅</span>
+                        <span class="tic_inf_mov">电影</span>
+                    </div>
+                </div>
+                <div class="return_res">
+                    <div class="return_res_div">
+
+                    </div>
+                    <div class="return_att">未购影票无法退票</div>
+                    <button class="return_tic">退票</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 票房统计 -->
+        <!-- ticket -> manage tic-> man-->
+        <div class="man_col man_content">
+            <div class="manage_inf_show">
+                <span class="man_inf_id">ID</span>
+                <span class="man_inf_row">电影</span>
+                <span class="man_inf_col">票房</span>
+            </div>
+            <div class="manage_res">
+
+
+            </div>
+            <div class="manage_page">
+                <span class="last">上一页</span>
+                <span class="next">下一页</span>
+            </div>
+        </div>
+
+        <div class="per_col man_content">
+            <div class="manage_inf_show">
+                <span class="man_inf_id">ID</span>
+                <span class="man_inf_row">姓名</span>
+                <span class="man_inf_col">票房</span>
+            </div>
+            <div class="per_res">
+
+
+            </div>
+            <div class="manage_page">
+                <span class="last">上一页</span>
+                <span class="next">下一页</span>
+            </div>
+        </div>
+
+        <div class="rec_col man_content">
+            <div class="manage_inf_show">
+                <span class="rec_inf_id">ID</span>
+                <span class="rec_inf_row">售票员</span>
+                <span class="rec_inf_col">日期</span>
+                <span class="rec_inf_status">电影</span>
+                <span class="rec_inf_sch">价格</span>
+                <span class="rec_inf_mov">票ID</span>
+            </div>
+            <div class="rec_res">
+
+
+            </div>
+            <div class="manage_page">
+                <span class="last">上一页</span>
+                <span class="next">下一页</span>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+<script src="../ajax.js"></script>
+<script src="src/bus_mov_control.js"></script>
+<script src="src/bus_sch_control.js"></script>
+<script src="src/tic_control.js"></script>
+<script src="src/man_control.js"></script>
+<script src="src/cin_control.js"></script>
+<script src="src/web_control.js"></script>
+<script src="src/control.js"></script>
+<script src="src/index.js"></script>
+
+</html>

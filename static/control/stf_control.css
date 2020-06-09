@@ -1,0 +1,1192 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    width: 100%;
+    height: 100%;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+@font-face {
+    font-family: 'iconfont';
+    src: url('font/iconfont.eot');
+    src: url('font/iconfont.eot?#iefix') format('embedded-opentype'),
+    url('font/iconfont.woff') format('woff'),
+    url('font/iconfont.ttf') format('truetype'),
+    url('font/iconfont.svg#iconfont') format('svg');
+
+}
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:16px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+li{
+    list-style: none;
+}
+@media screen and (max-width:768px){
+    .choose{
+        position: fixed;
+        width: 100vw;
+        height: 8vh;
+        text-align: center;
+       
+        color: seashell;
+        background-color: rgba(32, 24, 24, 1);
+    }
+    .choose>span{
+         line-height: 8vh; 
+        color: #000;
+        font-size: 1.5rem;
+        letter-spacing: .5rem;
+    }
+    .choose .circle{
+        position: absolute;
+        width: 12vh;
+        height: 12vh;
+        border-radius: 50%;
+        right: 0;
+        top: 0;
+        background-image: url(img/img1.jpeg);
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+    }
+    .choose .pre{
+        transform: skew(15deg);
+      
+        position: absolute;
+        line-height: 4vh;
+        right: 6vh;
+        top: 6vh;
+        width: 50vw;
+        height: 4vh;
+        background-color: darkorange;
+    }
+    .pre img{
+       position: relative;
+       top: 50%;
+       transform: translateY(-50%) ;
+        width: 5vw;
+        height: 3vh;
+        line-height: 4vh;
+    }
+    .pre span{
+        margin-left: 5vw;
+        margin-right: 2vw;
+        font-size: .5rem;
+        transform: skew(0deg);
+    }
+
+    /* -------------------------------- */
+    .choose_nav{
+        z-index: -1;
+        position: fixed;
+        top: -4vh;
+        width: 100vw;
+        height: 12vh;
+        background-color: violet;
+    }
+    .choose_nav .pre_control{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        font-size: 0;
+    }
+    .pre_control>div{
+        display: inline-block;
+        position: absolute;
+        width: 25vw;
+        font-size: .5rem;
+        height: 100%;
+        text-align: center;
+    }
+    .pre_control img{
+        width: 4vh;
+        height: 4vh;
+        display: block;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top:3vh;  
+        margin-bottom: .5vh;
+    }
+    .pre_control span{
+        font-size: .5rem;
+    }
+    .control_staff{
+        position: relative;
+        left: 0;
+        top: 0;
+    }
+
+
+    .control_movie{
+        left: 25vw;
+        background-color: teal;
+    }
+    .control_set{
+        left: 50vw;
+        background-color: turquoise;
+    }
+    .back{
+        left: 75vw;
+        background-color: wheat;
+    }
+    .container{
+        position: absolute;
+        width: 100vw;
+        margin-top: 15vh;
+        height: 80vh;
+        z-index: 1;
+    }
+    .staff_div button{
+        width: 15vw;
+        height: 3.5vh;
+        border: none;
+        outline: none;
+    } 
+    .staff_div .stf_del{
+        margin-left: 20vw;
+        width: 15vw;
+        height: 3.5vh;
+        border-top-left-radius: 5vw;
+        border-bottom-left-radius: 5vw;
+    }
+    .staff_div .stf_mod{
+        margin-left: 30vw;
+        border-top-right-radius: 5vw;
+        border-bottom-right-radius: 5vw;
+    }
+    .container li{
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+        font-size: .5rem;
+        margin: 0 auto;
+        width: 95vw;
+        height: 3.5vh;
+        line-height: 3.5vh;
+        border-radius: .5rem;
+        border: .05rem solid gainsboro;
+        padding-left: .5rem;
+        margin: 2vh 0;
+    }
+
+    .container li span{
+      
+        text-align: center;
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 3.5vh;
+        margin: 0 0.5vw;
+    }
+    .stf_name{
+        width: 2.3rem;
+    }
+    .stf_pho{
+        width: 5rem;
+    }
+    .stf_pas{
+        width: 3rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin:0;
+    }
+    .stf_born{
+        width: 3.5rem;
+    }
+    .stf_pre{
+        width: 4.2rem;
+    }
+    .del_mod{
+
+    }
+    .container .staff_del{
+     
+        font-size: .5rem;
+        color: tomato;
+        margin:0 .5vw;
+    }
+    .container .staff_mod{
+        font-size: .5vw;
+        margin-left: .5vw;
+    }
+}
+
+/* ---------------------网页端------------- */
+@media screen and (min-width:768px){
+    body{
+        width: 100vw;
+        height: 100vh;
+      
+    }
+    .left{
+        float: left;
+        width: 20vw;
+        height: 100%;
+        display: inline-block;
+        background-color: rgb(54, 54, 54);
+    }
+    .top{
+        color: rgb(188, 188, 188);
+        width: 100%;
+        height: 50vh;
+        text-align: center;
+        border-bottom: 1px solid gray;
+    }
+    .intr{
+        display: inline-block;
+        margin-top: 3vh;
+        font-size: 22px;
+        letter-spacing: 2px;
+    }
+    .top img{
+      
+        /* position: relative;
+        left: 50%;
+        transform: translateX(-50%); */
+        box-sizing: border-box;
+        width: 10vw;
+        height: 10vw;
+        margin: 4vh auto;
+        border-radius: 50%;
+        border: 1px solid rgb(188, 188, 188);
+        padding: 8px;
+    }
+    .user_name{
+        display: block;
+        text-align: center;
+        font-size: 22px;
+        margin-bottom: 2vh;
+    }
+    .user_pre{
+        display: block;
+        width: 50%;
+        margin: 0 auto;
+        font-size: 18px;
+        /* border: 1px solid black; */
+        border-radius: 8px;
+    }
+    .bottom{
+        position: relative;
+        width: 20vw;
+        height: 50vh;
+        /* background-color: blanchedalmond; */
+    }
+    .bottom .os_col{
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        padding-top: 3vh;
+    }
+    .os_col li{
+        width: 100%;
+        height: 8vh;
+        /* border: 1px solid black; */
+        margin: 3vh 0;
+        font-size: 1.2rem;
+        text-align: center;
+        line-height: 8vh;
+        color: rgb(188, 188, 188);
+        background-color: rgb(74, 74, 74);
+        cursor: pointer;
+    }
+    /*被选中后的样式*/
+    .os_col .is_Choose{
+        color: rgb(74, 74, 74);
+        background-color: rgb(207, 207, 207);
+    }
+    /* .os_col li:hover{
+        color: rgb(74, 74, 74);
+        background-color: rgb(207, 207, 207);
+    } */
+/*------------------------界面右侧------------*/    
+    .right{
+        position: relative;
+        float: right;
+        width: 80vw;
+        height: 100vh;
+        background-color: rgb(207, 207, 207);
+    }
+    .stf_col{
+        width: 100%;
+        height: 100vh;
+    }
+    .stf_top,.cin_top{
+        position: relative;
+        width: 100%;
+        height: 16vh;
+        border: 1px solid rgb(99, 91, 91)
+    }
+    .stf_contain,.cin_contain{
+        display: inline-block;
+        position: absolute;
+        top: 5vh;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0 auto;
+        z-index: 2;
+    }
+    .stf_top .stf_ser,.cin_top .cin_ser{
+        box-sizing: border-box;
+        padding-left: 1vw;
+        outline: none;
+        width: 30vw;
+        height: 5vh;
+        vertical-align: middle;
+        border: none;
+        font-size: 1rem;
+        margin: 0;
+    }
+    .stf_ser_but,.cin_ser_but{
+        width: 5vh;
+        height:5vh;
+        vertical-align: middle;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+    .stf_show_ser,.cin_show_ser{
+        display: none;
+        width: 30vw;
+        background-color: rgb(183, 183, 183);
+    }
+    .stf_show_ser>div,.cin_show_ser>div{
+        box-sizing: border-box;
+        padding-left: 1vw;
+        border-bottom: 1px solid rgb(235, 235, 235);
+        height: 4vh;
+        line-height: 4vh;
+        font-size: .8rem;
+        cursor: pointer;
+        
+    } 
+    .stf_show_ser>div:hover{
+        background-color: rgb(112, 107, 107);
+    }
+    .cin_show_ser>div:hover{
+        background-color: rgb(112, 107, 107);
+    }
+    /* ----------------下方信息展示------------- */
+    .stf_bottom,.cin_bottom{
+        position: relative;
+        /* z-index: -1; */
+        width: 100%;
+        height: 84vh;
+        overflow: hidden;
+        box-sizing: border-box;
+        /* padding-top: 3vh; */
+    }
+    .stf_bottom .ser_res,.cin_bottom .cin_ser_res{
+        margin-top: 3vh;
+    }
+    .ser_res>div,.cin_ser_res>div{
+        position: relative;
+        margin: 1.5vh auto;
+        width: 60vw;
+        height: 5vh;
+        line-height: 5vh;
+        /* background-color: darkgoldenrod; */
+        font-size: 1rem;
+        box-sizing: border-box;
+        padding-left: 2vh;
+        border: 1px solid rgb(153, 152, 152);
+        border-radius: .5vw;
+    }
+   
+     .stf_bottom .ser_res>div:hover{
+        width: 60vw;
+        height: 6.5vh;
+        line-height: 6.5vh;
+        transition: .3s;
+      
+    } 
+    .cin_bottom .cin_ser_res>div:hover{
+        width: 60vw;
+        height: 6.5vh;
+        line-height: 6.5vh;
+        transition: .3s;
+      
+    }
+    .stf_bottom .ser_res>div:hover div{
+        width: 60vw;
+        height: 6.5vh;
+        line-height: 6.5vh;
+        transition: .3s;
+      
+    }
+    .stf_bottom .ser_res>div:hover span{
+        transition: .3s;
+        height: 6.5vh;
+        line-height: 6.5vh;
+       
+      
+    }
+    .cin_bottom .cin_ser_res>div:hover div{
+        width: 60vw;
+        height: 6.5vh;
+        line-height: 6.5vh;
+        transition: .3s;
+      
+    }
+    .cin_bottom .cin_ser_res>div:hover span{
+        transition: .3s;
+        height: 6.5vh;
+        line-height: 6.5vh;
+       
+      
+    }
+    .ser_res>div span,input{
+        /* vertical-align: middle; */
+        display: inline-block;
+        margin: 0 1vw;
+        height: 5vh;
+        line-height: 5vh;
+    }
+    .cin_ser_res>div span,input{
+        vertical-align: middle;
+        display: inline-block;
+        margin: 0 1vw;
+        height: 5vh;
+    }
+    .ser_res>div input,.cin_ser_res>div input{
+        vertical-align: middle;
+        outline: 0;
+        border: none;
+        height: 3vh;
+        line-height: 3vh;
+        font-size: .8rem;
+        box-sizing: border-box;
+        padding-left: .5vw;
+        background-color: rgb(207, 207, 207);
+        border-radius: .5vw;
+    }
+    .right .stf_bottom .ser_res .inf_show,
+    .right .cin_bottom .cin_ser_res .cin_inf_show{
+        width: 60vw;
+        height: 5vh;
+        line-height: 5vh;
+        transition: 0;
+        border: none;
+        border-radius: 0;
+        border-top:1px solid rgb(153, 152, 152);
+        border-bottom:1px solid rgb(153, 152, 152);
+        position: relative;
+        margin-bottom: 2vh;
+       
+    }
+    .right .stf_bottom .ser_res .inf_show:hover span{
+        height: 5vh;
+        line-height: 5vh;
+        /* width: 60vw;
+        height: 5vh;
+        line-height: 5vh;
+        transition: 0;
+        border: none;
+        border-radius: 0;
+        border-top:1px solid rgb(153, 152, 152);
+        border-bottom:1px solid rgb(153, 152, 152);
+        position: relative;
+        margin-bottom: 2vh; */
+       
+    }
+    .right .cin_bottom .cin_ser_res .cin_inf_show:hover span{
+        height: 5vh;
+        line-height: 5vh;
+       
+    }
+    /*添加按钮*/
+    .stf_add{
+       vertical-align: top;
+        font-size: 18px;
+        cursor: pointer;
+    }
+    .cin_add{
+        height: 6.5vh;
+        font-size: 18px;
+        cursor: pointer;
+    }
+    .inf_name,.mod_name,.cin_mod_name{
+        width: 6vw;
+        height: 6.5vh;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .inf_id,.cin_mod_id{
+        width: 6vw;
+    }
+    .inf_type{
+        width: 6vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .cin_mod_type{
+        width: 6vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .inf_rows,.inf_cols,.cin_mod_size{
+        width: 6vw;
+        margin: 0 1vw;
+    }
+    .cin_mod_size{
+        height: 3vh;
+        background-color: rgb(207, 207, 207);
+        border-radius: .5vw;
+        outline: none;
+    }
+    .inf_pho,.mod_pho{
+        width: 9vw;
+        vertical-align: top;
+    }
+    .inf_pas,.mod_pas{
+        width: 10vw;
+       
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .inf_born,.mod_born{
+        width: 7vw;
+      
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .inf_seat,.cin_mod_seat{
+        width: 7vw;
+    }
+    .inf_pre,.mod_pre{
+        width: 7vw;
+        
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .ser_res .inf_mod,.cin_ser_res .cin_mod{
+        width: 2vw;
+        vertical-align: top;
+       
+        margin: 0;
+        cursor: pointer;
+    }
+    .inf_del,.cin_del{
+        display: inline-block;
+        width: 2vw;
+        vertical-align: top;
+        color: rgb(216, 45, 45);
+        cursor: pointer;
+    }
+
+    .cin_sea_seat{
+        cursor: pointer;
+    }
+    .cin_sea_seat:hover{
+        color: rgb(17, 119, 30);
+    }
+    /*--------------修改的模块----------*/
+    .mod_input,.cin_mod_input{
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 60vw;
+        height: 5vh;
+        line-height: 5vh;
+        background-color: rgb(136, 136, 136);
+        padding-left: 2vh;
+        box-sizing: border-box;
+    }
+
+    .mod_pre{
+        display: inline-block;
+        margin: 0 1vw;
+        height: 3vh;
+        vertical-align: middle;
+        outline: none;
+        font-size: .8rem;
+        background-color: rgb(207, 207, 207);
+        border-radius: .5vw;
+    }
+    .mod_input .mod_acc,.cin_mod_input .cin_mod_acc{
+        width: 2vw;
+        cursor: pointer;
+        margin: 0 0;
+    }
+    .mod_noacc,.cin_mod_noacc{
+        cursor: pointer;
+        color:rgb(216, 45, 45);
+        margin: 0 1vw;
+    }
+    .page span,.cin_page span{
+        display: inline-block;
+    }
+    .page,.cin_page{
+        position: absolute;
+        margin: 0 auto;
+        bottom: 2vh;
+       
+        left: 50%;
+        transform: translateX(-50%);
+    } 
+
+    .page span,.cin_page span{
+        width: 4vh;
+        height: 4vh;
+        text-align: center;
+        line-height: 4vh;
+        color: rgb(5, 5, 5);
+        border: 1px solid rgb(136, 136, 136);
+        cursor: pointer;
+        margin: 0 1vw;
+    }
+    .cin_page .search_return_but{
+        width: 5vw;
+        font-size: 1rem;
+    }
+    .page span:hover{
+        background-color: rgb(136, 136, 136);
+        border: 1px solid rgb(207, 207, 207);
+        color: rgb(207, 207, 207);
+    }
+    .cin_page span:hover{
+        background-color: rgb(136, 136, 136);
+        border: 1px solid rgb(207, 207, 207);
+        color: rgb(207, 207, 207);
+    }
+    .right .att{
+        display: none;
+         width: 2vw;
+        height: 2vh; 
+        background-color: rgb(235, 235, 235);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        border-radius: .5rem;
+        z-index: 1;
+    }
+    .att_inf{
+        text-align: center;
+        height: 15vh;
+        line-height: 15vh;
+        font-size: 20px;
+    }
+    .att button{
+        width: 3vw;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .att_yes{
+      
+        margin-left: 5vw;
+        margin-right: 4vw;
+        
+    }
+/*------------------------添加界面样式-----------*/
+    .right .stf_bottom .add_div,.right .cin_bottom .add_div{
+        width: 60vw;
+        height: 50vh;
+        background-color: rgb(207, 207, 207);
+        margin: 0 auto;
+    }
+    /*重置hover 前面对现在的造成了影响*/
+    .right .stf_bottom .add_div:hover,
+    .right .cin_bottom .add_div:hover{
+        width: 60vw;
+        height: 50vh;
+        background-color: rgb(207, 207, 207);
+        line-height: 5vh;
+        margin: 0 auto;
+        transition: 0;
+        /* line-height: 0; */
+    }
+    .ser_res .add_div input,
+    .cin_ser_res .add_div input{
+        background-color: rgb(235, 235, 235);
+        margin: 3vh auto;
+        display: block;
+        width: 30vw;
+        height: 4vh;
+        line-height: 4vh;
+    }
+    .cin_ser_res .add_div select{
+        color: rgb(117, 117, 117);
+        background-color: rgb(235, 235, 235);
+        display: block;
+        margin: 3vh auto;
+        width: 30vw;
+        height: 4vh;
+        line-height: 4vh;
+        outline: none;
+        border-radius: .5vw;
+    }
+    .ser_res .add_pre{
+        background-color: rgb(235, 235, 235);
+        display: block;
+        margin: 0 auto;
+        width: 20vw;
+        height: 4vh;
+        line-height: 4vh;
+        border-radius: 5vw;
+        outline: none;
+        margin-bottom: 2vh;
+    }
+    .ser_res .add_pre:hover{
+        background-color: rgb(235, 235, 235);
+        display: block;
+        margin: 0 auto;
+        width: 20vw;
+        height: 4vh;
+        line-height: 4vh;
+        border-radius: 5vw;
+        outline: none;
+        margin-bottom: 2vh;
+    }
+    .ser_res .add_div button,
+    .cin_ser_res .add_div button{
+        width: 5vw;
+        height: 3vh;
+        line-height: 3vh;
+        border-radius: .5vw;
+        cursor: pointer;
+        border: 1px solid rgb(136, 136, 136);
+        background-color: rgb(235, 235, 235);
+        outline: none;
+    } 
+    .ser_res .add_div button:hover{
+        width: 5vw;
+        height: 3vh;
+        line-height: 3vh;
+        border-radius: .5vw;
+        cursor: pointer;
+        
+    } 
+    .ser_res .add_yes,
+    .cin_ser_res .cin_add_yes{
+        display: inline-block;
+        margin-left: 18vw;
+        vertical-align: middle;
+        
+    }
+    .ser_res .add_no,
+    .cin_ser_res .cin_add_no{
+        display: inline-block;
+        margin-left: 14vw;
+        vertical-align: middle;
+    }
+
+    .right .cin_ser_res  .sea_seat{
+        position: relative;
+        margin-top: 3vh;
+        width:60vw;
+        height: 70vh;
+        background-color: rgb(216, 45, 45);
+    }
+    .right .cin_ser_res  .sea_seat:hover{
+        position: relative;
+        margin-top: 3vh;
+        width:60vw;
+        height: 70vh;
+        background-color: rgb(216, 45, 45);
+    }
+    .right .cin_bottom .cin_ser_res .movie{
+        position: absolute;
+        width:30vw;
+        height: 3vh;
+        background-color: rgb(5, 5, 5);
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .right .cin_bottom .cin_ser_res .movie:hover{
+        position: absolute;
+        width:30vw;
+        height: 3vh;
+        background-color: rgb(5, 5, 5);
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .right .cin_bottom .cin_ser_res  .seat_div{
+      
+        box-sizing: border-box;
+        width: 55vw;
+        height: 60vh;
+        margin: 7vh auto 0 auto;
+        background-color: royalblue;
+        padding-top: 5vh;
+    }
+    .create_seat_5{
+        display: none;
+        width: 60vw;
+        height: 60vh;
+        background-color: rgb(235, 235, 235);
+        margin: 10vh auto;
+    }
+    .create_seat_5 .film_block{
+        width: 40vw;
+        height: 3vh;
+        background-color: rgb(5, 5, 5);
+        margin: 0 auto;
+        margin-bottom: 20vh;
+    }
+    .create_seat_5 .create_seat_5_rows{
+        width: 50vw;
+        height: 5vh;
+        margin: 2vh auto;
+        /* background-color: royalblue; */
+        box-sizing: border-box;
+        padding: 0 6vw;
+    }
+    .create_seat_5_rows span{
+        display: inline-block;
+        width: 2vw;
+        height: 5vh;
+        line-height: 5vh;
+        font-size: 1.5rem;
+        /* background-color: sandybrown; */
+        margin:0 2.6vw;
+        cursor: pointer;
+        text-align: center;
+    }
+    .create_seat_7{
+        display: none;
+        width: 60vw;
+        height: 60vh;
+        background-color: rgb(235, 235, 235);
+        margin: 10vh auto;
+    }
+    .create_seat_7 .film_block{
+        width: 40vw;
+        height: 3vh;
+        background-color: rgb(5, 5, 5);
+        margin: 0 auto;
+        margin-bottom: 9vh;
+    }
+    .create_seat_7 .create_seat_7_rows{
+        /* border: 1px solid black; */
+        width: 50vw;
+        height: 5vh;
+        margin: 2vh auto;
+        box-sizing: border-box;
+        padding: 0 6vw;
+        /* background-color: seagreen; */
+    }
+    .create_seat_7 .create_seat_7_rows span{
+        display: inline-block;
+        color: springgreen;
+        width: 1vw;
+        height: 5vh;
+        line-height: 5vh;
+        font-size: 1.5rem;
+        /* background-color: sienna; */
+        margin: 0 2vw;
+        cursor: pointer;
+        text-align: center;
+    }
+    .cin_bottom .cin_page .seat_return{
+        display: inline-block;
+        width: 5vw;
+        height: 4vh;
+        border: 1px solid rgb(99, 91, 91);
+        border-radius: .5vw;
+    }
+    .create_seat_10 {
+        display: none;
+        width: 60vw;
+        height: 60vh;
+        background-color: rgb(235, 235, 235);
+        margin: 10vh auto;
+    }
+    .create_seat_10 .film_block{
+        width: 40vw;
+        height: 2vh;
+        background-color: rgb(5, 5, 5);
+        margin: 0 auto;
+        margin-bottom: 6vh;
+    }
+    .create_seat_10 .create_seat_10_rows{
+        /* border: 1px solid black; */
+        width: 50vw;
+        height: 3vh;
+        margin: 2vh auto;
+        box-sizing: border-box;
+        padding: 0 6vw;
+    }
+    .create_seat_10 .create_seat_10_rows span{
+        display: inline-block;
+        color: springgreen;
+        width: 1vw;
+        height: 4vh;
+        line-height: 4vh;
+        font-size: 1.5rem;
+        /* background-color: sienna; */
+        margin: 0 1.2vw;
+        cursor: pointer;
+        text-align: center;
+    }
+    .ticket_total_col{
+        
+        position: absolute;
+        width:80vw ;
+        height: 100vh;
+       
+    } 
+    .ticket_inf_show{
+        width: 60vw;
+        height: 4vh;
+      
+        /* border: 1px solid black; */
+        box-sizing: border-box;
+        padding-left: 1vw;
+        
+    }
+    .ticket_inf_show,.tick{
+        margin: 5vh auto;
+        border-top:1px solid rgb(153, 152, 152);
+        border-bottom:1px solid rgb(153, 152, 152);
+        /* background-color: rgb(235, 235, 235); */
+    }
+    .ticket_div{
+        width: 60vw;
+        border: 1px solid rgb(153, 152, 152);
+        border-radius: .5vw;
+        margin: 3vh auto;
+        
+    }
+    .ticket_inf_show span,.ticket_res span{
+        display: inline-block;
+        /* border: 1px solid black; */
+        height: 4vh;
+        line-height: 4vh;
+        text-align: center;
+        margin: 0 1vw;
+
+    }
+    .ticket_div span{
+        margin: 0 1vw;
+    }
+    .tic_inf_id,.tic_res_id{
+        width: 4vw;
+    }
+    .tic_inf_row,.tic_inf_col,.tic_res_row,.tic_res_col{
+        width: 4vw;
+    }
+    .tic_inf_status,.tic_res_status{
+        width: 4vw;
+    }
+    .tic_inf_sch,.tic_res_sch{
+        width: 8vw;
+    }
+    .tic_inf_mov,.tic_res_mov{
+        width: 8vw;
+    }
+    .ticket_div .tic_res_id{
+        width: 4vw;
+    }
+    .ticket_div .tic_res_row,.ticket_div .tic_res_rol{
+        width: 4vw;
+    }
+    .ticket_div .tic_res_status{
+        width: 4vw;
+    }
+    .ticket_div .tic_res_sch{
+        width: 8vw;
+    }
+    .ticket_div .tic_res_mov{
+        width: 8vw;
+    }
+    .ticket_ser_col span{
+        display: inline-block;
+        text-align: center;
+
+    }
+
+    .ticket_inf_mov_show{
+        width: 60vw;
+        height: 4vh;
+        line-height: 4vh;
+        margin: 5vh auto;
+        border-top:1px solid rgb(153, 152, 152);
+        border-bottom:1px solid rgb(153, 152, 152);
+    }
+    .ticket_inf_mov_show span{
+        margin: 0 1vw;
+    }
+    .ticket_mov_res{
+        width: 60vw;
+        margin: 3vh auto;
+    }
+
+    .ticket_mov_div{
+        width: 60vw;
+        height: 4vh;
+        line-height: 4vh;
+        margin: 3vh auto;
+        border: 1px solid rgb(153, 152, 152);
+        border-radius: .5vw;
+        cursor: pointer;
+    }
+    .ticket_mov_div span{
+        margin: 0 1vw;
+    }
+    .tic_mov_id,.tic_mov_res_id{
+        width: 4vw;
+    }
+    .tic_mov_name,.tic_mov_res_name{
+        width: 12vw;
+    }
+    .tic_mov_type,.tic_moc_res_type{
+        width: 4vw;
+    }
+    .tic_mov_time, .tic_mov_res_time{
+        width: 4vw;
+    }
+    .tic_mov_comment, .tic_mov_res_comment{
+        width: 4vw;
+    }
+    .tic_mov_rel,.tic_mov_res_rel{
+        width: 4vw;
+    }
+/* 
+    .ticket_mov_res{
+        width: 60vw;
+        margin: 0 auto;
+    }
+    .ticket_mov_res span{
+        vertical-align: middle;
+        text-align: center;
+        display: inline-block;
+        margin: 0 1vw;
+        height: 4vh;
+        line-height: 4vh;
+    }
+    .ticket_mov_res .ticket_mov_div{
+        width: 60vw;
+        border: 1px solid rgb(153, 152, 152);
+        border-radius: .5vw;
+        height: 4vh;
+        line-height: 4vh;
+        margin: 3vh auto;
+        box-sizing: border-box;
+        padding-left: 1vw;
+    }
+    .tic_mov_id,.tic_mov_res_id{
+        width: 4vw;
+    }
+    .tic_mov_name,.tic_mov_res_name{
+        width: 10vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    } */
+    .return_col{
+        position: relative;
+        width: 80vw;
+        height: 100vh;
+    }
+    .return_top {
+        position: relative;
+        width: 80vw;
+        height: 20vh;
+      
+        border-bottom:1px solid rgb(153, 152, 152)
+    }
+    .return_div{
+        display: inline-block;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        /* border: 1px solid black; */
+        margin: 8vh auto;
+    }
+    .return_input{
+        box-sizing: border-box;
+        padding-left: .5vw;
+        vertical-align: middle;
+        width: 25vw;
+        height: 5vh;
+        line-height: 5ch;
+        outline: none;
+        border: none;
+    }
+    .return_but{
+        vertical-align: middle;
+        width: 5vh;
+        height: 5vh;
+        border: none;
+        outline: none;
+    }
+    .return_bottom{
+        width: 80vw;
+        height: 80vh;
+        /* background-color: rgb(17, 119, 30); */
+    }
+    .return_button .return_inf{
+        width: 60vw;
+        height: 3vh;
+        background-color: rgb(216, 45, 45);
+        margin: 2vh auto;
+    }
+    .return_inf_show{
+        margin: 2vh auto;
+        width: 60vw;
+        height: 4vh;
+        line-height: 4vh;
+        border-top:1px solid rgb(153, 152, 152);
+        border-bottom:1px solid rgb(153, 152, 152);
+        box-sizing: border-box;
+        padding-left:.5vw;
+
+    }
+    .return_inf_show span{
+        display: inline-block;
+        margin: 0 1vw;
+    }
+    .return_res{
+        width: 60vw;
+        margin: 2vh auto;
+    }
+    .return_res_div{
+        width: 60vw;
+        height: 4vh;
+        line-height: 4vh;
+        /* border: 1px solid black; */
+       
+    }
+    .return_res span{
+        display: inline-block;
+    }
+    .return_att{
+        display: none;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 30vw;
+        height: 30vh;
+        line-height: 30vh;
+        background-color: rgb(183, 183, 183);
+        border-radius: .5vw;
+        /* background-color: antiquewhite; */
+    }
+    .return_tic{
+        position: absolute;
+        bottom: 50vh;
+        width: 15vw;
+        height: 4vh;
+        left: 50%;
+        border-radius: .5vw;
+        border: none;
+        outline: none;
+        transform: translateX(-50%);
+        cursor: pointer;
+    }
+
+}

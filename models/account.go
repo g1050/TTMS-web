@@ -4,7 +4,6 @@ import (
 	"astaxie/beego/orm"
 )
 
-
 func SelectEmployeeByPhone(employee *Employee)error {
 
 	o := orm.NewOrm()
@@ -13,9 +12,9 @@ func SelectEmployeeByPhone(employee *Employee)error {
 
 }
 
-func InsertEmployee(employee Employee)(error,int64) {
+func InsertEmployee(employee *Employee)(error,int64) {
 	o := orm.NewOrm()
-	id,err := o.Insert(&employee)
+	id,err := o.Insert(employee)
 	return err,id
 }
 

@@ -1,0 +1,31 @@
+@media screen and (max-width:768px){
+    .ticket_total_col {
+        display: none;
+        position: relative;
+        width: 80vw;
+        height: 100vh;
+        background-color: seagreen;
+    }
+    .ticket_total_col .ticket_page{
+        position: absolute;
+        top: 0;
+        background-color: bisque;
+    }
+    .ticket_total_col .next{
+        display: inline-block;
+      
+        top: 0;
+        width: 10vw;
+        height: 5vh;
+        background-color: aqua;
+        cursor: pointer;
+    }
+    .man_col{
+        display: none;
+        position: relative;
+        width: 80vw;
+        height: 100vh;
+        background-color: skyblue;
+        cursor: pointer;
+    }
+}
